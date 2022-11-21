@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -eu
+
+readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+readonly CONTAINER='fprime'
+
+docker rm -f "$CONTAINER" 2>/dev/null || true
+docker build -t "$CONTAINER" -f "$DIR"/fprime.dockerfile "$DIR"
+
+docker run \
+    -v "$DIR"/lib/fprime-system-reference:/home/ptl/fprime-system-reference \
+    -v "$DIR"/entrypoint:/home/ptl/entrypoint \
+    -it \
+    -p 1337:5000 \
+    --name "$CONTAINER" \
+    --entrypoint bash \
+    "$CONTAINER" \
+    -c './entrypoint; bash'
