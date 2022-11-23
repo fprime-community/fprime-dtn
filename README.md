@@ -19,7 +19,7 @@ git submodule update --init --recursive
 
 To update all submodules to their latest version run:
 ```
-git submodule update --remote --recursive
+git submodule update --remote
 ```
 
 ## Resources
