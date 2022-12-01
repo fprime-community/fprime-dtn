@@ -1,3 +1,6 @@
-[submodule "lib/fprime-system-reference"]
-	path = lib/fprime-system-reference
-	url = https://github.com/fprime-community/fprime-system-reference.git
+[submodule "lib/fprime"]
+	path = lib/fprime
+	url = https://github.com/nasa/fprime.git
+[submodule "lib/fprime-arm-linux"]
+	path = lib/fprime-arm-linux
+	url = https://github.com/LeStarch/fprime-arm-linux.git
