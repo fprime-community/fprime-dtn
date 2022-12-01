@@ -27,6 +27,11 @@ constant HealthPingPorts = 25
 @ Used for broadcasting completed file downlinks
 constant FileDownCompletePorts = 1
 
+@ Used for number of Fw::Com type ports supported by Svc::ComQueue
+constant ComQueueComPorts = 2
+
+@ Used for number of Fw::Buffer type ports supported by Svc::ComQueue
+constant ComQueueBufferPorts = 1
 
 # ----------------------------------------------------------------------
 # Hub connections. Connections on all deployments should mirror these settings.
@@ -36,9 +41,3 @@ constant GenericHubInputPorts = 10
 constant GenericHubOutputPorts = 10
 constant GenericHubInputBuffers = 10
 constant GenericHubOutputBuffers = 10
-
-@ Used for setting the size of the communication queue
-constant ComQueueComSize = 2
-
-@ Used for setting the size of the buffer queue
-constant ComQueueBuffSize = 1
