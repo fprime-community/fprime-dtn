@@ -7,7 +7,7 @@
 #ifndef XBee_HPP
 #define XBee_HPP
 
-#include "SystemReference/Com/XBee/XBeeComponentAc.hpp"
+#include "DtnRef/Com/XBee/XBeeComponentAc.hpp"
 #include "Utils/Types/CircularBuffer.hpp"
 #include "Os/Mutex.hpp"
 

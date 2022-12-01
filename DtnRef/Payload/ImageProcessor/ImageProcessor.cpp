@@ -5,7 +5,7 @@
 // ======================================================================
 
 #include "Fw/Types/BasicTypes.hpp"
-#include <SystemReference/Payload/ImageProcessor/ImageProcessor.hpp>
+#include <DtnRef/Payload/ImageProcessor/ImageProcessor.hpp>
 #ifdef USES_OPENCV
 #include <opencv2/opencv.hpp>
 #endif

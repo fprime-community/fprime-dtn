@@ -3,7 +3,7 @@
 #include <ctype.h>
 
 #include <Os/Log.hpp>
-#include <SystemReference/Top/SystemReferenceTopologyAc.hpp>
+#include <DtnRef/Top/DtnRefTopologyAc.hpp>
 
 void print_usage(const char* app) {
     (void) printf("Usage: ./%s [options]\n-p\tport_number\n-a\thostname/IP address\n",app);
@@ -12,20 +12,20 @@ void print_usage(const char* app) {
 #include <signal.h>
 #include <cstdio>
 
-SystemReference::TopologyState state;
+DtnRef::TopologyState state;
 // Enable the console logging provided by Os::Log
 Os::Log logger;
 
 volatile sig_atomic_t terminate = 0;
 
 static void sighandler(int signum) {
-    SystemReference::teardown(state);
+    DtnRef::teardown(state);
     terminate = 1;
 }
 
 void run1cycle() {
     // call interrupt to emulate a clock
-    SystemReference::blockDrv.callIsr();
+    DtnRef::blockDrv.callIsr();
     Os::Task::delay(1000); //10Hz
 }
 
@@ -70,8 +70,8 @@ int main(int argc, char* argv[]) {
 
     (void) printf("Hit Ctrl-C to quit\n");
 
-    state = SystemReference::TopologyState(hostname, port_number);
-    SystemReference::setup(state);
+    state = DtnRef::TopologyState(hostname, port_number);
+    DtnRef::setup(state);
 
     // register signal handlers to exit program
     signal(SIGINT,sighandler);

@@ -18,7 +18,7 @@ namespace Payload {
 
 Tester ::Tester()
     : CameraGTestBase("Tester", MAX_HISTORY_SIZE), component("Camera") {
-  component.m_capture.open("/Users/vbai/fprime-stuff/fprime-system-reference/SystemReference/Payload/Camera/test/ut/TEST_1.mov");
+  component.m_capture.open("/Users/vbai/fprime-stuff/fprime-system-reference/DtnRef/Payload/Camera/test/ut/TEST_1.mov");
   this->initComponents();
   this->connectPorts();
 }

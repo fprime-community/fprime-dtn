@@ -4,7 +4,7 @@
 // \brief  cpp file for XBee component implementation class
 // ======================================================================
 
-#include <SystemReference/Com/XBee/XBee.hpp>
+#include <DtnRef/Com/XBee/XBee.hpp>
 #include "Fw/Types/Assert.hpp"
 #include "Fw/Types/BasicTypes.hpp"
 

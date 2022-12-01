@@ -4,7 +4,7 @@
 // \brief  cpp file for Imu component implementation class
 // ======================================================================
 
-#include <SystemReference/Gnc/Imu/Imu.hpp>
+#include <DtnRef/Gnc/Imu/Imu.hpp>
 #include "Fw/Types/BasicTypes.hpp"
 
 namespace Gnc {

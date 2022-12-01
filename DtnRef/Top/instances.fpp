@@ -1,4 +1,4 @@
-module SystemReference {
+module DtnRef {
 
   # ----------------------------------------------------------------------
   # Defaults

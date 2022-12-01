@@ -7,7 +7,7 @@
 #ifndef ProcessImage_HPP
 #define ProcessImage_HPP
 
-#include "SystemReference/Payload/ImageProcessor/ImageProcessorComponentAc.hpp"
+#include "DtnRef/Payload/ImageProcessor/ImageProcessorComponentAc.hpp"
 #include <string>
 
 namespace Payload {

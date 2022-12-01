@@ -1,7 +1,7 @@
 ####
-# 'SystemReference' Deployment:
+# 'DtnRef' Deployment:
 #
-# This sets up the build for the 'SystemRef' Application, including the custom reference
+# This sets up the build for the 'DtnRef' Application, including the custom reference
 # components. In addition, it imports FPrime.cmake, which includes the core F Prime
 # components.
 #
@@ -20,7 +20,7 @@
 ##
 cmake_minimum_required(VERSION 3.13)
 cmake_policy(SET CMP0048 NEW)
-project(SystemReference VERSION 1.0.0 LANGUAGES C CXX)
+project(DtnRef VERSION 1.0.0 LANGUAGES C CXX)
 
 ##
 # Section 2: F prime Core

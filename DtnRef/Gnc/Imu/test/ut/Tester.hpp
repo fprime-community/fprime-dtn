@@ -11,7 +11,7 @@
 #include "GTestBase.hpp"
 #include "STest/Pick/Pick.hpp"
 #include "STest/Random/Random.hpp"
-#include "SystemReference/Gnc/Imu/Imu.hpp"
+#include "DtnRef/Gnc/Imu/Imu.hpp"
 
 namespace Gnc {
 

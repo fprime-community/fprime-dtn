@@ -1,4 +1,4 @@
-module SystemReference {
+module DtnRef {
 
   # ----------------------------------------------------------------------
   # Symbolic constants for port numbers
@@ -15,7 +15,7 @@ module SystemReference {
       uplink
     }
 
-  topology SystemReference {
+  topology DtnRef {
 
     # ----------------------------------------------------------------------
     # Instances used in the topology

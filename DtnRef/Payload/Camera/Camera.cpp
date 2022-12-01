@@ -5,7 +5,7 @@
 // ======================================================================
 
 #include "Fw/Types/BasicTypes.hpp"
-#include <SystemReference/Payload/Camera/Camera.hpp>
+#include <DtnRef/Payload/Camera/Camera.hpp>
 
 namespace Payload {
 

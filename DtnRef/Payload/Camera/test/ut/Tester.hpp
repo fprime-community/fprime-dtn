@@ -8,7 +8,7 @@
 #define TESTER_HPP
 
 #include "GTestBase.hpp"
-#include "SystemReference/Payload/Camera/Camera.hpp"
+#include "DtnRef/Payload/Camera/Camera.hpp"
 #include <Fw/Types/BasicTypes.hpp>
 #include <opencv2/opencv.hpp>
 

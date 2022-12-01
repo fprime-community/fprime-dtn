@@ -7,7 +7,7 @@
 #ifndef Camera_HPP
 #define Camera_HPP
 
-#include "SystemReference/Payload/Camera/CameraComponentAc.hpp"
+#include "DtnRef/Payload/Camera/CameraComponentAc.hpp"
 #ifdef USES_OPENCV
 #include <opencv2/opencv.hpp>
 #endif

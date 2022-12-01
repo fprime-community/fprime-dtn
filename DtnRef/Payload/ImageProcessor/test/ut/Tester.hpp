@@ -8,7 +8,7 @@
 #define TESTER_HPP
 
 #include "GTestBase.hpp"
-#include "SystemReference/Payload/ImageProcessor/ImageProcessor.hpp"
+#include "DtnRef/Payload/ImageProcessor/ImageProcessor.hpp"
 #include "opencv2/opencv.hpp"
 
 namespace Payload {

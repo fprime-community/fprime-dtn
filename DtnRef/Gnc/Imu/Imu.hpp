@@ -7,7 +7,7 @@
 #ifndef Gnc_Imu_HPP
 #define Gnc_Imu_HPP
 
-#include "SystemReference/Gnc/Imu/ImuComponentAc.hpp"
+#include "DtnRef/Gnc/Imu/ImuComponentAc.hpp"
 
 namespace Gnc {
 

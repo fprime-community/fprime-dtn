@@ -1,13 +1,13 @@
-#ifndef SystemReferenceTopologyDefs_HPP
-#define SystemReferenceTopologyDefs_HPP
+#ifndef DtnRefTopologyDefs_HPP
+#define DtnRefTopologyDefs_HPP
 
 #include "Drv/BlockDriver/BlockDriver.hpp"
 #include "Fw/Types/MallocAllocator.hpp"
-#include "SystemReference/Top/FppConstantsAc.hpp"
+#include "DtnRef/Top/FppConstantsAc.hpp"
 #include "Svc/FramingProtocol/FprimeProtocol.hpp"
 #include "Fw/Logger/Logger.hpp"
 
-namespace SystemReference {
+namespace DtnRef {
 
   namespace Allocation {
 
