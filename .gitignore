@@ -3,7 +3,3 @@
 
 # Vim files
 .*.swp
-
-# Build directories
-build
-build-fprime*
