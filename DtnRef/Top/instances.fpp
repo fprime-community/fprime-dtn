@@ -182,7 +182,11 @@ module DtnRef {
   {
 
     phase Fpp.ToCpp.Phases.instances """
-    Svc::PrmDb prmDb(FW_OPTIONAL_NAME("prmDb"), "PrmDb.dat");
+    Svc::PrmDb prmDb(FW_OPTIONAL_NAME("prmDb"));
+    """
+
+    phase Fpp.ToCpp.Phases.configComponents """
+    prmDb.configure("PrmDb.dat");
     """
 
     phase Fpp.ToCpp.Phases.readParameters """
