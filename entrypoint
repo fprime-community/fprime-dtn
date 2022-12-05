@@ -10,6 +10,6 @@ pip install -r "$DIR"/lib/fprime/requirements.txt
 
 cd "$DIR"/DtnRef
 rm -rf build-fprime-*
-fprime-util generate aarch64-linux
-fprime-util build aarch64-linux
+fprime-util generate #aarch64-linux
+fprime-util build #aarch64-linux
 fprime-gds --gui-addr 0.0.0.0

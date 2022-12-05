@@ -13,7 +13,7 @@ docker run \
     -v "$DIR"/lib:/home/ptl/lib \
     -v "$DIR"/entrypoint:/home/ptl/entrypoint \
     -it \
-    -p 1337:5000 \
+    -p 5555:5000 \
     --name "$CONTAINER" \
     --entrypoint bash \
     "$CONTAINER" \
