@@ -20,6 +20,12 @@ RUN python3 -m venv /home/ptl/class-venv
 RUN . /home/ptl/class-venv/bin/activate
 RUN pip install -U setuptools setuptools_scm wheel pip
 
+# COPY
+
+COPY lib/fprime           /home/ptl/lib/fprime
+COPY lib/fprime-arm-linux /home/ptl/lib/fprime-arm-linux
+COPY lib/ion-core         /home/ptl/lib/ion-core
+
 # RUN
 
 WORKDIR /home/ptl

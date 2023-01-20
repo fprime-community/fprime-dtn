@@ -10,7 +10,6 @@ docker build -t "$CONTAINER" -f "$DIR"/fprime.dockerfile "$DIR"
 
 docker run \
     -v "$DIR"/DtnRef:/home/ptl/DtnRef \
-    -v "$DIR"/lib:/home/ptl/lib \
     -v "$DIR"/entrypoint:/home/ptl/entrypoint \
     -it \
     -p 5555:5000 \
