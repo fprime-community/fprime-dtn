@@ -8,7 +8,9 @@ readonly CONTAINER='fprime'
 docker rm -f "$CONTAINER" 2>/dev/null || true
 docker build -t "$CONTAINER" -f "$DIR"/fprime.dockerfile "$DIR"
 
+# `/dev/shm` is sized to support ION shared memory needs
 docker run \
+    --shm-size=1gb \
     -v "$DIR"/DtnRef:/home/ptl/DtnRef \
     -v "$DIR"/entrypoint:/home/ptl/entrypoint \
     -it \
@@ -16,4 +18,14 @@ docker run \
     --name "$CONTAINER" \
     --entrypoint bash \
     "$CONTAINER" \
-    -c './entrypoint; bash'
+    -c 'bash'
+    #-c './entrypoint; bash'
+
+# TODO manually assign IP
+
+# docker network rm <network name>
+# docker network create --driver=bridge --subnet=<subnet> <network name>
+
+# run ...
+    #--net <network name> \
+    #--ip <IP>
