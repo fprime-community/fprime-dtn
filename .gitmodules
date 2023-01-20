@@ -5,3 +5,6 @@
 [submodule "lib/fprime-arm-linux"]
 	path = lib/fprime-arm-linux
 	url = https://github.com/LeStarch/fprime-arm-linux.git
+[submodule "lib/ion-core"]
+	path = lib/ion-core
+	url = https://github.jpl.nasa.gov/PTL/ION-Core.git
