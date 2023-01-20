@@ -1,5 +1,9 @@
 # OS files
 .DS_Store
 
-# Vim files
+# Editor files
 .*.swp
+
+# Build
+DtnRef/build-*
+DtnRef/logs
