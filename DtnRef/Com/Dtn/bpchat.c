@@ -7,13 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
-// Taken from `ion-core/Makefile`
-#define DSPACE_ORDER 3
-#define BP_EXTENDED
-#include <pthread.h>  // TODO needed because some ION preprocessor logic is broken 
-#include <sys/time.h> // TODO needed because some ION preprocessor logic is broken 
-#include "bp.h"
+#include "bpchat.h"
 
 static BpSAP                sap;
 static Sdr                  sdr;
@@ -158,7 +152,7 @@ void handleQuit(int sig)
 	bp_interrupt(sap);
 }
 
-int main(int argc, char **argv)
+int start(int argc, char **argv)
 {
 	ownEid      = (argc > 1 ? argv[1] : NULL);
 	destEid     = (argc > 2 ? argv[2] : NULL);
@@ -207,4 +201,9 @@ int main(int argc, char **argv)
 	bp_close(sap);
 	bp_detach();
 	return 0;
+}
+
+int main(int argc, char **argv)
+{
+    return start(argc, argv);
 }
