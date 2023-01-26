@@ -7,6 +7,7 @@
 #include <DtnRef/Com/Dtn/Dtn.hpp>
 #include "Fw/Types/Assert.hpp"
 #include "Fw/Types/BasicTypes.hpp"
+#include "ion.h"
 
 namespace Com {
 
@@ -17,6 +18,8 @@ namespace Com {
 Dtn::Dtn(const char* const compName) : DtnComponentBase(compName), m_reinitialize(true) {}
 
 void Dtn::init(const NATIVE_INT_TYPE instance) {
+    IonParms ionParms;
+    printf("DTN\tIONVERSIONNUMBER\t%s\n", IONVERSIONNUMBER);
     DtnComponentBase::init(instance);
 }
 

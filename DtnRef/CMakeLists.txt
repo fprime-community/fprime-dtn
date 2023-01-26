@@ -18,9 +18,10 @@
 # This contains the basic project information. Specifically, a cmake version and
 # project definition.
 ##
+
 cmake_minimum_required(VERSION 3.13)
 cmake_policy(SET CMP0048 NEW)
-project(DtnRef VERSION 1.0.0 LANGUAGES C CXX)
+project(DtnRef VERSION 0.0.1 LANGUAGES C CXX)
 
 ##
 # Section 2: F prime Core
@@ -29,9 +30,11 @@ project(DtnRef VERSION 1.0.0 LANGUAGES C CXX)
 # components will be placed in the F-Prime binary subdirectory to keep them from
 # colliding with deployment specific items.
 ##
+
 include("${FPRIME_FRAMEWORK_PATH}/cmake/FPrime.cmake")
 # NOTE: register custom targets between these two lines
 include("${FPRIME_FRAMEWORK_PATH}/cmake/FPrime-Code.cmake")
+
 ##
 # Section 3: Components and Topology
 #

@@ -6,7 +6,13 @@ readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 #while true; do echo -e "HTTP/1.1 200 OK\n\n $(date)" | nc -l 0.0.0.0 5000; done
 
-pip install -r "$DIR"/lib/fprime/requirements.txt
+cd /home/ptl/lib/ion-open-source-4.1.1
+cp .libs/lib{bp,ici,ltp}.a /home/ptl/DtnRef/Com/Dtn/lib/ion
+
+cd /home/ptl/lib/ion-core
+scripts/extract.sh ../ion-open*
+mkdir -p /home/ptl/DtnRef/Com/Dtn/include/ion
+cp inc/* /home/ptl/DtnRef/Com/Dtn/include/ion
 
 cd "$DIR"/DtnRef
 rm -rf build-fprime-*

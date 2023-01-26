@@ -3,29 +3,52 @@
 set -eu
 
 readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-readonly CONTAINER='fprime'
+readonly NETWORK='dtn-network'
+readonly FSW_CONTAINER='fprime-dtn'
+readonly GDS_CONTAINER='fprime-gds'
 
-docker rm -f "$CONTAINER" 2>/dev/null || true
-docker build -t "$CONTAINER" -f "$DIR"/fprime.dockerfile "$DIR"
+if [[ $# -gt 0 ]]; then
+    readonly DOCKER_MODE_ARG="$1"
+else
+    readonly DOCKER_MODE_ARG='-it'
+fi
 
-# `/dev/shm` is sized to support ION shared memory needs
-docker run \
-    --shm-size=1gb \
-    -v "$DIR"/DtnRef:/home/ptl/DtnRef \
-    -v "$DIR"/entrypoint:/home/ptl/entrypoint \
-    -it \
-    -p 5555:5000 \
-    --name "$CONTAINER" \
-    --entrypoint bash \
-    "$CONTAINER" \
-    -c 'bash'
-    #-c './entrypoint; bash'
+build()
+{
+    local CONTAINER="$1"
+    docker rm -f "$CONTAINER" 2>/dev/null || true
+    docker build -t "$CONTAINER" -f "$DIR"/fprime.dockerfile "$DIR"
+}
 
-# TODO manually assign IP
+run()
+{
+    local CONTAINER="$1"; shift
+    local ENTRYPOINT="$1"; shift
+    local IP="$1"; shift
+    local MODE_ARG="$1"; shift
+    local PUBLISH_ARG="$@"
 
-# docker network rm <network name>
-# docker network create --driver=bridge --subnet=<subnet> <network name>
+    # `/dev/shm` is sized to support ION shared memory needs
+    docker run \
+        --shm-size=1gb \
+        -v "$DIR"/DtnRef:/home/ptl/DtnRef \
+        -v "$DIR"/entrypoint:/home/ptl/entrypoint \
+        $MODE_ARG \
+        --network dtn-network \
+        --ip "10.0.0.$IP" \
+        $PUBLISH_ARG \
+        --name "$CONTAINER" \
+        --entrypoint bash \
+        "$CONTAINER" \
+        -c "$ENTRYPOINT"
+        #-c 'bash'
+}
 
-# run ...
-    #--net <network name> \
-    #--ip <IP>
+build "$FSW_CONTAINER"
+build "$GDS_CONTAINER"
+
+docker network rm "$NETWORK" 2>/dev/null || true
+docker network create "$NETWORK" --subnet 10.0.0.0/8
+
+run "$GDS_CONTAINER" 'bash'               3 -dt
+run "$FSW_CONTAINER" './entrypoint; bash' 2 $DOCKER_MODE_ARG --publish 5555:5000

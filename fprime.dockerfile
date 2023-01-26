@@ -35,22 +35,24 @@ COPY lib/ion-core /home/ptl/lib/ion-core
 # WORKDIR /home/ptl/lib/ion-core
 # scripts/extract.sh /home/ptl/lib/ion-open*
 # make linux
+# make install
 # scripts/make-man-pages.sh ../ion-open-source-4.1.1
 # scripts/host.sh <node a IP> <node b IP>
 # scripts/host.sh <node b IP> <node a IP>
 
-# TODO compiling ion
-# WORKDIR /home/ptl/lib/ion-open-source-4.1.1
-# autoreconf
-# ./configure
-# make
-# make install
-# ldconfig
+WORKDIR /home/ptl/lib/ion-open-source-4.1.1
+RUN autoreconf
+RUN ./configure
+RUN make
 
 # COPY
 
 COPY lib/fprime           /home/ptl/lib/fprime
 COPY lib/fprime-arm-linux /home/ptl/lib/fprime-arm-linux
+
+# F-PRIME
+
+RUN pip install -r /home/ptl/lib/fprime/requirements.txt
 
 # RUN
 

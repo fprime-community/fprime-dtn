@@ -7,3 +7,5 @@
 # Build
 DtnRef/build-*
 DtnRef/logs
+DtnRef/Com/Dtn/lib/ion
+DtnRef/Com/Dtn/include/ion
