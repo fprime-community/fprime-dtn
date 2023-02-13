@@ -7,7 +7,10 @@
 #include <DtnRef/Com/Dtn/Dtn.hpp>
 #include "Fw/Types/Assert.hpp"
 #include "Fw/Types/BasicTypes.hpp"
-#include "ion.h"
+
+extern "C" {
+#include "bpchat.h"
+}
 
 namespace Com {
 
@@ -18,9 +21,14 @@ namespace Com {
 Dtn::Dtn(const char* const compName) : DtnComponentBase(compName), m_reinitialize(true) {}
 
 void Dtn::init(const NATIVE_INT_TYPE instance) {
-    IonParms ionParms;
-    printf("DTN\tIONVERSIONNUMBER\t%s\n", IONVERSIONNUMBER);
     DtnComponentBase::init(instance);
+    printf("[DTN] bpchat starting\n");
+
+    // Intentionally mutable strings instead of string literals.
+    // ION's `parseEidString()` does not work for string literals
+    char ownEid[] = "ipn:2.1";
+    char destEid[] = "ipn:3.1";
+    bpchat_start(ownEid, destEid);
 }
 
 Dtn::~Dtn() {}

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eu
+
+readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+"$DIR"/common-entrypoint "$@"
+
+set -x
+bpchat ipn:3.1 ipn:2.1

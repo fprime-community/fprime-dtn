@@ -152,16 +152,11 @@ void handleQuit(int sig)
 	bp_interrupt(sap);
 }
 
-int start(int argc, char **argv)
+int bpchat_start(char *_ownEid, char *_destEid)
 {
-	ownEid      = (argc > 1 ? argv[1] : NULL);
-	destEid     = (argc > 2 ? argv[2] : NULL);
-	char    *ctArg = (argc > 3 ? argv[3] : NULL);
-
-	if(argc < 2 || (argv[1][0] == '-')) {
-		fprintf(stderr, usage);
-		exit(1);
-	}
+	ownEid  = _ownEid;
+	destEid = _destEid;
+	char *ctArg = NULL;
 
 	if(ctArg && strncmp(ctArg, "ct", 3) == 0) {
 		custodySwitch = SourceCustodyRequired;
@@ -201,9 +196,4 @@ int start(int argc, char **argv)
 	bp_close(sap);
 	bp_detach();
 	return 0;
-}
-
-int main(int argc, char **argv)
-{
-    return start(argc, argv);
 }

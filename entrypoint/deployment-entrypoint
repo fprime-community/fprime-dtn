@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -eu
+
+readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+"$DIR"/common-entrypoint "$@"
+
+cd /home/ptl/lib/ion-open-source-4.1.1
+mkdir -p /home/ptl/DtnRef/Com/Dtn/lib/ion
+cp .libs/lib{bp,ici,ltp}.a /home/ptl/DtnRef/Com/Dtn/lib/ion
+
+mkdir -p /home/ptl/DtnRef/Com/Dtn/include/ion
+cp /home/ptl/lib/ion-core/inc/* /home/ptl/DtnRef/Com/Dtn/include/ion
+
+# F PRIME
+
+cd /home/ptl/DtnRef
+rm -rf build-fprime-*
+fprime-util generate #aarch64-linux
+fprime-util build #aarch64-linux
+
+# Debugging
+#fprime-util generate --ut #aarch64-linux
+#cd build-*-ut
+#make DtnRef
+#gdb -ex=r bin/Linux/DtnRef
+
+# Standalone
+build-artifacts/Linux/bin/DtnRef
+#fprime-gds -n --gui-addr 0.0.0.0 # Run on any subnet

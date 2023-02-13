@@ -8,6 +8,9 @@
 #include <sys/time.h> // TODO needed because some ION preprocessor logic is broken
 #include "bp.h"
 
-int start(int argc, char **argv);
+//! @brief Start bpchat
+//! @param _ownEid own EID, intentionally mutable to appease ION
+//! @param _destEid destination EID, intentionally mutable to appease ION
+int bpchat_start(char *_ownEid, char *_destEid);
 
 #endif // BPCHAT_H
