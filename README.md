@@ -1,5 +1,13 @@
 # F´ DTN Integration
 
+Delay Tolerant Networking in F´.
+
+With support from the 9x Interplanetary Network Directorate this development aims to accomplish the following objectives:
+- Integrate ION into F´.
+- Develop modular DTN components for use in F´ projects.
+- Integrate ION into the F´ GDS.
+- Demonstrate DTN in a multi-node environment using F´ and F´ GDS end-to-end.
+
 ## Getting Started
 
 ### Dependencies
@@ -24,8 +32,8 @@ git submodule update --remote
 
 ## Resources
 
-- [F'](https://github.com/nasa/fprime)
-- [F' Course](https://github.com/fprime-community/fprime-system-reference/blob/main/docs/course/introduction.md)
+- [F´](https://github.com/nasa/fprime)
+- [F´ Course](https://github.com/fprime-community/fprime-system-reference/blob/main/docs/course/introduction.md)
 - [FPP User's Guide](https://fprime-community.github.io/fpp/fpp-users-guide.html)
 - [ION](https://www.nasa.gov/directorates/heo/scan/engineering/technology/disruption_tolerant_networking_software_options_ion)
 - [ION-Core](https://github.jpl.nasa.gov/PTL/ION-Core)
