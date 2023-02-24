@@ -51,5 +51,5 @@ docker network rm "$NETWORK" 2>/dev/null || true
 docker network create "$NETWORK" --subnet 10.0.0.0/8
 
 # To attach to GDS: `docker attach fprime-gds`
-run "$GDS_CONTAINER" 'entrypoint/gds-entrypoint 10.0.0.3 10.0.0.2 ; bash'        3 -dt
+run "$GDS_CONTAINER" 'entrypoint/gds-entrypoint 10.0.0.3 10.0.0.2 ; bash'        3 -d
 run "$FSW_CONTAINER" 'entrypoint/deployment-entrypoint 10.0.0.2 10.0.0.3 ; bash' 2 $DOCKER_MODE_ARG --publish 5555:5000

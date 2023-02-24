@@ -77,37 +77,37 @@ typedef U16 FwTlmPacketizeIdType;
  * includes the limits included within those files.
  *
  **/
-struct FpLimits : BasicLimits {
-    static const FwIndexType FwIndexType_MIN = PlatformIndexType_MIN;
-    static const FwIndexType FwIndexType_MAX = PlatformIndexType_MAX;
-    static const FwSizeType FwSizeType_MIN = PlatformSizeType_MIN;
-    static const FwSizeType FwSizeType_MAX = PlatformSizeType_MAX;
-    static const FwAssertArgType FwAssertArgType_MIN = PlatformAssertArgType_MIN;
-    static const FwAssertArgType FwAssertArgType_MAX = PlatformAssertArgType_MAX;
-    static const FwNativeIntType FwNativeIntType_MIN = PlatformIntType_MIN;
-    static const FwNativeIntType FwNativeIntType_MAX = PlatformIntType_MAX;
-    static const FwNativeUIntType FwNativeUIntType_MIN = PlatformUIntType_MIN;
-    static const FwNativeUIntType FwNativeUIntType_MAX = PlatformUIntType_MAX;
-    static const FwBuffSizeType FwBuffSizeType_MIN = U16_MIN;
-    static const FwBuffSizeType FwBuffSizeType_MAX = U16_MAX;
-    static const FwEnumStoreType FwEnumStoreType_MIN = I32_MIN;
-    static const FwEnumStoreType FwEnumStoreType_MAX = I32_MAX;
-    static const FwTimeBaseStoreType FwTimeBaseStoreType_MIN = U16_MIN;
-    static const FwTimeBaseStoreType FwTimeBaseStoreType_MAX = U16_MAX;
-    static const FwTimeContextStoreType FwTimeContextStoreType_MIN = U8_MIN;
-    static const FwTimeContextStoreType FwTimeContextStoreType_MAX = U8_MAX;
-    static const FwPacketDescriptorType FwPacketDescriptorType_MIN = U32_MIN;
-    static const FwPacketDescriptorType FwPacketDescriptorType_MAX = U32_MAX;
-    static const FwOpcodeType FwOpcodeType_MIN = U32_MIN;
-    static const FwOpcodeType FwOpcodeType_MAX = U32_MAX;
-    static const FwChanIdType FwChanIdType_MIN = U32_MIN;
-    static const FwChanIdType FwChanIdType_MAX = U32_MAX;
-    static const FwEventIdType FwEventIdType_MIN = U32_MIN;
-    static const FwEventIdType FwEventIdType_MAX = U32_MAX;
-    static const FwPrmIdType FwPrmIdType_MIN = U32_MIN;
-    static const FwPrmIdType FwPrmIdType_MAX = U32_MAX;
-    static const FwTlmPacketizeIdType FwTlmPacketizeIdType_MIN = U16_MIN;
-    static const FwTlmPacketizeIdType FwTlmPacketizeIdType_MAX = U16_MAX;
+struct FpLimits {
+    static const FwIndexType FwIndexType_MIN                       = std::numeric_limits<PlatformIndexType>::min();
+    static const FwIndexType FwIndexType_MAX                       = std::numeric_limits<PlatformIndexType>::max();
+    static const FwSizeType FwSizeType_MIN                         = std::numeric_limits<PlatformSizeType>::min();
+    static const FwSizeType FwSizeType_MAX                         = std::numeric_limits<PlatformSizeType>::max();
+    static const FwAssertArgType FwAssertArgType_MIN               = std::numeric_limits<PlatformAssertArgType>::min();
+    static const FwAssertArgType FwAssertArgType_MAX               = std::numeric_limits<PlatformAssertArgType>::max();
+    static const FwNativeIntType FwNativeIntType_MIN               = std::numeric_limits<PlatformIntType>::min();
+    static const FwNativeIntType FwNativeIntType_MAX               = std::numeric_limits<PlatformIntType>::max();
+    static const FwNativeUIntType FwNativeUIntType_MIN             = std::numeric_limits<PlatformUIntType>::min();
+    static const FwNativeUIntType FwNativeUIntType_MAX             = std::numeric_limits<PlatformUIntType>::max();
+    static const FwBuffSizeType FwBuffSizeType_MIN                 = std::numeric_limits<U16>::min();
+    static const FwBuffSizeType FwBuffSizeType_MAX                 = std::numeric_limits<U16>::max();
+    static const FwEnumStoreType FwEnumStoreType_MIN               = std::numeric_limits<I32>::min();
+    static const FwEnumStoreType FwEnumStoreType_MAX               = std::numeric_limits<I32>::max();
+    static const FwTimeBaseStoreType FwTimeBaseStoreType_MIN       = std::numeric_limits<U16>::min();
+    static const FwTimeBaseStoreType FwTimeBaseStoreType_MAX       = std::numeric_limits<U16>::max();
+    static const FwTimeContextStoreType FwTimeContextStoreType_MIN = std::numeric_limits<U8>::min();
+    static const FwTimeContextStoreType FwTimeContextStoreType_MAX = std::numeric_limits<U8>::max();
+    static const FwPacketDescriptorType FwPacketDescriptorType_MIN = std::numeric_limits<U32>::min();
+    static const FwPacketDescriptorType FwPacketDescriptorType_MAX = std::numeric_limits<U32>::max();
+    static const FwOpcodeType FwOpcodeType_MIN                     = std::numeric_limits<U32>::min();
+    static const FwOpcodeType FwOpcodeType_MAX                     = std::numeric_limits<U32>::max();
+    static const FwChanIdType FwChanIdType_MIN                     = std::numeric_limits<U32>::min();
+    static const FwChanIdType FwChanIdType_MAX                     = std::numeric_limits<U32>::max();
+    static const FwEventIdType FwEventIdType_MIN                   = std::numeric_limits<U32>::min();
+    static const FwEventIdType FwEventIdType_MAX                   = std::numeric_limits<U32>::max();
+    static const FwPrmIdType FwPrmIdType_MIN                       = std::numeric_limits<U32>::min();
+    static const FwPrmIdType FwPrmIdType_MAX                       = std::numeric_limits<U32>::max();
+    static const FwTlmPacketizeIdType FwTlmPacketizeIdType_MIN     = std::numeric_limits<U16>::min();
+    static const FwTlmPacketizeIdType FwTlmPacketizeIdType_MAX     = std::numeric_limits<U16>::max();
 };
 
 // Boolean values for serialization
