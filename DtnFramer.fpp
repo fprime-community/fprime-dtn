@@ -1,7 +1,7 @@
 module Dtn {
 
   @ A component for framing input for transmission to the ground
-  passive component DtnFramer {
+  active component DtnFramer {
 
     # ----------------------------------------------------------------------
     # Receiving packets

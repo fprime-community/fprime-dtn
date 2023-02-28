@@ -2,7 +2,7 @@ module Dtn {
 
   @ A component for deframing input received from the ground
   @ via a byte stream driver, which may be active or passive
-  passive component DtnDeframer {
+  active component DtnDeframer {
 
     # ----------------------------------------------------------------------
     # General ports
