@@ -11,9 +11,5 @@ readonly DEST_ADDR="$2"
 # ION
 
 cd /home/ptl/lib/ion-core
-scripts/extract.sh ../ion-open*
-
-make linux
-make install
 scripts/host.sh "$OWN_ADDR" "$DEST_ADDR"
 scripts/ionstart -I host*.rc

@@ -31,21 +31,18 @@ RUN mkdir -p /home/ptl/lib
 RUN curl -L 'https://sourceforge.net/projects/ion-dtn/files/ion-open-source-4.1.1.tar.gz/download' | \
     tar -xz -C /home/ptl/lib --no-same-owner
 
-COPY lib/ion-core /home/ptl/lib/ion-core
-
-# TODO compiling ion-core
-# WORKDIR /home/ptl/lib/ion-core
-# scripts/extract.sh /home/ptl/lib/ion-open*
-# make linux
-# make install
-# scripts/make-man-pages.sh ../ion-open-source-4.1.1
-# scripts/host.sh <node a IP> <node b IP>
-# scripts/host.sh <node b IP> <node a IP>
-
+# TODO remove once ion-core outputs .a libraries
 WORKDIR /home/ptl/lib/ion-open-source-4.1.1
 RUN autoreconf
 RUN ./configure
 RUN make
+
+COPY lib/ion-core /home/ptl/lib/ion-core
+
+WORKDIR /home/ptl/lib/ion-core
+RUN scripts/extract.sh /home/ptl/lib/ion-open*
+RUN make linux
+RUN make install
 
 # COPY
 
