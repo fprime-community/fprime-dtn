@@ -1,10 +1,10 @@
 // ======================================================================
-// \title  Dtn.cpp
+// \title  DtnFramer.cpp
 // \author mstarch
-// \brief  cpp file for Dtn component implementation class
+// \brief  cpp file for DtnFramer component implementation class
 // ======================================================================
 
-#include <DtnRef/Com/Dtn/Dtn.hpp>
+#include <DtnRef/Com/Dtn/DtnFramer/DtnFramer.hpp>
 #include "Fw/Types/Assert.hpp"
 #include "Fw/Types/BasicTypes.hpp"
 
@@ -18,10 +18,10 @@ namespace Com {
 // Construction, initialization, and destruction
 // ----------------------------------------------------------------------
 
-Dtn::Dtn(const char* const compName) : DtnComponentBase(compName), m_reinitialize(true) {}
+DtnFramer::DtnFramer(const char* const compName) : DtnFramerComponentBase(compName), m_reinitialize(true) {}
 
-void Dtn::init(const NATIVE_INT_TYPE instance) {
-    DtnComponentBase::init(instance);
+void DtnFramer::init(const NATIVE_INT_TYPE instance) {
+    DtnFramerComponentBase::init(instance);
     printf("[DTN] bpchat starting\n");
 
     // Intentionally mutable strings instead of string literals.
@@ -31,13 +31,13 @@ void Dtn::init(const NATIVE_INT_TYPE instance) {
     bpchat_start(ownEid, destEid);
 }
 
-Dtn::~Dtn() {}
+DtnFramer::~DtnFramer() {}
 
 // ----------------------------------------------------------------------
 // Handler implementations for user-defined typed input ports
 // ----------------------------------------------------------------------
 
-Drv::SendStatus Dtn::comDataIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& sendBuffer) {
+Drv::SendStatus DtnFramer::comDataIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& sendBuffer) {
     FW_ASSERT(!this->m_reinitialize);  // A message should never get here if we need to reinitialize is needed
     Drv::SendStatus driverStatus = Drv::SendStatus::SEND_RETRY;
     for (NATIVE_UINT_TYPE i = 0; driverStatus == Drv::SendStatus::SEND_RETRY && i < RETRY_LIMIT; i++) {
@@ -53,7 +53,7 @@ Drv::SendStatus Dtn::comDataIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer
     return Drv::SendStatus::SEND_OK;  // Always send ok to deframer as it does not handle this anyway
 }
 
-void Dtn::drvConnected_handler(const NATIVE_INT_TYPE portNum) {
+void DtnFramer::drvConnected_handler(const NATIVE_INT_TYPE portNum) {
     Fw::Success radioSuccess = Fw::Success::SUCCESS;
     if (this->isConnected_comStatus_OutputPort(0) && m_reinitialize) {
         this->m_reinitialize = false;
@@ -62,7 +62,7 @@ void Dtn::drvConnected_handler(const NATIVE_INT_TYPE portNum) {
     printf("DTN\tdrvConnected_handler\n");
 }
 
-void Dtn::drvDataIn_handler(const NATIVE_INT_TYPE portNum,
+void DtnFramer::drvDataIn_handler(const NATIVE_INT_TYPE portNum,
                                 Fw::Buffer& recvBuffer,
                                 const Drv::RecvStatus& recvStatus) {
     printf("DTN\tcomDataOut_handler\n");

@@ -1,6 +1,6 @@
 module Com {
     @ Communication adapter interface implementing communication adapter interface via a Drv.ByteStreamDriverModel.
-    passive component Dtn {
+    passive component DtnFramer {
 
         # ----------------------------------------------------------------------
         # Framer, deframer, and queue ports

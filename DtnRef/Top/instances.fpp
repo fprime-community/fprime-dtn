@@ -298,7 +298,7 @@ module DtnRef {
   # ----------------------------------------------------------------------
 
   # NOTE: use only one of XBee or comStub
-  instance radio: Com.Dtn base id 0x1200
+  instance radio: Com.DtnFramer base id 0x1200
 
 #  @ Communications driver. May be swapped with other comm drivers like UART
 #  @ Note: Here we have TCP reliable uplink and UDP (low latency) downlink

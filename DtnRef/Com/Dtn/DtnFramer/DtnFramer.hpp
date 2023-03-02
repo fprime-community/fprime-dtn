@@ -1,36 +1,36 @@
 // ======================================================================
-// \title  Dtn.hpp
+// \title  DtnFramer.hpp
 // \author mstarch
-// \brief  hpp file for Dtn component implementation class
+// \brief  hpp file for DtnFramer component implementation class
 // ======================================================================
 
-#ifndef Com_Dtn_HPP
-#define Com_Dtn_HPP
+#ifndef Com_DtnFramer_HPP
+#define Com_DtnFramer_HPP
 
-#include "DtnRef/Com/Dtn/DtnComponentAc.hpp"
+#include "DtnRef/Com/Dtn/DtnFramer/DtnFramerComponentAc.hpp"
 
 namespace Com {
 
-class Dtn : public DtnComponentBase {
+class DtnFramer : public DtnFramerComponentBase {
   public:
     const NATIVE_UINT_TYPE RETRY_LIMIT = 10;
     // ----------------------------------------------------------------------
     // Construction, initialization, and destruction
     // ----------------------------------------------------------------------
 
-    //! Construct object Dtn
+    //! Construct object DtnFramer
     //!
-    Dtn(const char* const compName /*!< The component name*/
+    DtnFramer(const char* const compName /*!< The component name*/
     );
 
-    //! Initialize object Dtn
+    //! Initialize object DtnFramer
     //!
     void init(const NATIVE_INT_TYPE instance = 0 /*!< The instance number*/
     );
 
-    //! Destroy object Dtn
+    //! Destroy object DtnFramer
     //!
-    ~Dtn() override;
+    ~DtnFramer() override;
 
   private:
     // ----------------------------------------------------------------------
