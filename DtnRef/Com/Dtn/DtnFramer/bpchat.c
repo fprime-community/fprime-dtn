@@ -145,7 +145,7 @@ static void *       recvBundles(void *args)
 	return NULL;
 }
 
-void handleQuit(int sig)
+static void handleQuit(int sig)
 {
 	running = 0;
 	pthread_end(sendLinesThread);
@@ -190,10 +190,13 @@ int bpchat_start(char *_ownEid, char *_destEid)
 		exit(1);
 	}
 
-	pthread_join(sendLinesThread, NULL);
-	pthread_join(recvBundlesThread, NULL);
+	pthread_detach(sendLinesThread);
+	pthread_detach(recvBundlesThread);
+    // TODO currently detaching, do not want to wait for threads to finish
+	//pthread_join(sendLinesThread, NULL);
+	//pthread_join(recvBundlesThread, NULL);
 
-	bp_close(sap);
-	bp_detach();
+	//bp_close(sap);
+	//bp_detach();
 	return 0;
 }

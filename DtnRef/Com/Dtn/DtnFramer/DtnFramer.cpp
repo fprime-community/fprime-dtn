@@ -39,6 +39,7 @@ namespace Com {
     char ownEid[] = "ipn:2.1";
     char destEid[] = "ipn:3.1";
     bpchat_start(ownEid, destEid);
+    printf("[DTN] bpchat started\n");
   }
 
   DtnFramer ::
@@ -57,7 +58,8 @@ namespace Com {
         Fw::Buffer &fwBuffer
     )
   {
-    // TODO
+    this->passthroughBufferOut_out(0, fwBuffer);
+    //this->comBundleOut_out(0, bpBuffer);
   }
 
   void DtnFramer ::
@@ -67,7 +69,20 @@ namespace Com {
         U32 context
     )
   {
+    this->passthroughComOut_out(0, data, context);
+
     // TODO
+    // printf("[DtnFramer] data (%zu) = %x\n",
+    //     data.getBuffCapacity(),
+    //     data.getBuffAddr());
+
+    // char msg[] = "hello";
+    // //if (!bpchat_send((char *)data.getBuffAddr(), data.getBuffCapacity()))
+    // if (!bpchat_send(msg, 5))
+    // {
+    //   printf("[DtnFramer] bpchat_send failed\n");
+    // }
+    // //this->comBundleOut_out(0, bpBuffer);
   }
 
   void DtnFramer ::
@@ -76,7 +91,7 @@ namespace Com {
         Fw::Success &condition
     )
   {
-    // TODO
+    printf("[DtnFramer] comStatusIn_handler\n");
   }
 
 } // end namespace Com

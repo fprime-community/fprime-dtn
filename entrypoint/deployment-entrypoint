@@ -27,5 +27,6 @@ fprime-util build #aarch64-linux
 #gdb -ex=r bin/Linux/DtnRef
 
 # Standalone
-build-artifacts/Linux/bin/DtnRef
+#build-artifacts/Linux/bin/DtnRef
 #fprime-gds -n --gui-addr 0.0.0.0 # Run on any subnet
+fprime-gds --gui-addr 0.0.0.0 # Run on any subnet

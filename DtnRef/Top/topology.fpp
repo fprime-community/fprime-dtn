@@ -82,8 +82,10 @@ module DtnRef {
       fileDownlink.bufferSendOut -> comQueue.buffQueueIn[0]
       framer.bufferDeallocate -> fileDownlink.bufferReturn
 
-      comQueue.comQueueSend -> framer.comIn
-      comQueue.buffQueueSend -> framer.bufferIn
+      comQueue.comQueueSend -> dtnFramer.comIn
+      comQueue.buffQueueSend -> dtnFramer.bufferIn
+      dtnFramer.passthroughComOut -> framer.comIn
+      dtnFramer.passthroughBufferOut -> framer.bufferIn
 
       framer.framedAllocate -> comBufferManager.bufferGetCallee
       framer.framedOut -> radio.comDataIn

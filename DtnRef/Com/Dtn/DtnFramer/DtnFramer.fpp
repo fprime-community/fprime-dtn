@@ -14,18 +14,15 @@ module Com {
         async input port bufferIn: Fw.BufferSend
 
         #
-        # BUFFER ALLOCATION & DEALLOCATION
+        # PASSTHROUGH PORTS TO RETAIN EXISTING FRAMING
         #
 
-        # TODO
+        output port passthroughComOut: Fw.Com
+        output port passthroughBufferOut: Fw.BufferSend
 
         #
         # SENDING FRAME DATA
         #
-
-        #output port comQueueSend: Fw.Com
-
-        #output port buffQueueSend: Fw.BufferSend
 
         output port comBundleOut: Fw.BufferSend
 
@@ -39,5 +36,11 @@ module Com {
 
         @ Port receiving indicating the status of framer for receiving more data
         output port comStatus: Fw.SuccessCondition
+
+        #
+        # BUFFER ALLOCATION & DEALLOCATION
+        #
+
+        # TODO
     }
 }
