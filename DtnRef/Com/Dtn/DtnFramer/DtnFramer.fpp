@@ -1,31 +1,43 @@
 module Com {
-    @ Communication adapter interface implementing communication adapter interface via a Drv.ByteStreamDriverModel.
-    passive component DtnFramer {
 
-        # ----------------------------------------------------------------------
-        # Framer, deframer, and queue ports
-        # ----------------------------------------------------------------------
+    @ A component for framing input for transmission to the ground
+    active component DtnFramer {
 
-        @ Data coming in from the framing component
-        sync input port comDataIn: Drv.ByteStreamSend
+        #
+        # RECEIVING PACKETS
+        #
 
-        @ Status of the last radio transmission
+        @ Port for receiving data packets of any type stored in statically-sized Fw::Com buffers
+        async input port comIn: Fw.Com
+
+        @ Port for receiving file packets stored in dynamically-sized Fw::Buffer objects
+        async input port bufferIn: Fw.BufferSend
+
+        #
+        # BUFFER ALLOCATION & DEALLOCATION
+        #
+
+        # TODO
+
+        #
+        # SENDING FRAME DATA
+        #
+
+        #output port comQueueSend: Fw.Com
+
+        #output port buffQueueSend: Fw.BufferSend
+
+        output port comBundleOut: Fw.BufferSend
+
+        #
+        # READY SIGNALS
+        #
+
+        @ Port receiving the general status from the downstream component
+        @ indicating it is ready or not-ready for more input
+        guarded input port comStatusIn: Fw.SuccessCondition
+
+        @ Port receiving indicating the status of framer for receiving more data
         output port comStatus: Fw.SuccessCondition
-
-        @ Com data passing back out
-        output port comDataOut: Drv.ByteStreamRecv
-
-        # ----------------------------------------------------------------------
-        # Byte stream model
-        # ----------------------------------------------------------------------
-
-        @ Ready signal when driver is connected
-        sync input port drvConnected: Drv.ByteStreamReady
-
-        @ Data received from driver
-        sync input port drvDataIn: Drv.ByteStreamRecv
-
-        @ Data going to the underlying driver
-        output port drvDataOut: Drv.ByteStreamSend
     }
 }
