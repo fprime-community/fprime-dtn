@@ -30,6 +30,7 @@ module DtnRef {
     instance comQueue
     instance radio
     instance framer
+    instance dtnFramer
     instance eventLogger
     instance fatalAdapter
     instance fatalHandler

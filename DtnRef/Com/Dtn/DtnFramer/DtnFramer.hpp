@@ -1,60 +1,80 @@
 // ======================================================================
 // \title  DtnFramer.hpp
-// \author mstarch
+// \author root
 // \brief  hpp file for DtnFramer component implementation class
 // ======================================================================
 
-#ifndef Com_DtnFramer_HPP
-#define Com_DtnFramer_HPP
+#ifndef DtnFramer_HPP
+#define DtnFramer_HPP
 
 #include "DtnRef/Com/Dtn/DtnFramer/DtnFramerComponentAc.hpp"
 
 namespace Com {
 
-class DtnFramer : public DtnFramerComponentBase {
-  public:
-    const NATIVE_UINT_TYPE RETRY_LIMIT = 10;
-    // ----------------------------------------------------------------------
-    // Construction, initialization, and destruction
-    // ----------------------------------------------------------------------
+  class DtnFramer :
+    public DtnFramerComponentBase
+  {
 
-    //! Construct object DtnFramer
-    //!
-    DtnFramer(const char* const compName /*!< The component name*/
-    );
+    public:
 
-    //! Initialize object DtnFramer
-    //!
-    void init(const NATIVE_INT_TYPE instance = 0 /*!< The instance number*/
-    );
+      // ----------------------------------------------------------------------
+      // Construction, initialization, and destruction
+      // ----------------------------------------------------------------------
 
-    //! Destroy object DtnFramer
-    //!
-    ~DtnFramer() override;
+      //! Construct object DtnFramer
+      //!
+      DtnFramer(
+          const char *const compName /*!< The component name*/
+      );
 
-  private:
-    // ----------------------------------------------------------------------
-    // Handler implementations for user-defined typed input ports
-    // ----------------------------------------------------------------------
+      //! Initialize object DtnFramer
+      //!
+      void init(
+          const NATIVE_INT_TYPE queueDepth, /*!< The queue depth*/
+          const NATIVE_INT_TYPE instance = 0 /*!< The instance number*/
+      );
 
-    //! Handler implementation for comDataIn
-    //!
-    Drv::SendStatus comDataIn_handler(const NATIVE_INT_TYPE portNum, /*!< The port number*/
-                                      Fw::Buffer& sendBuffer) override;
+      //! Destroy object DtnFramer
+      //!
+      ~DtnFramer();
 
-    //! Handler implementation for drvConnected
-    //!
-    void drvConnected_handler(const NATIVE_INT_TYPE portNum) override;
+    PRIVATE:
 
-    //! Handler implementation for drvDataIn
-    //!
-    void drvDataIn_handler(const NATIVE_INT_TYPE portNum,
-                           /*!< The port number*/ Fw::Buffer& recvBuffer,
-                           const Drv::RecvStatus& recvStatus) override;
+      // ----------------------------------------------------------------------
+      // Handler implementations for user-defined typed input ports
+      // ----------------------------------------------------------------------
 
-    bool m_reinitialize;  //!< Stores if a ready signal is needed on connection
-};
+      //! Handler implementation for bufferIn
+      //!
+      void bufferIn_handler(
+          const NATIVE_INT_TYPE portNum, /*!< The port number*/
+          Fw::Buffer &fwBuffer 
+      );
 
-}  // end namespace Com
+      //! Handler implementation for comIn
+      //!
+      void comIn_handler(
+          const NATIVE_INT_TYPE portNum, /*!< The port number*/
+          Fw::ComBuffer &data, /*!< 
+      Buffer containing packet data
+      */
+          U32 context /*!< 
+      Call context value; meaning chosen by user
+      */
+      );
+
+      //! Handler implementation for comStatusIn
+      //!
+      void comStatusIn_handler(
+          const NATIVE_INT_TYPE portNum, /*!< The port number*/
+          Fw::Success &condition /*!< 
+      Condition success/failure
+      */
+      );
+
+
+    };
+
+} // end namespace Com
 
 #endif

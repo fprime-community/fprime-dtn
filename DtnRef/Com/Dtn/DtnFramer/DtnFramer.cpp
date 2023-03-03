@@ -1,12 +1,12 @@
 // ======================================================================
 // \title  DtnFramer.cpp
-// \author mstarch
+// \author rosemurg
 // \brief  cpp file for DtnFramer component implementation class
 // ======================================================================
 
+
 #include <DtnRef/Com/Dtn/DtnFramer/DtnFramer.hpp>
-#include "Fw/Types/Assert.hpp"
-#include "Fw/Types/BasicTypes.hpp"
+#include <FpConfig.hpp>
 
 extern "C" {
 #include "bpchat.h"
@@ -14,59 +14,69 @@ extern "C" {
 
 namespace Com {
 
-// ----------------------------------------------------------------------
-// Construction, initialization, and destruction
-// ----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
+  // Construction, initialization, and destruction
+  // ----------------------------------------------------------------------
 
-DtnFramer::DtnFramer(const char* const compName) : DtnFramerComponentBase(compName), m_reinitialize(true) {}
+  DtnFramer ::
+    DtnFramer(
+        const char *const compName
+    ) : DtnFramerComponentBase(compName)
+  {
 
-void DtnFramer::init(const NATIVE_INT_TYPE instance) {
-    DtnFramerComponentBase::init(instance);
+  }
+
+  void DtnFramer ::
+    init(
+        const NATIVE_INT_TYPE queueDepth,
+        const NATIVE_INT_TYPE instance
+    )
+  {
+    DtnFramerComponentBase::init(queueDepth, instance);
     printf("[DTN] bpchat starting\n");
-
     // Intentionally mutable strings instead of string literals.
     // ION's `parseEidString()` does not work for string literals
     char ownEid[] = "ipn:2.1";
     char destEid[] = "ipn:3.1";
     bpchat_start(ownEid, destEid);
-}
+  }
 
-DtnFramer::~DtnFramer() {}
+  DtnFramer ::
+    ~DtnFramer()
+  {
 
-// ----------------------------------------------------------------------
-// Handler implementations for user-defined typed input ports
-// ----------------------------------------------------------------------
+  }
 
-Drv::SendStatus DtnFramer::comDataIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& sendBuffer) {
-    FW_ASSERT(!this->m_reinitialize);  // A message should never get here if we need to reinitialize is needed
-    Drv::SendStatus driverStatus = Drv::SendStatus::SEND_RETRY;
-    for (NATIVE_UINT_TYPE i = 0; driverStatus == Drv::SendStatus::SEND_RETRY && i < RETRY_LIMIT; i++) {
-        driverStatus = this->drvDataOut_out(0, sendBuffer);
-    }
-    FW_ASSERT(driverStatus != Drv::SendStatus::SEND_RETRY);  // If it is still in retry state, there is no good answer
-    Fw::Success comSuccess = (driverStatus.e == Drv::SendStatus::SEND_OK) ? Fw::Success::SUCCESS : Fw::Success::FAILURE;
-    this->m_reinitialize = driverStatus.e != Drv::SendStatus::SEND_OK;
-    if (this->isConnected_comStatus_OutputPort(0)) {
-        this->comStatus_out(0, comSuccess);
-    }
-    printf("DTN\tcomDataIn_handler\n");
-    return Drv::SendStatus::SEND_OK;  // Always send ok to deframer as it does not handle this anyway
-}
+  // ----------------------------------------------------------------------
+  // Handler implementations for user-defined typed input ports
+  // ----------------------------------------------------------------------
 
-void DtnFramer::drvConnected_handler(const NATIVE_INT_TYPE portNum) {
-    Fw::Success radioSuccess = Fw::Success::SUCCESS;
-    if (this->isConnected_comStatus_OutputPort(0) && m_reinitialize) {
-        this->m_reinitialize = false;
-        this->comStatus_out(0, radioSuccess);
-    }
-    printf("DTN\tdrvConnected_handler\n");
-}
+  void DtnFramer ::
+    bufferIn_handler(
+        const NATIVE_INT_TYPE portNum,
+        Fw::Buffer &fwBuffer
+    )
+  {
+    // TODO
+  }
 
-void DtnFramer::drvDataIn_handler(const NATIVE_INT_TYPE portNum,
-                                Fw::Buffer& recvBuffer,
-                                const Drv::RecvStatus& recvStatus) {
-    printf("DTN\tcomDataOut_handler\n");
-    this->comDataOut_out(0, recvBuffer, recvStatus);
-}
+  void DtnFramer ::
+    comIn_handler(
+        const NATIVE_INT_TYPE portNum,
+        Fw::ComBuffer &data,
+        U32 context
+    )
+  {
+    // TODO
+  }
 
-}  // end namespace Com
+  void DtnFramer ::
+    comStatusIn_handler(
+        const NATIVE_INT_TYPE portNum,
+        Fw::Success &condition
+    )
+  {
+    // TODO
+  }
+
+} // end namespace Com

@@ -382,6 +382,12 @@ module DtnRef {
 
   }
 
+  instance dtnFramer: Com.DtnFramer base id 0x4201 \ # TODO change this ID
+    queue size Default.queueSize
+    #queue size Default.queueSize \
+    #stack size Default.stackSize \
+    #priority 140
+
   instance fatalAdapter: Svc.AssertFatalAdapter base id 0x4300
 
   instance fatalHandler: Svc.FatalHandler base id 0x4400
