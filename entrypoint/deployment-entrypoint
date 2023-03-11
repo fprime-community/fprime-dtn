@@ -17,6 +17,7 @@ cp /home/ptl/lib/ion-core/inc/* /home/ptl/DtnRef/Com/Dtn/include/ion
 
 cd /home/ptl/DtnRef
 rm -rf build-fprime-*
+
 fprime-util generate #aarch64-linux
 fprime-util build #aarch64-linux
 
@@ -27,6 +28,6 @@ fprime-util build #aarch64-linux
 #gdb bin/Linux/DtnRef # Add `-ex=r` to run immediately
 
 # Standalone
-build-artifacts/Linux/bin/DtnRef
+#build-artifacts/Linux/bin/DtnRef
 #fprime-gds -n --gui-addr 0.0.0.0 # Run on any subnet
-#fprime-gds --gui-addr 0.0.0.0 # Run on any subnet
+fprime-gds --gui-addr 0.0.0.0 # Run on any subnet

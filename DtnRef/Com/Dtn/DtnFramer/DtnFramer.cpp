@@ -5,6 +5,7 @@
 // ======================================================================
 
 
+#include <cstring>
 #include <DtnRef/Com/Dtn/DtnFramer/DtnFramer.hpp>
 #include <FpConfig.hpp>
 
@@ -13,6 +14,11 @@ extern "C" {
 }
 
 namespace Com {
+
+// Intentionally mutable strings instead of string literals.
+// ION's `parseEidString()` does not work for string literals
+static char ownEid[]  = "ipn:2.1";
+static char destEid[] = "ipn:3.1";
 
   // ----------------------------------------------------------------------
   // Construction, initialization, and destruction
@@ -33,13 +39,16 @@ namespace Com {
     )
   {
     DtnFramerComponentBase::init(queueDepth, instance);
-    printf("[DTN] bpchat starting\n");
-    // Intentionally mutable strings instead of string literals.
-    // ION's `parseEidString()` does not work for string literals
-    char ownEid[] = "ipn:2.1";
-    char destEid[] = "ipn:3.1";
+
+    printf("[DtnFramer] bpchat starting\n");
     bpchat_start(ownEid, destEid);
-    printf("[DTN] bpchat started\n");
+    printf("[DtnFramer] bpchat started\n");
+
+    char m1[] = "first\n";
+    if (!bpchat_send(m1, 6))
+    {
+      printf("[DtnFramer] bpchat_send failed\n");
+    }
   }
 
   DtnFramer ::
@@ -71,18 +80,30 @@ namespace Com {
   {
     this->passthroughComOut_out(0, data, context);
 
-    // TODO
-    // printf("[DtnFramer] data (%zu) = %x\n",
-    //     data.getBuffCapacity(),
-    //     data.getBuffAddr());
+    //printf("[DtnFramer] data (%zu) = %x\n",
+    //    data.getBuffCapacity(),
+    //    data.getBuffAddr());
 
-    // char msg[] = "hello";
-    // //if (!bpchat_send((char *)data.getBuffAddr(), data.getBuffCapacity()))
-    // if (!bpchat_send(msg, 5))
-    // {
-    //   printf("[DtnFramer] bpchat_send failed\n");
-    // }
-    // //this->comBundleOut_out(0, bpBuffer);
+    char buffer[128];
+    memcpy(buffer, data.getBuffAddr(), data.getBuffCapacity());
+    buffer[0] = 'h';
+    buffer[1] = 'e';
+    buffer[2] = 'l';
+    buffer[3] = 'l';
+    buffer[4] = 'o';
+
+    if (!bpchat_send(buffer, data.getBuffCapacity()))
+    {
+      printf("[DtnFramer] bpchat_send failed\n");
+    }
+
+    //char msg[] = "paul\n";
+    //if (!bpchat_send(msg, 5))
+    //{
+    //  printf("[DtnFramer] bpchat_send failed\n");
+    //}
+
+    //this->comBundleOut_out(0, bpBuffer);
   }
 
   void DtnFramer ::

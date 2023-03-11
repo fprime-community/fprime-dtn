@@ -52,11 +52,11 @@ int bpchat_send(const char *buffer, size_t size)
 	Object          bundleZco, bundlePayload;
 	Object          newBundle;   /* We never use but bp_send requires it. */
 	/* Wrap the linebuffer in a bundle payload. */
-	if(pthread_mutex_lock(&sdrmutex) != 0) {
-		putErrmsg("Couldn't take sdr mutex.", NULL);
-		printf("Couldn't take sdr mutex.\n");
-		return 0;
-	}
+	//if(pthread_mutex_lock(&sdrmutex) != 0) {
+	//	putErrmsg("Couldn't take sdr mutex.", NULL);
+	//	printf("Couldn't take sdr mutex.\n");
+	//	return 0;
+	//}
 
 	oK(sdr_begin_xn(sdr));
 	bundlePayload = sdr_malloc(sdr, size);
@@ -65,7 +65,7 @@ int bpchat_send(const char *buffer, size_t size)
 	}
 
 	if(sdr_end_xn(sdr) < 0) {
-		pthread_mutex_unlock(&sdrmutex);
+		//pthread_mutex_unlock(&sdrmutex);
 		bp_close(sap);
 		putErrmsg("No space for bpchat payload.", NULL);
 		printf("No space for bpchat payload.\n");
@@ -75,13 +75,13 @@ int bpchat_send(const char *buffer, size_t size)
 	bundleZco = ionCreateZco(ZcoSdrSource, bundlePayload, 0, 
 		size, BP_STD_PRIORITY, 0, ZcoOutbound, NULL);
 	if(bundleZco == 0 || bundleZco == (Object) ERROR) {
-		pthread_mutex_unlock(&sdrmutex);
+		//pthread_mutex_unlock(&sdrmutex);
 		bp_close(sap);
 		putErrmsg("bpchat can't create bundle ZCO.", NULL);
 		printf("bpchat can't create bundle ZCO.\n");
 		return 0;
 	}
-	pthread_mutex_unlock(&sdrmutex);
+	//pthread_mutex_unlock(&sdrmutex);
 
 	/* Send the bundle payload. */
 	if(bp_send(sap, destEid, NULL, 86400, BP_STD_PRIORITY,
@@ -89,7 +89,7 @@ int bpchat_send(const char *buffer, size_t size)
 			&newBundle) <= 0)
 	{
 		putErrmsg("bpchat can't send bundle.", NULL);
-		printf("bpchat can't send bundle.\n");
+		printf("bpchat can't send bundle (destEid = %s).\n", destEid);
 		return 0;
 	}
 
@@ -187,28 +187,28 @@ int bpchat_start(char *_ownEid, char *_destEid)
 
 	sdr = bp_get_sdr();
 
-	signal(SIGINT, handleQuit);
+	//signal(SIGINT, handleQuit);
 
 	/* Start receiver thread and sender thread. */
-	if(pthread_begin(&sendLinesThread, NULL, sendLines, NULL) < 0) {
-		putErrmsg("Can't make sendLines thread.", NULL);
-		bp_interrupt(sap);
-		exit(1);
-	}
+	//if(pthread_begin(&sendLinesThread, NULL, sendLines, NULL) < 0) {
+	//	putErrmsg("Can't make sendLines thread.", NULL);
+	//	bp_interrupt(sap);
+	//	exit(1);
+	//}
 
-	if(pthread_begin(&recvBundlesThread, NULL, recvBundles, NULL) < 0) {
-		putErrmsg("Can't make recvBundles thread.", NULL);
-		bp_interrupt(sap);
-		exit(1);
-	}
+	//if(pthread_begin(&recvBundlesThread, NULL, recvBundles, NULL) < 0) {
+	//	putErrmsg("Can't make recvBundles thread.", NULL);
+	//	bp_interrupt(sap);
+	//	exit(1);
+	//}
 
+    //// Detach, do not want to wait for threads to finish
 	//pthread_detach(sendLinesThread);
 	//pthread_detach(recvBundlesThread);
-    // TODO currently detaching, do not want to wait for threads to finish
-	pthread_join(sendLinesThread, NULL);
-	pthread_join(recvBundlesThread, NULL);
+	//pthread_join(sendLinesThread, NULL);
+	//pthread_join(recvBundlesThread, NULL);
 
-	bp_close(sap);
-	bp_detach();
+	//bp_close(sap);
+	//bp_detach();
 	return 0;
 }

@@ -31,6 +31,7 @@ run()
     # `/dev/shm` is sized to support ION shared memory needs
     docker run \
         --shm-size=1gb \
+        -v "$DIR"/bpchat:/home/ptl/bpchat \
         -v "$DIR"/DtnRef:/home/ptl/DtnRef \
         -v "$DIR"/entrypoint:/home/ptl/entrypoint \
         $MODE_ARG \
