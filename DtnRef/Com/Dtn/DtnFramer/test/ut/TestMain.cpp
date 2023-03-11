@@ -4,25 +4,9 @@
 
 #include "Tester.hpp"
 
-TEST(Nominal, Initial) {
+TEST(Nominal, ToDo) {
     Com::Tester tester;
-    tester.test_initial();
-}
-
-TEST(Nominal, BasicIo) {
-    Com::Tester tester;
-    tester.test_basic();
-}
-
-
-TEST(Nominal, Fail) {
-    Com::Tester tester;
-    tester.test_fail();
-}
-
-TEST(OffNominal, Retry) {
-    Com::Tester tester;
-    tester.test_retry();
+    tester.toDo();
 }
 
 int main(int argc, char **argv) {
