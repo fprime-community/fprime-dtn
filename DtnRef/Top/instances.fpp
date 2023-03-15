@@ -382,11 +382,11 @@ module DtnRef {
 
   }
 
-  instance dtnFramer: Com.DtnFramer base id 0x4201 \ # TODO change this ID
-    queue size Default.queueSize
-    #queue size Default.queueSize \
-    #stack size Default.stackSize \
-    #priority 140
+  # Each command/tlm/event is tagged with an ID so we're using 0x4200 + 0x20 here
+  instance dtnFramer: Com.DtnFramer base id 0x4220 \
+    queue size Default.queueSize \
+    stack size Default.stackSize \
+    priority 120
 
   instance fatalAdapter: Svc.AssertFatalAdapter base id 0x4300
 
