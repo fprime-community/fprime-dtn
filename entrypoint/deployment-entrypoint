@@ -18,16 +18,26 @@ cp /home/ptl/lib/ion-core/inc/* /home/ptl/DtnRef/Com/Dtn/include/ion
 cd /home/ptl/DtnRef
 rm -rf build-fprime-*
 
-fprime-util generate #aarch64-linux
-fprime-util build #aarch64-linux
+run-release()
+{
+    fprime-util generate #aarch64-linux
+    fprime-util build #aarch64-linux
 
-# Debugging
-#fprime-util generate --ut #aarch64-linux
-#cd build-*-ut
-#make DtnRef
-#gdb bin/Linux/DtnRef # Add `-ex=r` to run immediately
+    #build-artifacts/Linux/bin/DtnRef
+    #fprime-gds -n --gui-addr 0.0.0.0 # Run on any subnet
+    fprime-gds --gui-addr 0.0.0.0 # Run on any subnet
+}
 
-# Standalone
-#build-artifacts/Linux/bin/DtnRef
-#fprime-gds -n --gui-addr 0.0.0.0 # Run on any subnet
-fprime-gds --gui-addr 0.0.0.0 # Run on any subnet
+run-debug()
+{
+    fprime-util generate --ut #aarch64-linux
+    cd build-*-ut
+    make DtnRef
+
+    # Ignore SIG32 to avoid breaking on nominal pthread cancellation signal.
+    # Add `-ex=r` to run immediately
+    gdb bin/Linux/DtnRef \
+        -ex='handle SIG32 nostop'
+}
+
+run-release
