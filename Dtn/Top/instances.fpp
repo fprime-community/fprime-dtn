@@ -38,16 +38,16 @@ module Dtn {
     """
   }
 
-  // TODO getting a `Svc.Framer` and `Dtn.Framer` name collision when compiling.
-  #instance framer: Svc.Framer base id 0x4200 {
-  #  phase Fpp.ToCpp.Phases.configObjects """
-  #  Svc::FprimeFraming framing;
-  #  """
+  # TODO getting a `Svc.Framer` and `Dtn.Framer` name collision when compiling.
+  instance framer: Svc.Framer base id 0x4200 {
+    phase Fpp.ToCpp.Phases.configObjects """
+    Svc::FprimeFraming framing;
+    """
 
-  #  phase Fpp.ToCpp.Phases.configComponents """
-  #  framer.setup(ConfigObjects::framer::framing);
-  #  """
-  #}
+    phase Fpp.ToCpp.Phases.configComponents """
+    framer.setup(ConfigObjects::framer::framing);
+    """
+  }
 
   # Each command/tlm/event is tagged with an ID so we're using 0x4200 + 0x20 here
   instance dtnFramer: Dtn.Framer base id 0x4220 \
