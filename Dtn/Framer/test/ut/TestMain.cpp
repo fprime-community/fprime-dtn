@@ -5,7 +5,7 @@
 #include "Tester.hpp"
 
 TEST(Nominal, ToDo) {
-    Com::Tester tester;
+    Dtn::Tester tester;
     tester.toDo();
 }
 

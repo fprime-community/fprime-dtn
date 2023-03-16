@@ -17,8 +17,9 @@ namespace Dtn {
       FramerGTestBase("Tester", Tester::MAX_HISTORY_SIZE),
       component("Framer")
   {
-    this->initComponents();
-    this->connectPorts();
+    // TODO implement these
+    //this->initComponents();
+    //this->connectPorts();
   }
 
   Tester ::

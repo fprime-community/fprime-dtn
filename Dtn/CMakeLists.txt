@@ -14,11 +14,4 @@ include("${FPRIME_FRAMEWORK_PATH}/cmake/FPrime-Code.cmake")
 # SUBDIRECTORIES
 #
 
-add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Top/")
-
 include("${CMAKE_CURRENT_LIST_DIR}/Dtn.cmake")
-
-set(SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/Top/Main.cpp")
-set(MOD_DEPS ${PROJECT_NAME}/Top)
-
-register_fprime_deployment()
