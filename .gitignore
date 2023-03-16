@@ -9,5 +9,5 @@ Ref/build-*
 Ref/logs
 Dtn/build-*
 Dtn/logs
-Dtn/lib/ion
-Dtn/include/ion
+Dtn/Dtn/lib/ion
+Dtn/Dtn/include/ion

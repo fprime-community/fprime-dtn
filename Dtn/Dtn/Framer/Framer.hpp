@@ -7,10 +7,6 @@
 #ifndef Dtn_Framer_HPP
 #define Dtn_Framer_HPP
 
-// TODO want to be able to unit test and also use this project as a component.
-// TODO when used within Ref the include must be:
-//#include "Framer/FramerComponentAc.hpp"
-// TODO But I'd like it to always be this:
 #include "Dtn/Framer/FramerComponentAc.hpp"
 
 namespace Dtn {
