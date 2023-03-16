@@ -5,7 +5,9 @@
 .*.swp
 
 # Build
-DtnRef/build-*
-DtnRef/logs
-DtnRef/Com/Dtn/lib/ion
-DtnRef/Com/Dtn/include/ion
+Ref/build-*
+Ref/logs
+Dtn/build-*
+Dtn/logs
+Dtn/lib/ion
+Dtn/include/ion
