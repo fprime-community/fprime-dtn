@@ -7,10 +7,10 @@
 #ifndef Dtn_Framer_HPP
 #define Dtn_Framer_HPP
 
-// TODO getting a `Svc.Framer` and `Dtn.Framer` name collision when compiliing.
-// TODO I'd like to have this be `"Dtn/...` instead:
-#include "Framer/FramerComponentAc.hpp"
-//#include "Dtn/Framer/FramerComponentAc.hpp"
+// TODO when used within Ref the include must be:
+//#include "Framer/FramerComponentAc.hpp"
+// TODO But I'd like it to always be this:
+#include "Dtn/Framer/FramerComponentAc.hpp"
 
 namespace Dtn {
 
