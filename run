@@ -34,6 +34,7 @@ run()
         -v "$DIR"/bpchat:/home/ptl/bpchat \
         -v "$DIR"/Dtn:/home/ptl/Dtn \
         -v "$DIR"/Ref:/home/ptl/Ref \
+        -v "$DIR"/lib/fprime-gds-dtn:/home/ptl/lib/fprime-gds-dtn \
         -v "$DIR"/entrypoint:/home/ptl/entrypoint \
         $MODE_ARG \
         --network dtn-network \

@@ -24,7 +24,7 @@ run-release()
     fprime-util build #aarch64-linux
 
     #build-artifacts/Linux/bin/Ref
-    #fprime-gds -n --gui-addr 0.0.0.0 # Run on any subnet
+    . /home/ptl/fprime-venv/bin/activate
     fprime-gds --gui-addr 0.0.0.0 # Run on any subnet
 }
 

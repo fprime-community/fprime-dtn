@@ -20,8 +20,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential g++ gdb cmake python3 python3-venv python3-pip  \
     gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
-RUN python3 -m venv /home/ptl/class-venv
-RUN . /home/ptl/class-venv/bin/activate
+RUN python3 -m venv /home/ptl/fprime-venv
+RUN . /home/ptl/fprime-venv/bin/activate
 RUN pip install -U setuptools setuptools_scm wheel pip
 
 # ION
@@ -48,10 +48,12 @@ RUN make install
 
 COPY lib/fprime           /home/ptl/lib/fprime
 COPY lib/fprime-arm-linux /home/ptl/lib/fprime-arm-linux
+COPY lib/fprime-gds-dtn   /home/ptl/lib/fprime-gds-dtn
 
-# F-PRIME
+# F PRIME
 
 RUN pip install -r /home/ptl/lib/fprime/requirements.txt
+RUN pip install -e /home/ptl/lib/fprime-gds-dtn
 
 # RUN
 
