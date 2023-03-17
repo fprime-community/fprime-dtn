@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     tree \
     tshark \
     vim \
-    build-essential g++ gdb cmake python3 python3-venv python3-pip  \
+    build-essential g++ gdb cmake python3 python3-venv python3-pip \
     gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
 RUN python3 -m venv /home/ptl/fprime-venv
@@ -69,6 +69,7 @@ ENV PYION_HOME       /home/ptl/lib/pyion
 ENV PYION_BP_VERSION BPv7
 ENV LD_LIBRARY_PATH  /home/ptl/lib/ion-open-source-4.1.1/.libs
 RUN pip install --user /home/ptl/lib/pyion
+RUN pip install --user numpy
 
 # RUN
 
