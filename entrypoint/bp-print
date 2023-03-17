@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import pyion
+import numpy as np
 
     
 EID_NAME = 'ipn:3.1'
@@ -10,13 +11,19 @@ if __name__ == '__main__':
     proxy = pyion.get_bp_proxy(1)
 
     # Listen to 'ipn:3.1' for incoming data
+    bundle_count = 0
     with proxy.bp_open(EID_NAME) as eid:
         print(f'[bp-print] Running on {EID_NAME}')
         while eid.is_open:
             try:
                 # This is a blocking call
-                print('Bundle:\n', eid.bp_receive())
+                bundle = eid.bp_receive()
+                print(f'[bp-print] Received bundle {bundle_count}:')
+                bundle_bytes = [format(e, '02x') for e in bundle]
+                for row in [e.tolist() for e in np.array_split(bundle_bytes, 8)]:
+                    print(' '.join(row))
                 print()
+                bundle_count += 1
             except InterruptedError:
                 # User has triggered interruption with Ctrl+C
                 break

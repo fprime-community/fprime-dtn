@@ -84,15 +84,14 @@ static char destEid[] = "ipn:3.1";
     //    data.getBuffCapacity(),
     //    data.getBuffAddr());
 
-    char buffer[128];
+    char buffer[128]; // data.getBuffCapacity() == 128
     memcpy(buffer, data.getBuffAddr(), data.getBuffCapacity());
-    buffer[0] = 'h';
-    buffer[1] = 'e';
-    buffer[2] = 'l';
-    buffer[3] = 'l';
-    buffer[4] = 'o';
+    buffer[0] = '\xC0';
+    buffer[1] = '\xDE';
+    buffer[126] = '\xC0';
+    buffer[127] = '\xDA';
 
-    if (!bpchat_send(buffer, data.getBuffCapacity()))
+    if (!bpchat_send(buffer, 128))
     {
       printf("[Dtn.Framer] bpchat_send failed\n");
     }
