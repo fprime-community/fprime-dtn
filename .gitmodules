@@ -11,3 +11,7 @@
 [submodule "lib/fprime-gds-dtn"]
 	path = lib/fprime-gds-dtn
 	url = https://github.com/pcrosemurgy/fprime-gds-dtn.git
+[submodule "lib/pyion"]
+	path = lib/pyion
+	url = https://github.com/msancheznet/pyion.git
+	branch = v4.1.2
