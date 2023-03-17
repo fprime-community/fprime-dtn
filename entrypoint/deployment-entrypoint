@@ -7,11 +7,11 @@ readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 "$DIR"/common-entrypoint "$@"
 
 cd /home/ptl/lib/ion-open-source-4.1.1
-mkdir -p /home/ptl/Dtn/lib/ion
-cp .libs/lib{bp,ici,ltp}.a /home/ptl/Dtn/lib/ion
+mkdir -p /home/ptl/Dtn/Dtn/lib/ion
+cp .libs/lib{bp,ici,ltp}.a /home/ptl/Dtn/Dtn/lib/ion
 
-mkdir -p /home/ptl/Dtn/include/ion
-cp /home/ptl/lib/ion-core/inc/* /home/ptl/Dtn/include/ion
+mkdir -p /home/ptl/Dtn/Dtn/include/ion
+cp /home/ptl/lib/ion-core/inc/* /home/ptl/Dtn/Dtn/include/ion
 
 # F PRIME
 

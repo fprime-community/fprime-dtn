@@ -32,8 +32,8 @@ run()
     docker run \
         --shm-size=1gb \
         -v "$DIR"/bpchat:/home/ptl/bpchat \
-        -v "$DIR"/Ref:/home/ptl/Ref \
         -v "$DIR"/Dtn:/home/ptl/Dtn \
+        -v "$DIR"/Ref:/home/ptl/Ref \
         -v "$DIR"/entrypoint:/home/ptl/entrypoint \
         $MODE_ARG \
         --network dtn-network \
