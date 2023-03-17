@@ -31,7 +31,6 @@ run()
     # `/dev/shm` is sized to support ION shared memory needs
     docker run \
         --shm-size=1gb \
-        -v "$DIR"/bpchat:/home/ptl/bpchat \
         -v "$DIR"/Dtn:/home/ptl/Dtn \
         -v "$DIR"/Ref:/home/ptl/Ref \
         -v "$DIR"/lib/fprime-gds-dtn:/home/ptl/lib/fprime-gds-dtn \

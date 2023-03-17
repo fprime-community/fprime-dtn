@@ -7,4 +7,4 @@ readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 "$DIR"/common-entrypoint "$@"
 
 set -x
-/home/ptl/bpchat ipn:3.1 ipn:2.1
+/home/ptl/entrypoint/bp-print
