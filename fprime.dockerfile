@@ -4,6 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # SETUP
 
+# Dependencies for pyion: python3-dev
 RUN apt-get update && apt-get install --no-install-recommends -y \
     automake \
     curl \
@@ -11,6 +12,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     net-tools \
     netcat \
     man \
+    python3-dev \
     silversearcher-ag \
     ssh \
     tcpdump \
@@ -36,6 +38,8 @@ WORKDIR /home/ptl/lib/ion-open-source-4.1.1
 RUN autoreconf
 RUN ./configure
 RUN make
+# Installing for pyion
+RUN make install
 
 COPY lib/ion-core /home/ptl/lib/ion-core
 
@@ -49,11 +53,22 @@ RUN make install
 COPY lib/fprime           /home/ptl/lib/fprime
 COPY lib/fprime-arm-linux /home/ptl/lib/fprime-arm-linux
 COPY lib/fprime-gds-dtn   /home/ptl/lib/fprime-gds-dtn
+COPY lib/pyion            /home/ptl/lib/pyion
 
 # F PRIME
 
 RUN pip install -r /home/ptl/lib/fprime/requirements.txt
-RUN pip install -e /home/ptl/lib/fprime-gds-dtn
+RUN pip install --user /home/ptl/lib/fprime-gds-dtn
+
+# PYION
+
+# TODO pyion is on `v4.1.2` branch but the underlying ION used here is 4.1.1.
+# Once ion-core is at 4.1.2 this won't be a potential issue
+ENV ION_HOME         /home/ptl/lib/ion-open-source-4.1.1
+ENV PYION_HOME       /home/ptl/lib/pyion
+ENV PYION_BP_VERSION BPv7
+ENV LD_LIBRARY_PATH  /home/ptl/lib/ion-open-source-4.1.1/.libs
+RUN pip install --user /home/ptl/lib/pyion
 
 # RUN
 
