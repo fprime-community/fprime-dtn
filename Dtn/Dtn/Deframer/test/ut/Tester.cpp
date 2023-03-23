@@ -1,7 +1,7 @@
 // ======================================================================
-// \title  Framer.hpp
+// \title  Deframer.hpp
 // \author root
-// \brief  cpp file for Framer test harness implementation class
+// \brief  cpp file for Deframer test harness implementation class
 // ======================================================================
 
 #include "Tester.hpp"
@@ -14,8 +14,8 @@ namespace Dtn {
 
   Tester ::
     Tester() :
-      FramerGTestBase("Tester", Tester::MAX_HISTORY_SIZE),
-      component("Framer")
+      DeframerGTestBase("Tester", Tester::MAX_HISTORY_SIZE),
+      component("Deframer")
   {
     this->initComponents();
     this->connectPorts();
@@ -42,40 +42,22 @@ namespace Dtn {
   // ----------------------------------------------------------------------
 
   void Tester ::
-    from_comBundleOut_handler(
+    from_bufferOut_handler(
         const NATIVE_INT_TYPE portNum,
         Fw::Buffer &fwBuffer
     )
   {
-    this->pushFromPortEntry_comBundleOut(fwBuffer);
+    this->pushFromPortEntry_bufferOut(fwBuffer);
   }
 
   void Tester ::
-    from_comStatus_handler(
-        const NATIVE_INT_TYPE portNum,
-        Fw::Success &condition
-    )
-  {
-    this->pushFromPortEntry_comStatus(condition);
-  }
-
-  void Tester ::
-    from_passthroughBufferOut_handler(
-        const NATIVE_INT_TYPE portNum,
-        Fw::Buffer &fwBuffer
-    )
-  {
-    this->pushFromPortEntry_passthroughBufferOut(fwBuffer);
-  }
-
-  void Tester ::
-    from_passthroughComOut_handler(
+    from_comOut_handler(
         const NATIVE_INT_TYPE portNum,
         Fw::ComBuffer &data,
         U32 context
     )
   {
-    this->pushFromPortEntry_passthroughComOut(data, context);
+    this->pushFromPortEntry_comOut(data, context);
   }
 
 
