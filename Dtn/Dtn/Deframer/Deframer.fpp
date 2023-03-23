@@ -1,17 +1,12 @@
-module Dtn
-{
+module Dtn {
+
     @ A component for deframing input received from the ground
     @ via a byte stream driver, which may be active or passive
-    active component Deframer
-    {
+    active component Deframer {
+
         #
         # GENERAL PORTS
         #
-
-        # TODO this is not an arrayed port like `CmdDispatcher.seqCmdBuff` because
-        # we only get a single `Fw.Com` from `Deframer.comOut`. Is this okay?
-        @ Command buffer input port for sequencers or other sources of command buffers
-        #async input port seqCmdBuff: Fw.Com
 
         @ Buffer send in
         async input port bufferSendIn: Fw.BufferSend
