@@ -52,9 +52,9 @@ namespace Dtn {
       // Handlers for typed from ports
       // ----------------------------------------------------------------------
 
-      //! Handler for from_comBundleOut
+      //! Handler for from_bundleBufferOut
       //!
-      void from_comBundleOut_handler(
+      void from_bundleBufferOut_handler(
           const NATIVE_INT_TYPE portNum, /*!< The port number*/
           Fw::Buffer &fwBuffer 
       );

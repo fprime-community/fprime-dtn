@@ -42,12 +42,12 @@ namespace Dtn {
   // ----------------------------------------------------------------------
 
   void Tester ::
-    from_comBundleOut_handler(
+    from_bundleBufferOut_handler(
         const NATIVE_INT_TYPE portNum,
         Fw::Buffer &fwBuffer
     )
   {
-    this->pushFromPortEntry_comBundleOut(fwBuffer);
+    this->pushFromPortEntry_bundleBufferOut(fwBuffer);
   }
 
   void Tester ::

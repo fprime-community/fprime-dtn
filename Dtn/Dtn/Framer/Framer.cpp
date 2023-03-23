@@ -54,7 +54,7 @@ Framer::~Framer() {}
 void Framer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
 {
     this->passthroughBufferOut_out(0, fwBuffer);
-    // this->comBundleOut_out(0, bpBuffer);
+    // this->bundleBufferOut_out(0, bpBuffer);
 }
 
 void Framer::comIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer& data, U32 context)
@@ -83,7 +83,7 @@ void Framer::comIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer& data, U
     //   printf("[Dtn.Framer] bpchat_send failed\n");
     // }
 
-    // this->comBundleOut_out(0, bpBuffer);
+    // this->bundleBufferOut_out(0, bpBuffer);
 }
 
 void Framer::comStatusIn_handler(const NATIVE_INT_TYPE portNum, Fw::Success& condition)
