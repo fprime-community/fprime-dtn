@@ -9,7 +9,8 @@
 
 #include "Dtn/Framer/FramerComponentAc.hpp"
 
-namespace Dtn {
+namespace Dtn
+{
 
   class Framer :
     public FramerComponentBase
