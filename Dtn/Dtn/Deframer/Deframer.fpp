@@ -9,7 +9,7 @@ module Dtn {
         #
 
         @ Buffer send in
-        async input port bufferSendIn: Fw.BufferSend
+        async input port bufferIn: Fw.BufferSend
 
         #
         # SENDING COMMAND PACKETS AND RECEIVING COMMAND RESPONSES

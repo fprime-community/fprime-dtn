@@ -17,10 +17,10 @@ namespace Dtn {
     connectPorts()
   {
 
-    // bufferSendIn
-    this->connect_to_bufferSendIn(
+    // bufferIn
+    this->connect_to_bufferIn(
         0,
-        this->component.get_bufferSendIn_InputPort(0)
+        this->component.get_bufferIn_InputPort(0)
     );
 
     // bufferOut

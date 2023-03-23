@@ -30,7 +30,7 @@ Deframer::~Deframer() {}
 // Handler implementations for user-defined typed input ports
 // ----------------------------------------------------------------------
 
-void Deframer::bufferSendIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
+void Deframer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
 {
     // TODO
 }

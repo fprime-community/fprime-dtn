@@ -45,9 +45,9 @@ namespace Dtn
       // Handler implementations for user-defined typed input ports
       // ----------------------------------------------------------------------
 
-      //! Handler implementation for bufferSendIn
+      //! Handler implementation for bufferIn
       //!
-      void bufferSendIn_handler(
+      void bufferIn_handler(
           const NATIVE_INT_TYPE portNum, /*!< The port number*/
           Fw::Buffer &fwBuffer 
       );
