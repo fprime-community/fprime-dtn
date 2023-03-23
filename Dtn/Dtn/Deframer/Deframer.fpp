@@ -11,6 +11,11 @@ module Dtn {
         @ Buffer send in
         async input port bufferIn: Fw.BufferSend
 
+        @ Port for sending passthrough command packets as Com buffers.
+        @ This exists to retain existing functionality in case Svc.Deframer
+        @ has a Com buffer to pass
+        async input port passthroughComIn: Fw.Com
+
         #
         # SENDING COMMAND PACKETS AND RECEIVING COMMAND RESPONSES
         #

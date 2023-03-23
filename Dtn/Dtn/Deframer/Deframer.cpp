@@ -35,4 +35,9 @@ void Deframer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuf
     // TODO
 }
 
+void Deframer::passthroughComIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer &data, U32 context)
+{
+    // TODO
+}
+
 }  // end namespace Dtn

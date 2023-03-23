@@ -52,6 +52,18 @@ namespace Dtn
           Fw::Buffer &fwBuffer 
       );
 
+      //! Handler implementation for passthroughComIn
+      //!
+      void passthroughComIn_handler(
+          const NATIVE_INT_TYPE portNum, /*!< The port number*/
+          Fw::ComBuffer &data, /*!<
+      Buffer containing packet data
+      */
+          U32 context /*!<
+      Call context value; meaning chosen by user
+      */
+      );
+
 
     };
 
