@@ -46,6 +46,7 @@ module Ref {
     instance rateGroupDriverComp
     instance textLogger
     instance deframer
+    instance dtnDeframer
     instance systemResources
     instance imu
     instance imuI2cBus
@@ -84,8 +85,11 @@ module Ref {
 
       comQueue.comQueueSend -> dtnFramer.comIn
       comQueue.buffQueueSend -> dtnFramer.bufferIn
+      # TODO remove these passthrough ports
       dtnFramer.passthroughComOut -> framer.comIn
       dtnFramer.passthroughBufferOut -> framer.bufferIn
+      # TODO
+      # dtnFramer.bundleBufferOut -> framer.bufferIn
 
       framer.framedAllocate -> comBufferManager.bufferGetCallee
       framer.framedOut -> radio.comDataIn
@@ -136,11 +140,13 @@ module Ref {
       radio.comDataOut -> deframer.framedIn
       deframer.framedDeallocate -> comBufferManager.bufferSendIn
 
-      deframer.comOut -> cmdDisp.seqCmdBuff
+      deframer.comOut -> dtnDeframer.passthroughComIn
+      dtnDeframer.comOut -> cmdDisp.seqCmdBuff
       cmdDisp.seqCmdStatus -> deframer.cmdResponseIn
 
       deframer.bufferAllocate -> comBufferManager.bufferGetCallee
-      deframer.bufferOut -> fileUplink.bufferSendIn
+      deframer.bufferOut -> dtnDeframer.bufferIn
+      dtnDeframer.bufferOut -> fileUplink.bufferSendIn
       deframer.bufferDeallocate -> comBufferManager.bufferSendIn
       fileUplink.bufferSendOut -> comBufferManager.bufferSendIn
     }

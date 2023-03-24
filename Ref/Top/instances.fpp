@@ -466,6 +466,11 @@ module Ref {
 
   }
 
+  instance dtnDeframer: Dtn.Deframer base id 0x4A20 \
+    queue size Default.queueSize \
+    stack size Default.stackSize \
+    priority 120
+
   instance systemResources: Svc.SystemResources base id 0x4B00
   instance imu: Gnc.Imu base id 0x4C00 {
     phase Fpp.ToCpp.Phases.configComponents """
