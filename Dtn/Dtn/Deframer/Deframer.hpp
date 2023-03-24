@@ -4,8 +4,8 @@
 // \brief  hpp file for Deframer component implementation class
 // ======================================================================
 
-#ifndef Deframer_HPP
-#define Deframer_HPP
+#ifndef Dtn_Deframer_HPP
+#define Dtn_Deframer_HPP
 
 #include "Dtn/Dtn/Deframer/DeframerComponentAc.hpp"
 
@@ -69,4 +69,4 @@ namespace Dtn
 
 } // end namespace Dtn
 
-#endif
+#endif // Dtn_Deframer_HPP
