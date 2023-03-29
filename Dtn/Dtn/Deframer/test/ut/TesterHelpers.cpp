@@ -23,6 +23,12 @@ namespace Dtn {
         this->component.get_bufferIn_InputPort(0)
     );
 
+    // cmdResponseIn
+    this->connect_to_cmdResponseIn(
+        0,
+        this->component.get_cmdResponseIn_InputPort(0)
+    );
+
     // passthroughComIn
     this->connect_to_passthroughComIn(
         0,

@@ -7,7 +7,7 @@
 #ifndef Dtn_Deframer_HPP
 #define Dtn_Deframer_HPP
 
-#include "Dtn/Dtn/Deframer/DeframerComponentAc.hpp"
+#include "Dtn/Deframer/DeframerComponentAc.hpp"
 
 namespace Dtn
 {
@@ -50,6 +50,21 @@ namespace Dtn
       void bufferIn_handler(
           const NATIVE_INT_TYPE portNum, /*!< The port number*/
           Fw::Buffer &fwBuffer 
+      );
+
+      //! Handler implementation for cmdResponseIn
+      //!
+      void cmdResponseIn_handler(
+          const NATIVE_INT_TYPE portNum, /*!< The port number*/
+          FwOpcodeType opCode, /*!< 
+      Command Op Code
+      */
+          U32 cmdSeq, /*!< 
+      Command Sequence
+      */
+          const Fw::CmdResponse &response /*!< 
+      The command response argument
+      */
       );
 
       //! Handler implementation for passthroughComIn

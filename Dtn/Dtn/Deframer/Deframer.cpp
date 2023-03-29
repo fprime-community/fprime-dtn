@@ -4,7 +4,7 @@
 // \brief  cpp file for Deframer component implementation class
 // ======================================================================
 
-#include <Dtn/Dtn/Deframer/Deframer.hpp>
+#include <Dtn/Deframer/Deframer.hpp>
 #include <FpConfig.hpp>
 
 namespace Dtn
@@ -31,6 +31,17 @@ Deframer::~Deframer() {}
 // ----------------------------------------------------------------------
 
 void Deframer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
+{
+    // TODO
+}
+
+void Deframer::cmdResponseIn_handler
+(
+    const NATIVE_INT_TYPE portNum,
+    FwOpcodeType opCode,
+    U32 cmdSeq,
+    const Fw::CmdResponse &response
+)
 {
     // TODO
 }

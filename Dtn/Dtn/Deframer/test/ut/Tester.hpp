@@ -8,7 +8,7 @@
 #define TESTER_HPP
 
 #include "GTestBase.hpp"
-#include "Dtn/Dtn/Deframer/Deframer.hpp"
+#include "Dtn/Deframer/Deframer.hpp"
 
 namespace Dtn {
 
