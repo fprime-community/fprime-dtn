@@ -142,7 +142,7 @@ module Ref {
 
       deframer.comOut -> dtnDeframer.passthroughComIn
       dtnDeframer.comOut -> cmdDisp.seqCmdBuff
-      cmdDisp.seqCmdStatus -> deframer.cmdResponseIn
+      cmdDisp.seqCmdStatus -> dtnDeframer.cmdResponseIn
 
       deframer.bufferAllocate -> comBufferManager.bufferGetCallee
       deframer.bufferOut -> dtnDeframer.bufferIn
