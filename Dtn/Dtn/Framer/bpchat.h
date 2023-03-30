@@ -13,6 +13,7 @@
 //! @param _ownEid own EID, intentionally mutable to appease ION
 //! @param _destEid destination EID, intentionally mutable to appease ION
 int bpchat_start(char *_ownEid, char *_destEid);
+
 int bpchat_send(const char *buffer, size_t size);
 
 #endif // BPCHAT_H
