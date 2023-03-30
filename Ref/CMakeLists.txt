@@ -46,7 +46,9 @@ include("${FPRIME_FRAMEWORK_PATH}/cmake/FPrime-Code.cmake")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Top/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Gnc/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Payload/")
-add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Com/")
+# TODO not compiling `Com/` since `XBee` uses `Svc.ComSendStatus` instead of `Fw.SuccessCondition`.
+# `XBee` isn't being used within the topology as the radio so this is okay.
+#add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Com/")
 set(SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/Top/Main.cpp")
 set(MOD_DEPS ${PROJECT_NAME}/Top)
 
