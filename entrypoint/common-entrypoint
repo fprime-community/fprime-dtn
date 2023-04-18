@@ -3,8 +3,27 @@
 set -eu
 
 readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-readonly OWN_ADDR="$1"
-readonly DEST_ADDR="$2"
+
+usage()
+{
+    echo -e "Usage: $(basename $0) [-u] OWN_ADDR DEST_ADDR\n
+Run entrypoint logic that's common between deployment and GDS containers.\n
+Options:
+    -u    Use udplso and udplsi for link service IO
+    -h    Show this help message and exit" >&2
+    exit 1;
+}
+
+udp_link_services=0
+while getopts ':u' o; do
+    case "${o}" in
+        u) udp_link_services=1 ;;
+        *) usage ;;
+    esac
+done
+
+readonly OWN_ADDR=${@:$OPTIND:1}
+readonly DEST_ADDR=${@:$OPTIND+1:1}
 
 #while true; do echo -e "HTTP/1.1 200 OK\n\n $(date)" | nc -l 0.0.0.0 5000; done
 
@@ -12,4 +31,7 @@ readonly DEST_ADDR="$2"
 
 cd /home/ptl/lib/ion-core
 scripts/host.sh "$OWN_ADDR" "$DEST_ADDR"
+
+[[ "$udp_link_services" = 1 ]] || perl -pi -e "s/'udp[^']+/'/g" host*.rc
+
 scripts/ionstart -I host*.rc

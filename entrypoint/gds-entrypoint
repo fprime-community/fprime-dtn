@@ -4,7 +4,7 @@ set -eu
 
 readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
-"$DIR"/common-entrypoint "$@"
+"$DIR"/common-entrypoint -u "$@"
 
 set -x
 
