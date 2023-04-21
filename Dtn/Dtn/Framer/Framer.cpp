@@ -5,8 +5,10 @@
 // ======================================================================
 
 #include <cstring>
+#include <pthread.h>
 #include <Dtn/Framer/Framer.hpp>
 #include <FpConfig.hpp>
+#include "FramerHelper.hpp"
 
 extern "C"
 {
@@ -43,6 +45,17 @@ void Framer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instan
     {
         printf("[Dtn.Framer] bpchat_send failed\n");
     }
+    // TODO start a thread here that loops with `ltpDequeueOutboundSegment()`
+    // and sends this data with: `this->bundleBufferOut_out(0, bpBuffer);`
+    pthread_t t;
+    int status = pthread_create(&t, NULL, FramerHelper::paul, NULL);
+    if (status != 0)
+    {
+        printf("[Dtn.Framer] Error creating thread\n");
+    }
+    pthread_detach(t);
+    // store the thread ID so we can join it later
+    // m_threadId = t;
 }
 
 Framer::~Framer() {}

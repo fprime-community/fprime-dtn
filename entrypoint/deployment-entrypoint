@@ -40,4 +40,4 @@ run-debug()
         -ex='handle SIG32 nostop'
 }
 
-run-release
+run-debug
