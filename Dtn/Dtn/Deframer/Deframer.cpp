@@ -6,6 +6,7 @@
 
 #include <Dtn/Deframer/Deframer.hpp>
 #include <FpConfig.hpp>
+#include "DeframerHelper.hpp"
 
 extern "C"
 {
@@ -33,8 +34,13 @@ void Deframer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE inst
 {
     DeframerComponentBase::init(queueDepth, instance);
     printf("[Dtn.Deframer] bp_receive starting\n");
+    // TODO this is where we start a thread that loops and calls `bp_receive()`
+    // and passes the received data to this component's output ports.
+    // The input ports here just put the data on the LTP queue
     bp_receive_init(ownEid, destEid);
     printf("[Dtn.Deframer] bp_receive started\n");
+
+    DeframerHelper::init();
 }
 
 Deframer::~Deframer() {}
@@ -45,7 +51,8 @@ Deframer::~Deframer() {}
 
 void Deframer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
 {
-    // TODO
+    // Data here is assumed to be LTP data
+    DeframerHelper::ltpDeframe(fwBuffer.getData(), fwBuffer.getSize());
 }
 
 void Deframer::cmdResponseIn_handler

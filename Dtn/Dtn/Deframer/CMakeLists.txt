@@ -17,6 +17,7 @@ set(MOD_DEPS
 set(SOURCE_FILES
     "${CMAKE_CURRENT_LIST_DIR}/Deframer.fpp"
     "${CMAKE_CURRENT_LIST_DIR}/Deframer.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/DeframerHelper.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/bp_receive.c"
 )
 
