@@ -20,8 +20,9 @@ namespace Dtn
 
 // Intentionally mutable strings instead of string literals.
 // ION's `parseEidString()` does not work for string literals
-static char ownEid[] = "ipn:2.1";
+static char ownEid[]  = "ipn:2.1";
 static char destEid[] = "ipn:3.1";
+static const U64 remoteEngineId = 3;
 
 // ----------------------------------------------------------------------
 // Construction, initialization, and destruction
@@ -45,17 +46,19 @@ void Framer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instan
     {
         printf("[Dtn.Framer] bpchat_send failed\n");
     }
+
+    FramerHelper helper(remoteEngineId);
+
     // TODO start a thread here that loops with `ltpDequeueOutboundSegment()`
     // and sends this data with: `this->bundleBufferOut_out(0, bpBuffer);`
+    // TODO where should `bpBuffer` be initialized?
     pthread_t t;
-    int status = pthread_create(&t, NULL, FramerHelper::paul, NULL);
+    int status = pthread_create(&t, NULL, FramerHelper::ltpFrameWrapper, &helper);
     if (status != 0)
     {
         printf("[Dtn.Framer] Error creating thread\n");
     }
     pthread_detach(t);
-    // store the thread ID so we can join it later
-    // m_threadId = t;
 }
 
 Framer::~Framer() {}
@@ -89,12 +92,6 @@ void Framer::comIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer& data, U
     {
         printf("[Dtn.Framer] bpchat_send failed\n");
     }
-
-    // char msg[] = "paul\n";
-    // if (!bpchat_send(msg, 5))
-    //{
-    //   printf("[Dtn.Framer] bpchat_send failed\n");
-    // }
 
     // this->bundleBufferOut_out(0, bpBuffer);
 }

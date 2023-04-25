@@ -32,6 +32,7 @@ readonly DEST_ADDR=${@:$OPTIND+1:1}
 cd /home/ptl/lib/ion-core
 scripts/host.sh "$OWN_ADDR" "$DEST_ADDR"
 
-[[ "$udp_link_services" = 1 ]] || perl -pi -e "s/'udp[^']+/'/g" host*.rc
+# Must provide a command for LSO/LSI otherwise ION error: "No LSO command, can't add span: 2"
+[[ "$udp_link_services" = 1 ]] || perl -pi -e "s/'udp(\w+)[^']+/'echo ION \1/g" host*.rc
 
 scripts/ionstart -I host*.rc
