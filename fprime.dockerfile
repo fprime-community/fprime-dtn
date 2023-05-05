@@ -55,6 +55,8 @@ COPY lib/fprime-arm-linux /home/ptl/lib/fprime-arm-linux
 COPY lib/fprime-gds-dtn   /home/ptl/lib/fprime-gds-dtn
 COPY lib/pyion            /home/ptl/lib/pyion
 
+COPY resources/gds/RefTopologyAppDictionary.xml /home/ptl
+
 # F PRIME
 
 RUN pip install -r /home/ptl/lib/fprime/requirements.txt
