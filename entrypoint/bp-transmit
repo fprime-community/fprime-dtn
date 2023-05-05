@@ -11,9 +11,13 @@ DEST_EID_NAME = 'ipn:2.1'
 if __name__ == '__main__':
     # Create a proxy to node 1 and attach to it
     proxy = pyion.get_bp_proxy(1)
+    pyion.ltp.ltp_init(0)
+    vspan = pyion.find_span(2)
 
     # Listen to 'ipn:3.1' for incoming data
     with proxy.bp_open(EID_NAME) as eid:
         while eid.is_open:
             eid.bp_send(DEST_EID_NAME, bytes('hello from ground at time {}\n'.format(time.time()), encoding='utf8'))
+            with pyion.ltp.ltp_dequeue_outbound_segment(vspan) as val:
+                print('LTP segment:', val)
             time.sleep(1)

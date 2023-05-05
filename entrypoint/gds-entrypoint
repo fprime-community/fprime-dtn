@@ -4,9 +4,16 @@ set -eu
 
 readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
-"$DIR"/common-entrypoint -u "$@"
+"$DIR"/common-entrypoint "$@"
 
 set -x
 
-/home/ptl/entrypoint/bp-print
-#/home/ptl/entrypoint/bp-transmit
+#/home/ptl/entrypoint/bp-print
+/home/ptl/entrypoint/bp-transmit
+
+#. /home/ptl/fprime-venv/bin/activate
+# Using 0.0.0.0 to run on any subnet
+#fprime-gds -n \
+#    -g none \
+#    --dictionary /home/ptl/RefTopologyAppDictionary.xml \
+#    --gui-addr 0.0.0.0
