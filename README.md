@@ -1,6 +1,6 @@
 # F´ DTN Integration
 
-Delay Tolerant Networking in F´.
+Delay-Tolerant Networking in F´.
 
 With support from the 9x Interplanetary Network Directorate this development aims to accomplish the following objectives:
 - Integrate ION into F´.
