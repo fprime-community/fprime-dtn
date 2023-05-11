@@ -9,11 +9,14 @@ readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 set -x
 
 #/home/ptl/entrypoint/bp-print
-/home/ptl/entrypoint/bp-transmit
+#/home/ptl/entrypoint/bp-transmit
 
-#. /home/ptl/fprime-venv/bin/activate
+#while true; do echo -e "HTTP/1.1 200 OK\n\n $(date)" | nc -l -q 0 0.0.0.0 5000; done
+
+. /home/ptl/fprime-venv/bin/activate
+
 # Using 0.0.0.0 to run on any subnet
-#fprime-gds -n \
-#    -g none \
-#    --dictionary /home/ptl/RefTopologyAppDictionary.xml \
-#    --gui-addr 0.0.0.0
+fprime-gds -n \
+    --dictionary /home/ptl/RefTopologyAppDictionary.xml \
+    --gui-addr 0.0.0.0
+# TODO have GDS container take built XML dict in a less hardcoded manner
