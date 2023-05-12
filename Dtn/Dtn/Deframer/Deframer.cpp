@@ -68,7 +68,7 @@ void Deframer::cmdResponseIn_handler
 
 void Deframer::passthroughComIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer &data, U32 context)
 {
-    // TODO
+    comOut_out(portNum, data, context);
 }
 
 }  // end namespace Dtn
