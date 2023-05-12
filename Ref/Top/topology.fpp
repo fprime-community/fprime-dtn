@@ -85,7 +85,7 @@ module Ref {
 
       comQueue.comQueueSend -> dtnFramer.comIn
       comQueue.buffQueueSend -> dtnFramer.bufferIn
-      # TODO remove these passthrough ports
+      # TODO remove passthrough ports
       dtnFramer.passthroughComOut -> framer.comIn
       dtnFramer.passthroughBufferOut -> framer.bufferIn
       # TODO
@@ -140,6 +140,7 @@ module Ref {
       radio.comDataOut -> deframer.framedIn
       deframer.framedDeallocate -> comBufferManager.bufferSendIn
 
+      # TODO remove passthrough ports
       deframer.comOut -> dtnDeframer.passthroughComIn
       dtnDeframer.comOut -> cmdDisp.seqCmdBuff
       cmdDisp.seqCmdStatus -> dtnDeframer.cmdResponseIn
