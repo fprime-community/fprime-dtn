@@ -53,16 +53,16 @@ build "$GDS_CONTAINER"
 docker network rm "$NETWORK" 2>/dev/null || true
 docker network create "$NETWORK" --subnet 10.0.0.0/8
 
-# TODO try --network host, remove --publish
 # To attach to GDS: `docker attach fprime-gds`
 # Using 127.0.0.1 to only publish port mapping for local interface
-run "$GDS_CONTAINER" \
-    'entrypoint/gds-entrypoint 10.0.0.3 10.0.0.2 ; bash' \
-    '10.0.0.3' \
-    -dit \
-    --publish 127.0.0.1:5555:5000
+#run "$GDS_CONTAINER" \
+#    'entrypoint/gds-entrypoint 10.0.0.3 10.0.0.2 ; bash' \
+#    '10.0.0.3' \
+#    -dit \
+#    --publish 127.0.0.1:5555:5000
 
 run "$FSW_CONTAINER" \
     'entrypoint/deployment-entrypoint 10.0.0.2 10.0.0.3 ; bash' \
     '10.0.0.2' \
-    $DOCKER_MODE_ARG
+    $DOCKER_MODE_ARG \
+    --publish 127.0.0.1:5555:5000
