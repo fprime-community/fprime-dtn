@@ -11,7 +11,7 @@
 namespace Dtn
 {
 
-void DeframerHelper::init()
+void DeframerHelper::init() // TODO remove this function, just call `ltpInit()` before loop within helper
 {
     if (ltpInit(0) < 0)
     {

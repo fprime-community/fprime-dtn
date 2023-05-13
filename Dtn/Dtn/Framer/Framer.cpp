@@ -49,8 +49,8 @@ void Framer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instan
 
     FramerHelper helper(remoteEngineId);
 
-    // TODO start a thread here that loops with `ltpDequeueOutboundSegment()`
-    // and sends this data with: `this->bundleBufferOut_out(0, bpBuffer);`
+    // TODO start a thread here that loops with `ltpDequeueOutboundSegment()` (done)
+    // and sends this data with: `this->bundleBufferOut_out(0, bpBuffer);`    (not done)
     // TODO where should `bpBuffer` be initialized?
     pthread_t t;
     int status = pthread_create(&t, NULL, FramerHelper::ltpFrameWrapper, &helper);
