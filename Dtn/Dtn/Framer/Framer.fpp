@@ -24,7 +24,7 @@ module Dtn {
         # SENDING FRAME DATA
         #
 
-        output port bundleBufferOut: Fw.BufferSend
+        output port bundleBufferOut: Fw.BufferSend # TODO remove
 
         #
         # READY SIGNALS

@@ -53,6 +53,8 @@ void Deframer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuf
 {
     // Data here is assumed to be LTP data
     DeframerHelper::ltpDeframe(fwBuffer.getData(), fwBuffer.getSize());
+
+    bufferOut_out(portNum, fwBuffer);
 }
 
 void Deframer::cmdResponseIn_handler
