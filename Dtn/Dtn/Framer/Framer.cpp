@@ -8,7 +8,6 @@
 #include <pthread.h>
 #include <Dtn/Framer/Framer.hpp>
 #include <FpConfig.hpp>
-#include "FramerHelper.hpp"
 
 extern "C"
 {
@@ -29,10 +28,14 @@ static const U64 remoteEngineId = 3;
 // ----------------------------------------------------------------------
 
 Framer::Framer(const char* const compName)
-: FramerComponentBase(compName)
-{
-    dtnBuffer = Fw::Buffer(m_data, sizeof(m_data), 0); // TODO what `context` to use?
-}
+: FramerComponentBase(compName),
+    dtnBuffer(Fw::Buffer(m_data, sizeof(m_data), 0)), // TODO what `context` to use?
+    helper(
+        FramerHelper(
+            remoteEngineId,
+            dtnBuffer,
+            std::bind(&Framer::dtnBufferOut_out, this, std::placeholders::_1, std::placeholders::_2)))
+{ }
 
 void Framer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instance)
 {
@@ -42,9 +45,6 @@ void Framer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instan
     printf("[Dtn.Framer] bpchat starting\n");
     bpchat_start(ownEid, destEid);
     printf("[Dtn.Framer] bpchat started\n");
-
-    auto dtnBufferOutFunc = std::bind(&Framer::dtnBufferOut_out, this, std::placeholders::_1, std::placeholders::_2);
-    FramerHelper helper(remoteEngineId, dtnBuffer, dtnBufferOutFunc);
 
     pthread_t t;
     int status = pthread_create(&t, NULL, FramerHelper::ltpFrameWrapper, static_cast<void *>(&helper));

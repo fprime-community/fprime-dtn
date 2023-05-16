@@ -50,12 +50,11 @@ void DeframerHelper::bundleReceive()
 
     BpDelivery dlv;
     ZcoReader reader;
-    char bundleBuffer[1024];
     int bundleLenRemaining;
     int rc;
     int bytesToRead;
+    char *bundleBuffer = (char *)dtnBuffer.getData();
 
-    buffer.setData((unsigned char *)bundleBuffer);
     int running = 1;
     while (running)
     {
@@ -99,8 +98,8 @@ void DeframerHelper::bundleReceive()
         }
         bundleSize -= bundleLenRemaining;
 
-        buffer.setSize(bundleSize);
-        bufferOutFunc(0, buffer);
+        dtnBuffer.setSize(bundleSize);
+        bufferOutFunc(0, dtnBuffer);
 
         if (sdr_end_xn(sdr) < 0)
         {

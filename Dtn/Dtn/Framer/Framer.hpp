@@ -8,6 +8,7 @@
 #define Dtn_Framer_HPP
 
 #include "Dtn/Framer/FramerComponentAc.hpp"
+#include "FramerHelper.hpp"
 
 namespace Dtn
 {
@@ -43,6 +44,7 @@ namespace Dtn
 
       U8 m_data[1024]; // 1 KiB
       Fw::Buffer dtnBuffer;
+      FramerHelper helper;
 
       // ----------------------------------------------------------------------
       // Handler implementations for user-defined typed input ports

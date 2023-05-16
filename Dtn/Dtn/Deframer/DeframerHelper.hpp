@@ -15,16 +15,16 @@ class DeframerHelper
     private:
 
         char *ownEid;
-        Fw::Buffer& buffer;
+        Fw::Buffer& dtnBuffer;
         const BufferOutFunc bufferOutFunc;
 
         void bundleReceive();
 
     public:
 
-        DeframerHelper(char *_ownEid, Fw::Buffer& _buffer, BufferOutFunc _bufferOutFunc) :
+        DeframerHelper(char *_ownEid, Fw::Buffer& _dtnBuffer, BufferOutFunc _bufferOutFunc) :
             ownEid(_ownEid),
-            buffer(_buffer),
+            dtnBuffer(_dtnBuffer),
             bufferOutFunc(_bufferOutFunc)
         { }
 

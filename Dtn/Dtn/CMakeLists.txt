@@ -4,8 +4,6 @@
 
 # ION
 
-include_directories(${CMAKE_CURRENT_LIST_DIR}/include/ion)
-
 foreach(lib
     bp
     ici
@@ -14,6 +12,7 @@ foreach(lib
     find_library(lib_name "lib${lib}.a" PATHS ${CMAKE_CURRENT_LIST_DIR}/lib/ion REQUIRED)
     add_library(${lib} STATIC IMPORTED)
     set_target_properties(${lib} PROPERTIES IMPORTED_LOCATION ${lib_name})
+    target_include_directories(${lib} INTERFACE ${CMAKE_CURRENT_LIST_DIR}/include/ion)
     unset(lib_name CACHE)
 endforeach()
 

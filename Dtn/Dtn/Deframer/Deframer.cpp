@@ -6,7 +6,6 @@
 
 #include <Dtn/Deframer/Deframer.hpp>
 #include <FpConfig.hpp>
-#include "DeframerHelper.hpp"
 
 extern "C"
 {
@@ -26,25 +25,26 @@ static char destEid[] = "ipn:3.1";
 // ----------------------------------------------------------------------
 
 Deframer::Deframer(const char* const compName)
-: DeframerComponentBase(compName)
-{
-    buffer = Fw::Buffer(m_data, sizeof(m_data), 0); // TODO what `context` to use?
-}
+: DeframerComponentBase(compName),
+    dtnBuffer(Fw::Buffer(m_data, sizeof(m_data), 0)), // TODO what `context` to use?
+    helper(
+        DeframerHelper(
+            ownEid,
+            dtnBuffer,
+            std::bind(&Deframer::bufferOut_out, this, std::placeholders::_1, std::placeholders::_2)))
+{ }
 
 void Deframer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instance)
 {
     DeframerComponentBase::init(queueDepth, instance);
 
-    auto bufferOutFunc = std::bind(&Deframer::bufferOut_out, this, std::placeholders::_1, std::placeholders::_2);
-    DeframerHelper helper(ownEid, buffer, bufferOutFunc);
-
-    pthread_t t;
-    int status = pthread_create(&t, NULL, DeframerHelper::bundleReceiveWrapper, static_cast<void *>(&helper));
-    if (status != 0)
-    {
-        printf("[Dtn.Deframer] Error creating thread\n");
-    }
-    pthread_detach(t);
+    //pthread_t t;
+    //int status = pthread_create(&t, NULL, DeframerHelper::bundleReceiveWrapper, static_cast<void *>(&helper));
+    //if (status != 0)
+    //{
+    //    printf("[Dtn.Deframer] Error creating thread\n");
+    //}
+    //pthread_detach(t);
 }
 
 Deframer::~Deframer() {}

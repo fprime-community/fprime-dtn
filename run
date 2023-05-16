@@ -13,8 +13,6 @@ else
     readonly DOCKER_MODE_ARG='-it'
 fi
 
-export DOCKER_DEFAULT_PLATFORM=linux/amd64
-
 build()
 {
     local CONTAINER="$1"
