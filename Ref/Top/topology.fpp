@@ -4,16 +4,16 @@ module Ref {
   # Symbolic constants for port numbers
   # ----------------------------------------------------------------------
 
-    enum Ports_RateGroups {
-      rateGroup1
-      rateGroup2
-      rateGroup3
-    }
+  enum Ports_RateGroups {
+    rateGroup1
+    rateGroup2
+    rateGroup3
+  }
 
-    enum Ports_StaticMemory {
-      downlink
-      uplink
-    }
+  enum Ports_StaticMemory {
+    downlink
+    uplink
+  }
 
   topology Ref {
 
@@ -54,6 +54,7 @@ module Ref {
     instance saveImageBufferLogger
     instance imageProcessor
     instance processedImageBufferLogger
+
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
     # ----------------------------------------------------------------------
@@ -83,13 +84,10 @@ module Ref {
       fileDownlink.bufferSendOut -> comQueue.buffQueueIn[0]
       framer.bufferDeallocate -> fileDownlink.bufferReturn
 
+      # Note that all DTN data is passed as a buffer, therefore there's no `... -> framer.comIn`
       comQueue.comQueueSend -> dtnFramer.comIn
       comQueue.buffQueueSend -> dtnFramer.bufferIn
-      # TODO remove passthrough ports
-      dtnFramer.passthroughComOut -> framer.comIn
-      dtnFramer.passthroughBufferOut -> framer.bufferIn
-      # TODO
-      # dtnFramer.bundleBufferOut -> framer.bufferIn
+      dtnFramer.dtnBufferOut -> framer.bufferIn
 
       framer.framedAllocate -> comBufferManager.bufferGetCallee
       framer.framedOut -> radio.comDataIn
@@ -97,7 +95,8 @@ module Ref {
 
       radio.drvDataOut -> comDriver.send
       comDriver.ready -> radio.drvConnected
-      radio.comStatus -> comQueue.comStatusIn
+      radio.comStatus -> dtnFramer.comStatusIn
+      dtmFramer.comStatus -> comQueue.comStatusIn
     }
 
     connections FaultProtection {
@@ -105,7 +104,6 @@ module Ref {
     }
 
     connections RateGroups {
-
       # Block driver
       blockDrv.CycleOut -> rateGroupDriverComp.CycleIn
 
@@ -115,6 +113,7 @@ module Ref {
       rateGroup1Comp.RateGroupMemberOut[1] -> fileDownlink.Run
       rateGroup1Comp.RateGroupMemberOut[2] -> systemResources.run
       rateGroup1Comp.RateGroupMemberOut[3] -> imu.Run
+# Commented out in F' SystemReference:
 #      rateGroup1Comp.RateGroupMemberOut[4] -> radio.run
 
       # Rate group 2
@@ -140,39 +139,39 @@ module Ref {
       radio.comDataOut -> deframer.framedIn
       deframer.framedDeallocate -> comBufferManager.bufferSendIn
 
-      # TODO remove passthrough ports
-      deframer.comOut -> dtnDeframer.passthroughComIn
-      dtnDeframer.comOut -> cmdDisp.seqCmdBuff
-      cmdDisp.seqCmdStatus -> dtnDeframer.cmdResponseIn
+      # Note that all DTN data is passed as a buffer, therefore there's no `deframer.comOut -> dtnDeframer.comIn`
+      deframer.bufferOut    -> dtnDeframer.bufferIn
+      dtnDeframer.bufferOut -> fileUplink.bufferSendIn
+      dtnDeframer.comOut    -> cmdDisp.seqCmdBuff
+      cmdDisp.seqCmdStatus  -> dtnDeframer.cmdResponseIn
 
       deframer.bufferAllocate -> comBufferManager.bufferGetCallee
-      deframer.bufferOut -> dtnDeframer.bufferIn
-      dtnDeframer.bufferOut -> fileUplink.bufferSendIn
       deframer.bufferDeallocate -> comBufferManager.bufferSendIn
       fileUplink.bufferSendOut -> comBufferManager.bufferSendIn
     }
 
+# Commented out in F' SystemReference:
 #    connections Radio {
 #      radio.allocate -> comBufferManager.bufferGetCallee
 #      radio.deallocate -> comBufferManager.bufferSendIn
 #    }
 
     connections I2c {
-        imu.read -> imuI2cBus.read
-        imu.write -> imuI2cBus.write
+      imu.read -> imuI2cBus.read
+      imu.write -> imuI2cBus.write
     }
 
     connections Camera {
-         camera.allocate -> comBufferManager.bufferGetCallee
-         camera.deallocate -> comBufferManager.bufferSendIn
-         camera.$save -> saveImageBufferLogger.bufferSendIn
-         saveImageBufferLogger.bufferSendOut -> comBufferManager.bufferSendIn
+       camera.allocate -> comBufferManager.bufferGetCallee
+       camera.deallocate -> comBufferManager.bufferSendIn
+       camera.$save -> saveImageBufferLogger.bufferSendIn
+       saveImageBufferLogger.bufferSendOut -> comBufferManager.bufferSendIn
 
-         camera.process->imageProcessor.imageData
-         imageProcessor.postProcess -> processedImageBufferLogger.bufferSendIn
-         imageProcessor.bufferAllocate -> comBufferManager.bufferGetCallee
-         imageProcessor.bufferDeallocate -> comBufferManager.bufferSendIn
-         processedImageBufferLogger.bufferSendOut -> comBufferManager.bufferSendIn
+       camera.process->imageProcessor.imageData
+       imageProcessor.postProcess -> processedImageBufferLogger.bufferSendIn
+       imageProcessor.bufferAllocate -> comBufferManager.bufferGetCallee
+       imageProcessor.bufferDeallocate -> comBufferManager.bufferSendIn
+       processedImageBufferLogger.bufferSendOut -> comBufferManager.bufferSendIn
     }
 
   }
