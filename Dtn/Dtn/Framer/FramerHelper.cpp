@@ -5,17 +5,16 @@
 //!
 
 #include <cstdio>
-#include "ltpP.h"
 #include "FramerHelper.hpp"
 
 namespace Dtn
 {
 
-void *FramerHelper::ltpFrameWrapper(void *arg)
+void *FramerHelper::ltpFrameWrapper(void *self)
 {
     // TODO static_cast cannot be used here since it doesn't preserve member variables.
     // For now `remoteEngineId` will be a static member to work around this
-    FramerHelper *instance = static_cast<FramerHelper *>(arg);
+    FramerHelper *instance = static_cast<FramerHelper *>(self);
     instance->ltpFrame();
     return nullptr;
 }
@@ -48,7 +47,7 @@ void FramerHelper::ltpFrame()
     sdr_exit_xn(sdr);
     printf("[Dtn.FramerHelper] Found span: %lu\n", vspanElt);
 
-    char *segment;
+    char *segment = (char *)dtnBuffer.getData();
     for (;;)
     {
         int segmentLen = ltpDequeueOutboundSegment(vspan, &segment);
@@ -66,6 +65,9 @@ void FramerHelper::ltpFrame()
         }
         printf("\n");
         printf("[Dtn.FramerHelper] Hex dump end\n");
+
+        dtnBuffer.setSize(segmentLen);
+        dtnBufferOutFunc(0, dtnBuffer);
 
         sm_TaskYield();
     }

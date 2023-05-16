@@ -1,27 +1,37 @@
 #ifndef Dtn_FramerHelper_HPP
 #define Dtn_FramerHelper_HPP
 
+#include <functional>
+#include <FpConfig.hpp>
+#include <Fw/Buffer/Buffer.hpp>
 #include "ltpP.h"
 
 namespace Dtn
 {
 
+typedef std::function<void(NATIVE_INT_TYPE, Fw::Buffer&)> DtnBufferOutFunc;
+
 class FramerHelper
 {
     private: // TODO accept callback function to give `Framer` bytes off of LTP
 
-        static const uvast remoteEngineId = 3;
+        const uvast remoteEngineId;
+        Fw::Buffer& dtnBuffer;
+        const DtnBufferOutFunc dtnBufferOutFunc;
 
         void ltpFrame();
 
     public:
 
-        // TODO pass remote engine ID in
-        FramerHelper(uvast _remoteEngineId) {} //: remoteEngineId(_remoteEngineId)
+        FramerHelper(uvast _remoteEngineId, Fw::Buffer& _dtnBuffer, DtnBufferOutFunc _dtnBufferOutFunc) :
+            remoteEngineId(_remoteEngineId),
+            dtnBuffer(_dtnBuffer),
+            dtnBufferOutFunc(_dtnBufferOutFunc)
+        { }
 
         // Must wrap `ltpFrame()` with a static function since
         // member functions have an implicit reference to `this`
-        static void *ltpFrameWrapper(void *arg);
+        static void *ltpFrameWrapper(void *self);
 };
 
 } // end namespace Dtn

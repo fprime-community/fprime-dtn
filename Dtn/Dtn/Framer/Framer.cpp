@@ -37,22 +37,16 @@ void Framer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instan
 {
     FramerComponentBase::init(queueDepth, instance);
 
+    // TODO integrate `bpchat.c` into `FramerHelper`
     printf("[Dtn.Framer] bpchat starting\n");
     bpchat_start(ownEid, destEid);
     printf("[Dtn.Framer] bpchat started\n");
 
-    char m1[] = "first\n";
-    if (!bpchat_send(m1, 6))
-    {
-        printf("[Dtn.Framer] bpchat_send failed\n");
-    }
+    static U8 data[8192]; // 8 KiB
+    Fw::Buffer dtnBuffer(data, 8192, 0); // TODO what `context` to use?
+    auto dtnBufferOutFunc = std::bind(&Framer::dtnBufferOut_out, this, std::placeholders::_1, std::placeholders::_2);
+    FramerHelper helper(remoteEngineId, dtnBuffer, dtnBufferOutFunc);
 
-    FramerHelper helper(remoteEngineId);
-
-    // TODO start a thread here that loops with `ltpDequeueOutboundSegment()` (done)
-    // and sends this data with: `this->dtnBufferOut_out(0, bpBuffer);`       (not done)
-    // TODO where should `bpBuffer` be initialized?
-    // TODO this->dtnBufferOut_out(0, bpBuffer);
     pthread_t t;
     int status = pthread_create(&t, NULL, FramerHelper::ltpFrameWrapper, &helper);
     if (status != 0)

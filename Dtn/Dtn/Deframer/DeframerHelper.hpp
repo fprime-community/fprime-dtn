@@ -1,16 +1,16 @@
 #ifndef Dtn_DeframerHelper_HPP
 #define Dtn_DeframerHelper_HPP
 
-#include "ltpP.h"
-
 namespace Dtn
 {
 
 class DeframerHelper
 {
+    private:
+
     public:
-        static void init();
-        static void ltpDeframe(unsigned char *buffer, int segmentSize);
+        void init();
+        void ltpDeframe(unsigned char *buffer, int segmentSize);
 };
 
 } // end namespace Dtn
