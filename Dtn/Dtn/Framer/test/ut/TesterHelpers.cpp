@@ -35,10 +35,10 @@ namespace Dtn {
         this->component.get_comStatusIn_InputPort(0)
     );
 
-    // bundleBufferOut
-    this->component.set_bundleBufferOut_OutputPort(
+    // dtnBufferOut
+    this->component.set_dtnBufferOut_OutputPort(
         0,
-        this->get_from_bundleBufferOut(0)
+        this->get_from_dtnBufferOut(0)
     );
 
     // comStatus
@@ -46,21 +46,6 @@ namespace Dtn {
         0,
         this->get_from_comStatus(0)
     );
-
-    // passthroughBufferOut
-    this->component.set_passthroughBufferOut_OutputPort(
-        0,
-        this->get_from_passthroughBufferOut(0)
-    );
-
-    // passthroughComOut
-    this->component.set_passthroughComOut_OutputPort(
-        0,
-        this->get_from_passthroughComOut(0)
-    );
-
-
-
 
   }
 

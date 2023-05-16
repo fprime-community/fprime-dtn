@@ -50,7 +50,7 @@ void Framer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instan
     FramerHelper helper(remoteEngineId);
 
     // TODO start a thread here that loops with `ltpDequeueOutboundSegment()` (done)
-    // and sends this data with: `this->bundleBufferOut_out(0, bpBuffer);`    (not done)
+    // and sends this data with: `this->dtnBufferOut_out(0, bpBuffer);`       (not done)
     // TODO where should `bpBuffer` be initialized?
     pthread_t t;
     int status = pthread_create(&t, NULL, FramerHelper::ltpFrameWrapper, &helper);
@@ -69,14 +69,11 @@ Framer::~Framer() {}
 
 void Framer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
 {
-    this->passthroughBufferOut_out(0, fwBuffer);
-    // this->bundleBufferOut_out(0, bpBuffer);
+    // this->dtnBufferOut_out(0, bpBuffer);
 }
 
 void Framer::comIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer& data, U32 context)
 {
-    this->passthroughComOut_out(0, data, context);
-
     // printf("[Dtn.Framer] data (%zu) = %x\n",
     //     data.getBuffCapacity(),
     //     data.getBuffAddr());
@@ -93,12 +90,13 @@ void Framer::comIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer& data, U
         printf("[Dtn.Framer] bpchat_send failed\n");
     }
 
-    // this->bundleBufferOut_out(0, bpBuffer);
+    // this->dtnBufferOut_out(0, bpBuffer);
 }
 
 void Framer::comStatusIn_handler(const NATIVE_INT_TYPE portNum, Fw::Success& condition)
 {
     printf("[Dtn.Framer] comStatusIn_handler\n");
+    comStatus_out(portNum, condition);
 }
 
 }  // end namespace Dtn

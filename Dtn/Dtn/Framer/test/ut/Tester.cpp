@@ -42,12 +42,12 @@ namespace Dtn {
   // ----------------------------------------------------------------------
 
   void Tester ::
-    from_bundleBufferOut_handler(
+    from_dtnBufferOut_handler(
         const NATIVE_INT_TYPE portNum,
         Fw::Buffer &fwBuffer
     )
   {
-    this->pushFromPortEntry_bundleBufferOut(fwBuffer);
+    this->pushFromPortEntry_dtnBufferOut(fwBuffer);
   }
 
   void Tester ::
@@ -58,25 +58,5 @@ namespace Dtn {
   {
     this->pushFromPortEntry_comStatus(condition);
   }
-
-  void Tester ::
-    from_passthroughBufferOut_handler(
-        const NATIVE_INT_TYPE portNum,
-        Fw::Buffer &fwBuffer
-    )
-  {
-    this->pushFromPortEntry_passthroughBufferOut(fwBuffer);
-  }
-
-  void Tester ::
-    from_passthroughComOut_handler(
-        const NATIVE_INT_TYPE portNum,
-        Fw::ComBuffer &data,
-        U32 context
-    )
-  {
-    this->pushFromPortEntry_passthroughComOut(data, context);
-  }
-
 
 } // end namespace Dtn

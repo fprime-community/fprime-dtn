@@ -29,12 +29,6 @@ namespace Dtn {
         this->component.get_cmdResponseIn_InputPort(0)
     );
 
-    // passthroughComIn
-    this->connect_to_passthroughComIn(
-        0,
-        this->component.get_passthroughComIn_InputPort(0)
-    );
-
     // bufferOut
     this->component.set_bufferOut_OutputPort(
         0,

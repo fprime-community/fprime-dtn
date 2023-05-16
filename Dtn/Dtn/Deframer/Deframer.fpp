@@ -8,13 +8,10 @@ module Dtn {
         # GENERAL PORTS
         #
 
-        @ Buffer send in
+        @ DTN buffer send in, serialized as DTN bundles.
+        @ The buffer is assumed to be an uplinked file or command.
+        @ Internally the component must check buffer metadata to make this determination.
         async input port bufferIn: Fw.BufferSend
-
-        @ Port for sending passthrough command packets as Com buffers.
-        @ This exists to retain existing functionality in case Svc.Deframer
-        @ has a Com buffer to pass
-        async input port passthroughComIn: Fw.Com
 
         @ Port for receiving command responses from a command dispatcher.
         @ Invoking this port does nothing. The port exists to allow the matching

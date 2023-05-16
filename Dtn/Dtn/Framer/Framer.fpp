@@ -14,17 +14,13 @@ module Dtn {
         async input port bufferIn: Fw.BufferSend
 
         #
-        # PASSTHROUGH PORTS TO RETAIN EXISTING FRAMING
-        #
-
-        output port passthroughComOut: Fw.Com
-        output port passthroughBufferOut: Fw.BufferSend
-
-        #
         # SENDING FRAME DATA
         #
 
-        output port bundleBufferOut: Fw.BufferSend # TODO remove
+        @ DTN buffer send out, serialized as DTN bundles.
+        @ Events, telemetry, and files are all be fed through this buffer.
+        @ Deframing on the ground is assumed to check buffer metadata to determine type.
+        output port dtnBufferOut: Fw.BufferSend
 
         #
         # READY SIGNALS

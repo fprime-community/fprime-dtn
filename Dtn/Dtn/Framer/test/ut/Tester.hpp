@@ -52,9 +52,9 @@ namespace Dtn {
       // Handlers for typed from ports
       // ----------------------------------------------------------------------
 
-      //! Handler for from_bundleBufferOut
+      //! Handler for from_dtnBufferOut
       //!
-      void from_bundleBufferOut_handler(
+      void from_dtnBufferOut_handler(
           const NATIVE_INT_TYPE portNum, /*!< The port number*/
           Fw::Buffer &fwBuffer 
       );
@@ -65,25 +65,6 @@ namespace Dtn {
           const NATIVE_INT_TYPE portNum, /*!< The port number*/
           Fw::Success &condition /*!< 
       Condition success/failure
-      */
-      );
-
-      //! Handler for from_passthroughBufferOut
-      //!
-      void from_passthroughBufferOut_handler(
-          const NATIVE_INT_TYPE portNum, /*!< The port number*/
-          Fw::Buffer &fwBuffer 
-      );
-
-      //! Handler for from_passthroughComOut
-      //!
-      void from_passthroughComOut_handler(
-          const NATIVE_INT_TYPE portNum, /*!< The port number*/
-          Fw::ComBuffer &data, /*!< 
-      Buffer containing packet data
-      */
-          U32 context /*!< 
-      Call context value; meaning chosen by user
       */
       );
 
