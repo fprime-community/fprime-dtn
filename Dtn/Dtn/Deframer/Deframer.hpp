@@ -8,6 +8,7 @@
 #define Dtn_Deframer_HPP
 
 #include "Dtn/Deframer/DeframerComponentAc.hpp"
+#include "DeframerHelper.hpp"
 
 namespace Dtn
 {
@@ -40,6 +41,9 @@ namespace Dtn
       ~Deframer();
 
     PRIVATE:
+
+      U8 m_data[1024]; // 1 KiB
+      Fw::Buffer buffer;
 
       // ----------------------------------------------------------------------
       // Handler implementations for user-defined typed input ports

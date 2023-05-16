@@ -12,10 +12,10 @@ namespace Dtn
 
 void *FramerHelper::ltpFrameWrapper(void *self)
 {
-    // TODO static_cast cannot be used here since it doesn't preserve member variables.
-    // For now `remoteEngineId` will be a static member to work around this
-    FramerHelper *instance = static_cast<FramerHelper *>(self);
-    instance->ltpFrame();
+    // TODO have had issues with member variables (like `remoteEngineId`)
+    // not being preserved. If things fail check here:
+    FramerHelper& instance = *static_cast<FramerHelper *>(self);
+    instance.ltpFrame();
     return nullptr;
 }
 

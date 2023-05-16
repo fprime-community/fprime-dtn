@@ -41,6 +41,9 @@ namespace Dtn
 
     PRIVATE:
 
+      U8 m_data[1024]; // 1 KiB
+      Fw::Buffer dtnBuffer;
+
       // ----------------------------------------------------------------------
       // Handler implementations for user-defined typed input ports
       // ----------------------------------------------------------------------
