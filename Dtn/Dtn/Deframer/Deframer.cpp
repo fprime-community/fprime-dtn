@@ -65,7 +65,7 @@ void Deframer::cmdResponseIn_handler
     const Fw::CmdResponse &response
 )
 {
-    // TODO
+    // TODO why is this needed in the first place? See `Deframer.fpp` comment
 }
 
 }  // end namespace Dtn

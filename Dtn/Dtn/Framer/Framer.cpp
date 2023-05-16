@@ -52,6 +52,7 @@ void Framer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instan
     // TODO start a thread here that loops with `ltpDequeueOutboundSegment()` (done)
     // and sends this data with: `this->dtnBufferOut_out(0, bpBuffer);`       (not done)
     // TODO where should `bpBuffer` be initialized?
+    // TODO this->dtnBufferOut_out(0, bpBuffer);
     pthread_t t;
     int status = pthread_create(&t, NULL, FramerHelper::ltpFrameWrapper, &helper);
     if (status != 0)
@@ -69,28 +70,29 @@ Framer::~Framer() {}
 
 void Framer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
 {
-    // this->dtnBufferOut_out(0, bpBuffer);
+    char *buffer = (char *)fwBuffer.getData();
+    size_t n = fwBuffer.getSize();
+    if (!bpchat_send(buffer, n))
+    {
+        printf("[Dtn.Framer] bpchat_send failed\n");
+    }
 }
 
 void Framer::comIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer& data, U32 context)
 {
-    // printf("[Dtn.Framer] data (%zu) = %x\n",
-    //     data.getBuffCapacity(),
-    //     data.getBuffAddr());
+    //char buffer[128];  // data.getBuffCapacity() == 128
+    //memcpy(buffer, data.getBuffAddr(), data.getBuffCapacity());
+    //buffer[0] = '\xC0';
+    //buffer[1] = '\xDE';
+    //buffer[126] = '\xC0';
+    //buffer[127] = '\xDA';
 
-    char buffer[128];  // data.getBuffCapacity() == 128
-    memcpy(buffer, data.getBuffAddr(), data.getBuffCapacity());
-    buffer[0] = '\xC0';
-    buffer[1] = '\xDE';
-    buffer[126] = '\xC0';
-    buffer[127] = '\xDA';
-
-    if (!bpchat_send(buffer, 128))
+    char *buffer = (char *)data.getBuffAddr();
+    size_t n = data.getBuffCapacity(); // `Fw::ComBuffer` is 128 bytes
+    if (!bpchat_send(buffer, n))
     {
         printf("[Dtn.Framer] bpchat_send failed\n");
     }
-
-    // this->dtnBufferOut_out(0, bpBuffer);
 }
 
 void Framer::comStatusIn_handler(const NATIVE_INT_TYPE portNum, Fw::Success& condition)
