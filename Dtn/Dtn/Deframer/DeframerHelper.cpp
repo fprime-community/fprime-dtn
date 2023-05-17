@@ -29,6 +29,7 @@ void DeframerHelper::bundleReceive()
     BpSAP sap;
     pthread_mutex_t sdrmutex = PTHREAD_MUTEX_INITIALIZER;
 
+    printf("[Dtn.DeframerHelper] Receive starting\n");
     if (ltpInit(0) < 0)
     {
         printf("[Dtn.DeframerHelper] Error initializing LTP\n");
@@ -45,6 +46,7 @@ void DeframerHelper::bundleReceive()
         putErrmsg("Can't open own endpoint.", ownEid);
         exit(1);
     }
+    printf("[Dtn.DeframerHelper] Receive started\n");
 
     Sdr sdr = bp_get_sdr();
 

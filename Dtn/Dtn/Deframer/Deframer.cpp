@@ -38,13 +38,13 @@ void Deframer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE inst
 {
     DeframerComponentBase::init(queueDepth, instance);
 
-    //pthread_t t;
-    //int status = pthread_create(&t, NULL, DeframerHelper::bundleReceiveWrapper, static_cast<void *>(&helper));
-    //if (status != 0)
-    //{
-    //    printf("[Dtn.Deframer] Error creating thread\n");
-    //}
-    //pthread_detach(t);
+    pthread_t t;
+    int status = pthread_create(&t, NULL, DeframerHelper::bundleReceiveWrapper, static_cast<void *>(&helper));
+    if (status != 0)
+    {
+        printf("[Dtn.Deframer] Error creating thread\n");
+    }
+    pthread_detach(t);
 }
 
 Deframer::~Deframer() {}
