@@ -56,7 +56,7 @@ COPY resources/gds/RefTopologyAppDictionary.xml /home/ptl
 # F PRIME
 
 RUN pip install -r /home/ptl/lib/fprime/requirements.txt && \
-    pip install /home/ptl/lib/fprime-gds-dtn
+    pip install -e /home/ptl/lib/fprime-gds-dtn
 
 # PYION
 
