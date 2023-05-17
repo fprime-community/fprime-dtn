@@ -13,8 +13,6 @@ set -x
 
 #while true; do echo -e "HTTP/1.1 200 OK\n\n $(date)" | nc -l -q 0 0.0.0.0 5000; done
 
-. /home/ptl/fprime-venv/bin/activate
-
 # Using 0.0.0.0 to run on any subnet
 fprime-gds -n \
     --dictionary /home/ptl/RefTopologyAppDictionary.xml \

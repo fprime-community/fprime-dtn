@@ -22,10 +22,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential g++ gdb cmake python3 python3-venv python3-pip \
     gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
-RUN python3 -m venv /home/ptl/fprime-venv
-RUN . /home/ptl/fprime-venv/bin/activate
-RUN pip install -U setuptools setuptools_scm wheel pip
-
 # ION
 
 RUN mkdir -p /home/ptl/lib
@@ -59,8 +55,8 @@ COPY resources/gds/RefTopologyAppDictionary.xml /home/ptl
 
 # F PRIME
 
-RUN pip install -r /home/ptl/lib/fprime/requirements.txt
-RUN pip install --user /home/ptl/lib/fprime-gds-dtn
+RUN pip install -r /home/ptl/lib/fprime/requirements.txt && \
+    pip install /home/ptl/lib/fprime-gds-dtn
 
 # PYION
 
