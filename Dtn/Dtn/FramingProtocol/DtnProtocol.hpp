@@ -10,6 +10,7 @@ namespace Dtn
     class DtnFraming : public Svc::FramingProtocol
     {
         private:
+
             Svc::FramingProtocol& m_internalFramingProtocol;
 
         public:
@@ -27,6 +28,7 @@ namespace Dtn
     class DtnDeframing : public Svc::DeframingProtocol
     {
         private:
+
             Svc::DeframingProtocol& m_internalDeframingProtocol;
 
         public:
