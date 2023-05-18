@@ -20,7 +20,7 @@ void DtnFraming::setup(Svc::FramingProtocolInterface& interface)
 
 void DtnFraming::frame(const U8* const data, const U32 size, Fw::ComPacket::ComPacketType packet_type)
 {
-    Svc::FramingProtocol::frame(data, size, packet_type);
+    m_internalFramingProtocol.frame(data, size, packet_type);
 }
 
 //
@@ -39,7 +39,7 @@ void DtnDeframing::setup(Svc::DeframingProtocolInterface& interface)
 
 Svc::DeframingProtocol::DeframingStatus DtnDeframing::deframe(Types::CircularBuffer& ring, U32& needed)
 {
-    return Svc::DeframingProtocol::deframe(ring, needed);
+    return m_internalDeframingProtocol.deframe(ring, needed);
 }
 
 };

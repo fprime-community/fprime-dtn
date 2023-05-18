@@ -6,6 +6,7 @@
 #include "Ref/Top/FppConstantsAc.hpp"
 #include "Svc/FramingProtocol/FprimeProtocol.hpp"
 #include "Fw/Logger/Logger.hpp"
+#include "Dtn/FramingProtocol/DtnProtocol.hpp"
 
 namespace Ref {
 
