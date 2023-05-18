@@ -15,16 +15,14 @@ set(MOD_DEPS
 #
 
 set(SOURCE_FILES
-    "${CMAKE_CURRENT_LIST_DIR}/Framer.fpp"
-    "${CMAKE_CURRENT_LIST_DIR}/Framer.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/FramerHelper.cpp"
+    #"${CMAKE_CURRENT_LIST_DIR}/Framer.cpp"
+    #"${CMAKE_CURRENT_LIST_DIR}/FramerHelper.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/bpchat.c"
 )
 
 register_fprime_module()
 
 set(UT_SOURCE_FILES
-    "${CMAKE_CURRENT_LIST_DIR}/Framer.fpp"
     "${CMAKE_CURRENT_LIST_DIR}/test/ut/Tester.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/test/ut/TesterHelpers.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/test/ut/TestMain.cpp"

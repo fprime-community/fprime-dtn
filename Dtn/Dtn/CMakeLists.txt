@@ -16,5 +16,4 @@ foreach(lib
     unset(lib_name CACHE)
 endforeach()
 
-add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Framer")
-add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Deframer")
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/FramingProtocol")
