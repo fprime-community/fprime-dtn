@@ -374,11 +374,12 @@ module Ref {
   instance framer: Svc.Framer base id 0x4200 {
     phase Fpp.ToCpp.Phases.configObjects """
     Svc::FprimeFraming fpFraming;
-    Dtn::DtnFraming framing(fpFraming);
+    Dtn::DtnFraming dtnFraming(fpFraming);
     """
 
     phase Fpp.ToCpp.Phases.configComponents """
-    framer.setup(ConfigObjects::framer::framing);
+    ConfigObjects::framer::fpFraming.setup(framer);
+    framer.setup(ConfigObjects::framer::dtnFraming);
     """
 
   }
@@ -453,11 +454,12 @@ module Ref {
   instance deframer: Svc.Deframer base id 0x4A00 {
     phase Fpp.ToCpp.Phases.configObjects """
     Svc::FprimeDeframing fpDeframing;
-    Dtn::DtnDeframing deframing(fpDeframing);
+    Dtn::DtnDeframing dtnDeframing(fpDeframing);
     """
 
     phase Fpp.ToCpp.Phases.configComponents """
-    deframer.setup(ConfigObjects::deframer::deframing);
+    ConfigObjects::deframer::fpDeframing.setup(deframer);
+    deframer.setup(ConfigObjects::deframer::dtnDeframing);
     """
 
   }

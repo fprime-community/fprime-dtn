@@ -16,8 +16,6 @@ namespace Dtn
 
             DtnFraming(Svc::FramingProtocol& internalFramingProtocol);
 
-            void setup(Svc::FramingProtocolInterface& interface); // Implicitly overridden
-
             void frame
             (
                 const U8* const data,                    //!< The data
@@ -34,8 +32,6 @@ namespace Dtn
         public:
 
             DtnDeframing(Svc::DeframingProtocol& internalDeframingProtocol);
-
-            void setup(Svc::DeframingProtocolInterface& interface); // Implicitly overridden
 
             Svc::DeframingProtocol::DeframingStatus deframe
             (

@@ -38,9 +38,11 @@ run-debug()
 
     # Ignore SIG32 to avoid breaking on nominal pthread cancellation signal.
     # Add `-ex=r` to run immediately
-    gdb bin/Linux/Ref \
-        -ex 'handle SIG32 nostop'
+    gdb -ex 'handle SIG32 nostop' \
+        --args bin/Linux/Ref \
+        -a 10.0.0.3 \
+        -p 50000
 }
 
-#run-debug
-run-release
+run-debug
+#run-release

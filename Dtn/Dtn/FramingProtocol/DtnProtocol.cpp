@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <FpConfig.hpp>
 #include "DtnProtocol.hpp"
 
@@ -12,12 +13,6 @@ DtnFraming::DtnFraming(Svc::FramingProtocol& internalFramingProtocol) : Svc::Fra
     m_internalFramingProtocol(internalFramingProtocol)
 { }
 
-void DtnFraming::setup(Svc::FramingProtocolInterface& interface)
-{
-    Svc::FramingProtocol::setup(interface);
-    m_internalFramingProtocol.setup(interface);
-}
-
 void DtnFraming::frame(const U8* const data, const U32 size, Fw::ComPacket::ComPacketType packet_type)
 {
     m_internalFramingProtocol.frame(data, size, packet_type);
@@ -30,12 +25,6 @@ void DtnFraming::frame(const U8* const data, const U32 size, Fw::ComPacket::ComP
 DtnDeframing::DtnDeframing(Svc::DeframingProtocol& internalDeframingProtocol) : Svc::DeframingProtocol(),
     m_internalDeframingProtocol(internalDeframingProtocol)
 { }
-
-void DtnDeframing::setup(Svc::DeframingProtocolInterface& interface)
-{
-    Svc::DeframingProtocol::setup(interface);
-    m_internalDeframingProtocol.setup(interface);
-}
 
 Svc::DeframingProtocol::DeframingStatus DtnDeframing::deframe(Types::CircularBuffer& ring, U32& needed)
 {
