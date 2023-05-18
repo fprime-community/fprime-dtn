@@ -44,7 +44,20 @@ RUN scripts/extract.sh /home/ptl/lib/ion-open*
 RUN make linux
 RUN make install
 
-# COPY & F PRIME
+# PYION
+
+COPY lib/pyion /home/ptl/lib/pyion
+
+# TODO pyion is on `v4.1.2` branch but the underlying ION used here is 4.1.1.
+# Once ion-core is at 4.1.2 this won't be a potential issue
+ENV ION_HOME /home/ptl/lib/ion-open-source-4.1.1
+ENV PYION_HOME /home/ptl/lib/pyion
+ENV PYION_BP_VERSION BPv7
+ENV LD_LIBRARY_PATH /home/ptl/lib/ion-open-source-4.1.1/.libs
+RUN pip install --user /home/ptl/lib/pyion
+RUN pip install --user numpy
+
+# F PRIME
 
 COPY lib/fprime /home/ptl/lib/fprime
 RUN pip install -r /home/ptl/lib/fprime/requirements.txt
@@ -53,20 +66,8 @@ COPY lib/fprime-gds-dtn /home/ptl/lib/fprime-gds-dtn
 RUN pip install -e /home/ptl/lib/fprime-gds-dtn
 
 COPY lib/fprime-arm-linux /home/ptl/lib/fprime-arm-linux
-COPY lib/pyion            /home/ptl/lib/pyion
 
 COPY resources/gds/RefTopologyAppDictionary.xml /home/ptl
-
-# PYION
-
-# TODO pyion is on `v4.1.2` branch but the underlying ION used here is 4.1.1.
-# Once ion-core is at 4.1.2 this won't be a potential issue
-ENV ION_HOME         /home/ptl/lib/ion-open-source-4.1.1
-ENV PYION_HOME       /home/ptl/lib/pyion
-ENV PYION_BP_VERSION BPv7
-ENV LD_LIBRARY_PATH  /home/ptl/lib/ion-open-source-4.1.1/.libs
-RUN pip install --user /home/ptl/lib/pyion
-RUN pip install --user numpy
 
 # RUN
 
