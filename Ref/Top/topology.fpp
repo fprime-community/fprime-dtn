@@ -30,7 +30,6 @@ module Ref {
     instance comQueue
     instance radio
     instance framer
-    instance dtnFramer
     instance eventLogger
     instance fatalAdapter
     instance fatalHandler
@@ -46,7 +45,6 @@ module Ref {
     instance rateGroupDriverComp
     instance textLogger
     instance deframer
-    instance dtnDeframer
     instance systemResources
     instance imu
     instance imuI2cBus
@@ -84,10 +82,8 @@ module Ref {
       fileDownlink.bufferSendOut -> comQueue.buffQueueIn[0]
       framer.bufferDeallocate -> fileDownlink.bufferReturn
 
-      # Note that all DTN data is passed as a buffer, therefore there's no `... -> framer.comIn`
-      comQueue.comQueueSend -> dtnFramer.comIn
-      comQueue.buffQueueSend -> dtnFramer.bufferIn
-      dtnFramer.dtnBufferOut -> framer.bufferIn
+      comQueue.comQueueSend -> framer.comIn
+      comQueue.buffQueueSend -> framer.bufferIn
 
       framer.framedAllocate -> comBufferManager.bufferGetCallee
       framer.framedOut -> radio.comDataIn
@@ -95,8 +91,8 @@ module Ref {
 
       radio.drvDataOut -> comDriver.send
       comDriver.ready -> radio.drvConnected
-      radio.comStatus -> dtnFramer.comStatusIn
-      dtnFramer.comStatus -> comQueue.comStatusIn
+      radio.comStatus -> framer.comStatusIn
+      framer.comStatusOut -> comQueue.comStatusIn
     }
 
     connections FaultProtection {
@@ -139,11 +135,9 @@ module Ref {
       radio.comDataOut -> deframer.framedIn
       deframer.framedDeallocate -> comBufferManager.bufferSendIn
 
-      # Note that all DTN data is passed as a buffer, therefore there's no `deframer.comOut -> dtnDeframer.comIn`
-      deframer.bufferOut    -> dtnDeframer.bufferIn
-      dtnDeframer.bufferOut -> fileUplink.bufferSendIn
-      dtnDeframer.comOut    -> cmdDisp.seqCmdBuff
-      cmdDisp.seqCmdStatus  -> dtnDeframer.cmdResponseIn
+      deframer.bufferOut   -> fileUplink.bufferSendIn
+      deframer.comOut      -> cmdDisp.seqCmdBuff
+      cmdDisp.seqCmdStatus -> deframer.cmdResponseIn
 
       deframer.bufferAllocate -> comBufferManager.bufferGetCallee
       deframer.bufferDeallocate -> comBufferManager.bufferSendIn
