@@ -23,7 +23,7 @@ run-release()
     fprime-util generate #aarch64-linux
     fprime-util build #aarch64-linux
 
-    build-artifacts/Linux/bin/Ref \
+    build-artifacts/Linux/Ref/bin/Ref \
         -a 10.0.0.3 \
         -p 50000
     #. /home/ptl/fprime-venv/bin/activate
