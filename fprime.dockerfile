@@ -44,19 +44,18 @@ RUN scripts/extract.sh /home/ptl/lib/ion-open*
 RUN make linux
 RUN make install
 
-# COPY
+# COPY & F PRIME
 
-COPY lib/fprime           /home/ptl/lib/fprime
+COPY lib/fprime /home/ptl/lib/fprime
+RUN pip install -r /home/ptl/lib/fprime/requirements.txt
+
+COPY lib/fprime-gds-dtn /home/ptl/lib/fprime-gds-dtn
+RUN pip install -e /home/ptl/lib/fprime-gds-dtn
+
 COPY lib/fprime-arm-linux /home/ptl/lib/fprime-arm-linux
-COPY lib/fprime-gds-dtn   /home/ptl/lib/fprime-gds-dtn
 COPY lib/pyion            /home/ptl/lib/pyion
 
 COPY resources/gds/RefTopologyAppDictionary.xml /home/ptl
-
-# F PRIME
-
-RUN pip install -r /home/ptl/lib/fprime/requirements.txt && \
-    pip install -e /home/ptl/lib/fprime-gds-dtn
 
 # PYION
 
