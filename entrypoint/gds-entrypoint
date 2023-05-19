@@ -6,6 +6,9 @@ readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 "$DIR"/common-entrypoint "$@"
 
+"$DIR"/bp-transmit
+exit 0
+
 set -x
 
 #/home/ptl/entrypoint/bp-print

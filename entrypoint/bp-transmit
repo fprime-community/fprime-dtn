@@ -1,11 +1,29 @@
 #!/usr/bin/env python3
 import time
-import pyion
+import threading
 import numpy as np
+import pyion
 
     
 EID_NAME      = 'ipn:3.1'
 DEST_EID_NAME = 'ipn:2.1'
+
+vspan = None
+eid = None
+
+
+def bp():
+    while eid.is_open:
+        print('bp')
+        eid.bp_send(DEST_EID_NAME, bytes('hello from ground at time {}\n'.format(time.time()), encoding='utf8'))
+        time.sleep(1)
+
+
+def ltp():
+    while eid.is_open:
+        print('ltp')
+        with pyion.ltp.ltp_dequeue_outbound_segment(vspan) as val:
+            print('LTP segment:', val)
 
 
 if __name__ == '__main__':
@@ -15,9 +33,13 @@ if __name__ == '__main__':
     vspan = pyion.find_span(2)
 
     # Listen to 'ipn:3.1' for incoming data
-    with proxy.bp_open(EID_NAME) as eid:
-        while eid.is_open:
-            eid.bp_send(DEST_EID_NAME, bytes('hello from ground at time {}\n'.format(time.time()), encoding='utf8'))
-            with pyion.ltp.ltp_dequeue_outbound_segment(vspan) as val:
-                print('LTP segment:', val)
-            time.sleep(1)
+    eid = proxy.bp_open(EID_NAME)
+    #with proxy.bp_open(EID_NAME) as eid:
+
+    th_ltp = threading.Thread(target=ltp, name='LTP')
+    th_ltp.daemon = True
+    th_ltp.start()
+
+    th_bp = threading.Thread(target=bp, name='BP')
+    th_bp.daemon = True
+    th_bp.start()
