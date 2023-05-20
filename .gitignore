@@ -11,3 +11,4 @@ Dtn/build-*
 Dtn/logs
 Dtn/Dtn/lib/ion
 Dtn/Dtn/include/ion
+ltp-test/build

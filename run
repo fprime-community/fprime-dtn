@@ -35,6 +35,7 @@ run()
         -v "$DIR"/Ref:/home/ptl/Ref \
         -v "$DIR"/lib/fprime-gds-dtn:/home/ptl/lib/fprime-gds-dtn \
         -v "$DIR"/entrypoint:/home/ptl/entrypoint \
+        -v "$DIR"/ltp-test:/home/ptl/ltp-test \
         $MODE_ARG \
         --network "$NETWORK" \
         --ip "$IP" \
@@ -56,10 +57,10 @@ docker network create "$NETWORK" --subnet 10.0.0.0/8
 run "$GDS_CONTAINER" \
     'entrypoint/gds-entrypoint 10.0.0.3 10.0.0.2 ; bash' \
     '10.0.0.3' \
-    -dit \
+    -it \
     --publish 127.0.0.1:5555:5000
 
-run "$FSW_CONTAINER" \
-    'entrypoint/deployment-entrypoint 10.0.0.2 10.0.0.3 ; bash' \
-    '10.0.0.2' \
-    $DOCKER_MODE_ARG
+#run "$FSW_CONTAINER" \
+#    'entrypoint/deployment-entrypoint 10.0.0.2 10.0.0.3 ; bash' \
+#    '10.0.0.2' \
+#    $DOCKER_MODE_ARG

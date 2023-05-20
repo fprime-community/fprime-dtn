@@ -11,10 +11,10 @@ foreach(lib
     ici
     ltp
 )
-    find_library(lib_name "lib${lib}.a" PATHS ${CMAKE_CURRENT_LIST_DIR}/../../Dtn/Dtn/lib/ion REQUIRED)
+    find_library(lib_name "lib${lib}.a" PATHS ${CMAKE_CURRENT_LIST_DIR}/../Dtn/Dtn/lib/ion REQUIRED)
     add_library(${lib} STATIC IMPORTED)
     set_target_properties(${lib} PROPERTIES IMPORTED_LOCATION ${lib_name})
-    target_include_directories(${lib} INTERFACE ${CMAKE_CURRENT_LIST_DIR}/../../Dtn/Dtn/include/ion)
+    target_include_directories(${lib} INTERFACE ${CMAKE_CURRENT_LIST_DIR}/../Dtn/Dtn/include/ion)
     unset(lib_name CACHE)
 endforeach()
 
@@ -22,11 +22,14 @@ endforeach()
 # EXECUTABLE
 #
 
+find_package(Threads REQUIRED)
+
 add_executable(ltp-test
     Main.cpp
 )
 
 target_link_libraries(ltp-test PRIVATE
+    Threads::Threads
     bp
     ici
     ltp
