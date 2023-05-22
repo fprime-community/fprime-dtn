@@ -20,8 +20,10 @@ def bp():
 
 
 def ltp():
+    i = 0
     while eid.is_open:
-        print('ltp')
+        i += 1
+        print(f'ltp {i}')
         with pyion.ltp.ltp_dequeue_outbound_segment(vspan) as val:
             print('LTP segment:', val)
 
