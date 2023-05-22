@@ -50,13 +50,11 @@ void *bp(void *arg)
         Object bundleZco, bundlePayload;
         Object newBundle;   /* We never use but bp_send requires it. */
 
-        //printf("[ltp-test] BP: Starting SDR thread mutex lock\n");
         if (pthread_mutex_lock(&sdrmutex) != 0)
         {
             putErrmsg("Couldn't take sdr mutex.", NULL);
             return 0;
         }
-        //printf("[ltp-test] BP: Started SDR thread mutex lock\n");
 
         /* Wrap the linebuffer in a bundle payload. */
         oK(sdr_begin_xn(sdr));
@@ -84,9 +82,7 @@ void *bp(void *arg)
             return 0;
         }
 
-        //printf("[ltp-test] BP: Ending SDR thread mutex lock\n");
         pthread_mutex_unlock(&sdrmutex);
-        //printf("[ltp-test] BP: Ended SDR thread mutex lock\n");
 
         /* Send the bundle payload. */
         printf("[ltp-test] BP: Calling bp_send()\n");
@@ -123,6 +119,7 @@ void *ltp(void *arg)
     Sdr sdr = getIonsdr();
     if (!sdr_begin_xn(sdr)) // Needed to get "lock" (see `udplso.c`)
     {
+        pthread_mutex_unlock(&sdrmutex);
         printf("[ltp-test] LTP: Error starting SDR transaction\n");
         return nullptr;
     }
@@ -132,6 +129,7 @@ void *ltp(void *arg)
     if (vspanElt == 0)
     {
         sdr_exit_xn(sdr);
+        pthread_mutex_unlock(&sdrmutex);
         printf("[ltp-test] LTP: No such engine in database: %llu\n", remoteEngineId);
         return nullptr;
     }
