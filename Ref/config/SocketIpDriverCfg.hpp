@@ -13,8 +13,6 @@
 #ifndef REF_SOCKETIPDRIVERCFG_HPP
 #define REF_SOCKETIPDRIVERCFG_HPP
 
-#define KEEPALIVE_DATA "sitting well" // Ground-based keepalive packet for filtering out packet
-
 enum SocketIpCfg {
     SOCKET_TIMEOUT_SECONDS = 1,       // Seconds component of timeout
     SOCKET_TIMEOUT_MICROSECONDS = 0,  // Milliseconds component of timeout
