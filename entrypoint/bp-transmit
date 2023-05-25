@@ -8,18 +8,23 @@ import pyion
 EID_NAME      = 'ipn:3.1'
 DEST_EID_NAME = 'ipn:2.1'
 
-vspan = None
 eid = None
 
 
 def bp():
-    while eid.is_open:
-        print('bp')
-        eid.bp_send(DEST_EID_NAME, bytes('hello from ground at time {}\n'.format(time.time()), encoding='utf8'))
-        time.sleep(1)
+    try:
+        while eid.is_open:
+            print('bp')
+            eid.bp_send(DEST_EID_NAME, bytes('hello from ground at time {}\n'.format(time.time()), encoding='utf8'))
+            time.sleep(1)
+    except Exception as e:
+        print(e)
 
 
 def ltp():
+    pyion.ltp.ltp_init(0)
+    vspan = pyion.find_span(2)
+
     i = 0
     while eid.is_open:
         i += 1
@@ -31,17 +36,18 @@ def ltp():
 if __name__ == '__main__':
     # Create a proxy to node 1 and attach to it
     proxy = pyion.get_bp_proxy(1)
-    pyion.ltp.ltp_init(0)
-    vspan = pyion.find_span(2)
 
     # Listen to 'ipn:3.1' for incoming data
     eid = proxy.bp_open(EID_NAME)
     #with proxy.bp_open(EID_NAME) as eid:
 
+    th_bp = threading.Thread(target=bp, name='BP')
+    th_bp.daemon = True
+    th_bp.start()
+
     th_ltp = threading.Thread(target=ltp, name='LTP')
     th_ltp.daemon = True
     th_ltp.start()
 
-    th_bp = threading.Thread(target=bp, name='BP')
-    th_bp.daemon = True
-    th_bp.start()
+    th_bp.join()
+    th_ltp.join()
