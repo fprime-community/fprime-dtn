@@ -13,7 +13,7 @@ typedef std::function<void(NATIVE_INT_TYPE, Fw::Buffer&)> DtnBufferOutFunc;
 
 class FramerHelper
 {
-    private: // TODO accept callback function to give `Framer` bytes off of LTP
+    private:
 
         const uvast remoteEngineId;
         Fw::Buffer& dtnBuffer;

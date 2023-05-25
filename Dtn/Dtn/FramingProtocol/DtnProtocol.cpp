@@ -15,6 +15,13 @@ DtnFraming::DtnFraming(Svc::FramingProtocol& internalFramingProtocol) : Svc::Fra
 
 void DtnFraming::frame(const U8* const data, const U32 size, Fw::ComPacket::ComPacketType packet_type)
 {
+    /*
+    FramingProtocolInterface mockInterface; // Inherit from `Svc::Framer`, but override `send()`
+    fpProtocol.setup(mockInterface);
+
+    dtnProtocol.frame()
+    fpProtocol.frame()
+    */
     printf("[DtnFraming] frame()\n");
     m_internalFramingProtocol.frame(data, size, packet_type);
 }
@@ -29,8 +36,12 @@ DtnDeframing::DtnDeframing(Svc::DeframingProtocol& internalDeframingProtocol) : 
 
 Svc::DeframingProtocol::DeframingStatus DtnDeframing::deframe(Types::CircularBuffer& ring, U32& needed)
 {
-    //printf("[DtnDeframing] deframe() ring %u\t%u\n", ring.get_capacity(), ring.get_free_size());
-    //ring.print();
+    /*
+    DTN_PROTOCOL deframe()
+    FP_PROTOCOL deframe()
+    */
+    printf("[DtnDeframing] deframe() ring %u\t%u\n", ring.get_capacity(), ring.get_free_size());
+    ring.print();
     // TODO
     // Call m_internalDeframingProtocol.deframe()
     // - Must first `setup()` m_internalDeframingProtocol with your own DTN implementation of the ProtocolInterface
