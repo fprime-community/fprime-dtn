@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <pthread.h>
 #include <FpConfig.hpp>
 #include "DtnProtocol.hpp"
 
@@ -9,21 +10,49 @@ namespace Dtn
 // FRAMING
 //
 
-DtnFraming::DtnFraming(Svc::FramingProtocol& internalFramingProtocol) : Svc::FramingProtocol(),
-    m_internalFramingProtocol(internalFramingProtocol)
+// TODO Assumes that `_internalFramingProtocol.setup(this)` has been called.
+// If `setup()` were virtual then it could be overridden to automatically setup `_internalFramingProtocol`.
+// Or, if `setup()` accepted a `const Svc::FramingProtocolInterface` then `internalFramingProtocol.setup(*this)` would be possible
+DtnFraming::DtnFraming
+(
+    char *_ownEid,
+    char *_destEid,
+    U64 _remoteEngineId,
+    Svc::FramingProtocol& _internalFramingProtocol
+) :
+    Svc::FramingProtocol(),
+    Svc::FramingProtocolInterface(),
+    internalFramingProtocol(_internalFramingProtocol),
+    helper(_ownEid, _destEid, _remoteEngineId, &m_interface)
 { }
 
-void DtnFraming::frame(const U8* const data, const U32 size, Fw::ComPacket::ComPacketType packet_type)
+// TODO Assumes that `setup()` is called prior to this to ensure `framer` is set
+void DtnFraming::start()
 {
-    /*
-    FramingProtocolInterface mockInterface; // Inherit from `Svc::Framer`, but override `send()`
-    fpProtocol.setup(mockInterface);
+    pthread_t t;
+    int status = pthread_create(&t, NULL, FramerHelper::ltpFrameWrapper, static_cast<void *>(&helper));
+    if (status != 0)
+    {
+        printf("[DtnFraming] Error creating thread\n");
+    }
+    pthread_detach(t);
+}
 
-    dtnProtocol.frame()
-    fpProtocol.frame()
-    */
-    printf("[DtnFraming] frame()\n");
-    m_internalFramingProtocol.frame(data, size, packet_type);
+void DtnFraming::frame(const U8* const data, const U32 size, Fw::ComPacket::ComPacketType packetType)
+{
+    internalFramingProtocol.frame(data, size, packetType); // This calls `send()`
+}
+
+Fw::Buffer DtnFraming::allocate(const U32 size)
+{
+    return m_interface->allocate(size);
+}
+
+void DtnFraming::send(Fw::Buffer& outgoing)
+{
+    char *buffer = (char *)outgoing.getData();
+    size_t n = outgoing.getSize();
+    helper.sendBundle(buffer, n); // TODO have `sendBundle()` report a status
 }
 
 //
@@ -36,12 +65,9 @@ DtnDeframing::DtnDeframing(Svc::DeframingProtocol& internalDeframingProtocol) : 
 
 Svc::DeframingProtocol::DeframingStatus DtnDeframing::deframe(Types::CircularBuffer& ring, U32& needed)
 {
-    /*
-    DTN_PROTOCOL deframe()
-    FP_PROTOCOL deframe()
-    */
-    printf("[DtnDeframing] deframe() ring %u\t%u\n", ring.get_capacity(), ring.get_free_size());
-    ring.print();
+    //printf("[DtnDeframing] deframe() ring %u\t%u\n", ring.get_capacity(), ring.get_free_size());
+    //ring.print();
+
     // TODO
     // Call m_internalDeframingProtocol.deframe()
     // - Must first `setup()` m_internalDeframingProtocol with your own DTN implementation of the ProtocolInterface

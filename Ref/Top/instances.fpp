@@ -374,12 +374,17 @@ module Ref {
   instance framer: Svc.Framer base id 0x4200 {
     phase Fpp.ToCpp.Phases.configObjects """
     Svc::FprimeFraming fpFraming;
-    Dtn::DtnFraming dtnFraming(fpFraming);
+
+    char ownEid[]      = "ipn:2.1";
+    char destEid[]     = "ipn:3.1";
+    U64 remoteEngineId = 3;
+    Dtn::DtnFraming dtnFraming(ownEid, destEid, remoteEngineId, fpFraming);
     """
 
     phase Fpp.ToCpp.Phases.configComponents """
-    ConfigObjects::framer::fpFraming.setup(framer);
+    ConfigObjects::framer::fpFraming.setup(ConfigObjects::framer::dtnFraming);
     framer.setup(ConfigObjects::framer::dtnFraming);
+    ConfigObjects::framer::dtnFraming.start();
     """
 
   }
