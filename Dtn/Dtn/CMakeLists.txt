@@ -16,4 +16,8 @@ foreach(lib
     unset(lib_name CACHE)
 endforeach()
 
+#
+# SUBDIRECTORIES
+#
+
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/FramingProtocol")
