@@ -29,7 +29,8 @@ DtnDeframing::DtnDeframing(Svc::DeframingProtocol& internalDeframingProtocol) : 
 
 Svc::DeframingProtocol::DeframingStatus DtnDeframing::deframe(Types::CircularBuffer& ring, U32& needed)
 {
-    printf("[DtnDeframing] deframe() ring %u\t%u\n", ring.get_capacity(), ring.get_free_size());
+    //printf("[DtnDeframing] deframe() ring %u\t%u\n", ring.get_capacity(), ring.get_free_size());
+    //ring.print();
     // TODO
     // Call m_internalDeframingProtocol.deframe()
     // - Must first `setup()` m_internalDeframingProtocol with your own DTN implementation of the ProtocolInterface

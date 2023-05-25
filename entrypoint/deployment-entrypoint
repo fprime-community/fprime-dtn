@@ -44,5 +44,5 @@ run-debug()
         -p 50000
 }
 
-run-debug
-#run-release
+#run-debug
+run-release

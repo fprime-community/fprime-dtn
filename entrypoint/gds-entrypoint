@@ -6,17 +6,10 @@ readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 "$DIR"/common-entrypoint "$@"
 
-"$DIR"/../ltp-test/run
-exit 0
-
-"$DIR"/bp-transmit
-exit 0
-
 set -x
 
-#/home/ptl/entrypoint/bp-print
-#/home/ptl/entrypoint/bp-transmit
-
+#"$DIR"/../ltp-test/run
+#"$DIR"/bp-transmit
 #while true; do echo -e "HTTP/1.1 200 OK\n\n $(date)" | nc -l -q 0 0.0.0.0 5000; done
 
 # Using 0.0.0.0 to run on any subnet
