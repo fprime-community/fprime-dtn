@@ -68,6 +68,8 @@ RUN pip install -e /home/ptl/lib/fprime-gds-dtn
 COPY lib/fprime-arm-linux /home/ptl/lib/fprime-arm-linux
 
 COPY resources/gds/RefTopologyAppDictionary.xml /home/ptl
+COPY resources/gds/host3.rc                     /home/ptl/lib/ion-core
+COPY resources/flight/host2.rc                  /home/ptl/lib/ion-core
 
 # RUN
 

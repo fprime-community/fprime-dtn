@@ -4,7 +4,11 @@ set -eu
 
 readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
-"$DIR"/common-entrypoint "$@"
+# ION
+
+cd /home/ptl/lib/ion-core
+scripts/ionstart -I host2.rc
+cd -
 
 cd /home/ptl/lib/ion-open-source-4.1.1
 mkdir -p /home/ptl/Dtn/Dtn/lib/ion
