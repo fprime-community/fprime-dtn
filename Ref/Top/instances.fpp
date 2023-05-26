@@ -459,12 +459,18 @@ module Ref {
   instance deframer: Svc.Deframer base id 0x4A00 {
     phase Fpp.ToCpp.Phases.configObjects """
     Svc::FprimeDeframing fpDeframing;
-    Dtn::DtnDeframing dtnDeframing(fpDeframing);
+
+    char ownEid[] = "ipn:2.1";
+    Dtn::DtnDeframing dtnDeframing(ownEid, fpDeframing);
     """
 
     phase Fpp.ToCpp.Phases.configComponents """
-    ConfigObjects::deframer::fpDeframing.setup(deframer);
+    ConfigObjects::deframer::fpDeframing.setup(ConfigObjects::deframer::dtnDeframing);
     deframer.setup(ConfigObjects::deframer::dtnDeframing);
+    """
+
+    phase Fpp.ToCpp.Phases.startTasks """
+    ConfigObjects::deframer::dtnDeframing.start();
     """
 
   }

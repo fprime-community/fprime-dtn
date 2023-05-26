@@ -3,7 +3,9 @@
 
 #include <Svc/FramingProtocol/FramingProtocol.hpp>
 #include <Svc/FramingProtocol/DeframingProtocol.hpp>
+#include <Svc/FramingProtocol/DeframingProtocolInterface.hpp>
 #include "FramerHelper.hpp"
+#include "DeframerHelper.hpp"
 
 namespace Dtn
 {
@@ -39,15 +41,18 @@ namespace Dtn
             ) override;
     };
 
-    class DtnDeframing : public Svc::DeframingProtocol // TODO also: public Svc::DeframingProtocolInterface
+    class DtnDeframing : public Svc::DeframingProtocol, public Svc::DeframingProtocolInterface
     {
         private:
 
-            Svc::DeframingProtocol& m_internalDeframingProtocol;
+            Svc::DeframingProtocol& internalDeframingProtocol;
+            DeframerHelper helper;
 
         public:
 
-            DtnDeframing(Svc::DeframingProtocol& internalDeframingProtocol);
+            DtnDeframing(char *_ownEid, Svc::DeframingProtocol& _internalDeframingProtocol);
+
+            void start();
 
             //
             // DeframingProtocol
@@ -62,6 +67,9 @@ namespace Dtn
             //
             // DeframingProtocolInterface
             //
+
+            Fw::Buffer allocate(const U32 size) override;
+            void route(Fw::Buffer& data) override;
     };
 
 }

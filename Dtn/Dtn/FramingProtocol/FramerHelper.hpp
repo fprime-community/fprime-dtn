@@ -29,7 +29,6 @@ class FramerHelper
         BpSAP sap;
         Sdr bpSdr;
         BpCustodySwitch custodySwitch = NoCustodyRequested;
-        pthread_mutex_t sdrmutex = PTHREAD_MUTEX_INITIALIZER;
 
         void ltpFrame();
 
@@ -52,6 +51,5 @@ class FramerHelper
 };
 
 } // end namespace Dtn
-
 
 #endif // Dtn_FramerHelper_HPP

@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <Fw/Com/ComPacket.hpp>
 #include "ltpP.h"
+#include "ThreadHelper.hpp" // For `sdrMutex`
 #include "FramerHelper.hpp"
 
 namespace Dtn
@@ -34,7 +35,7 @@ FramerHelper::FramerHelper
         printf("[FramerHelper] Can't open own endpoint\n");
     }
 
-    if (pthread_mutex_lock(&sdrmutex) != 0)
+    if (pthread_mutex_lock(&sdrMutex) != 0)
     {
         putErrmsg("Couldn't take sdr mutex.", NULL);
         return;
@@ -42,7 +43,7 @@ FramerHelper::FramerHelper
 
     bpSdr = bp_get_sdr();
 
-    pthread_mutex_unlock(&sdrmutex);
+    pthread_mutex_unlock(&sdrMutex);
 
     // TODO on exit run:
     // bp_close(sap); // TODO or bp_interrupt() ?
@@ -68,7 +69,7 @@ void FramerHelper::ltpFrame()
     LtpVspan *vspan;
     PsmAddress vspanElt; // Is an unsigned long
 
-    if (pthread_mutex_lock(&sdrmutex) != 0)
+    if (pthread_mutex_lock(&sdrMutex) != 0)
     {
         putErrmsg("Couldn't take sdr mutex.", NULL);
         return;
@@ -78,7 +79,7 @@ void FramerHelper::ltpFrame()
 
     if (!sdr_begin_xn(sdr)) // Needed to get "lock" (see `udplso.c`)
     {
-        pthread_mutex_unlock(&sdrmutex);
+        pthread_mutex_unlock(&sdrMutex);
         printf("[FramerHelper] LTP: Error starting SDR transaction\n");
         return; // TODO clean up this return logic
     }
@@ -87,14 +88,14 @@ void FramerHelper::ltpFrame()
     if (vspanElt == 0)
     {
         sdr_exit_xn(sdr);
-        pthread_mutex_unlock(&sdrmutex);
+        pthread_mutex_unlock(&sdrMutex);
         printf("[FramerHelper] LTP: No such engine in database: %llu\n", remoteEngineId);
         return; // TODO clean up this return logic
     }
     printf("[FramerHelper] LTP: Found span: %lu\n", vspanElt);
 
     sdr_exit_xn(sdr); // "Exit" is okay here as we don't want to persist any changes to SDR DB
-    pthread_mutex_unlock(&sdrmutex);
+    pthread_mutex_unlock(&sdrMutex);
 
     for (;;)
     {
@@ -113,13 +114,13 @@ void FramerHelper::ltpFrame()
         }
         printf("[FramerHelper] LTP: Dequeued %d bytes\n", segmentLen);
 
-        printf("[FramerHelper] LTP: Hex dump start\n");
-        for (int i = 0; i < segmentLen; i++)
-        {
-            printf("%02x ", (unsigned char)segment[i]);
-        }
-        printf("\n");
-        printf("[FramerHelper] LTP: Hex dump end\n");
+        //printf("[FramerHelper] LTP: Hex dump start\n");
+        //for (int i = 0; i < segmentLen; i++)
+        //{
+        //    printf("%02x ", (unsigned char)segment[i]);
+        //}
+        //printf("\n");
+        //printf("[FramerHelper] LTP: Hex dump end\n");
 
         internalFramingProtocol.frame(
             (U8 *)segment,
@@ -138,7 +139,7 @@ void FramerHelper::sendBundle(char *bundleBuffer, size_t size)
     Object bundleZco, bundlePayload;
     Object newBundle;   /* We never use but bp_send requires it. */
 
-    if (pthread_mutex_lock(&sdrmutex) != 0)
+    if (pthread_mutex_lock(&sdrMutex) != 0)
     {
         putErrmsg("Couldn't take sdr mutex.", NULL);
         return;
@@ -154,7 +155,7 @@ void FramerHelper::sendBundle(char *bundleBuffer, size_t size)
 
     if (sdr_end_xn(bpSdr) < 0)
     {
-        pthread_mutex_unlock(&sdrmutex);
+        pthread_mutex_unlock(&sdrMutex);
         bp_close(sap);
         putErrmsg("No space for bpchat payload.", NULL);
         return;
@@ -164,13 +165,13 @@ void FramerHelper::sendBundle(char *bundleBuffer, size_t size)
         size, BP_STD_PRIORITY, 0, ZcoOutbound, NULL);
     if (bundleZco == 0 || bundleZco == (Object) ERROR)
     {
-        pthread_mutex_unlock(&sdrmutex);
+        pthread_mutex_unlock(&sdrMutex);
         bp_close(sap);
         putErrmsg("bpchat can't create bundle ZCO.", NULL);
         return;
     }
 
-    pthread_mutex_unlock(&sdrmutex);
+    pthread_mutex_unlock(&sdrMutex);
 
     /* Send the bundle payload. */
     if (bp_send(sap, destEid, NULL, 86400, BP_STD_PRIORITY,
