@@ -369,8 +369,6 @@ module Ref {
 #    """
 # }
 
-
-
   instance framer: Svc.Framer base id 0x4200 {
     phase Fpp.ToCpp.Phases.configObjects """
     Svc::FprimeFraming fpFraming;
@@ -382,11 +380,13 @@ module Ref {
     """
 
     phase Fpp.ToCpp.Phases.configComponents """
-    ConfigObjects::framer::fpFraming.setup(ConfigObjects::framer::dtnFraming);
+    ConfigObjects::framer::fpFraming.setup(framer);
     framer.setup(ConfigObjects::framer::dtnFraming);
-    ConfigObjects::framer::dtnFraming.start();
     """
 
+    phase Fpp.ToCpp.Phases.startTasks """
+    ConfigObjects::framer::dtnFraming.start();
+    """
   }
 
   instance fatalAdapter: Svc.AssertFatalAdapter base id 0x4300

@@ -91,8 +91,9 @@ module Ref {
 
       radio.drvDataOut -> comDriver.send
       comDriver.ready -> radio.drvConnected
-      radio.comStatus -> framer.comStatusIn
-      framer.comStatusOut -> comQueue.comStatusIn
+      radio.comStatus -> comQueue.comStatusIn
+      #radio.comStatus -> framer.comStatusIn
+      #framer.comStatusOut -> comQueue.comStatusIn
     }
 
     connections FaultProtection {
