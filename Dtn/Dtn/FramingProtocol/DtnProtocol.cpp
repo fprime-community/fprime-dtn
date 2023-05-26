@@ -10,9 +10,6 @@ namespace Dtn
 // FRAMING
 //
 
-// TODO Assumes that `_internalFramingProtocol.setup(this)` has been called.
-// If `setup()` were virtual then it could be overridden to automatically setup `_internalFramingProtocol`.
-// Or, if `setup()` accepted a `const Svc::FramingProtocolInterface` then `internalFramingProtocol.setup(*this)` would be possible
 DtnFraming::DtnFraming
 (
     char *_ownEid,
@@ -21,14 +18,13 @@ DtnFraming::DtnFraming
     Svc::FramingProtocol& _internalFramingProtocol
 ) :
     Svc::FramingProtocol(),
-    Svc::FramingProtocolInterface(),
     internalFramingProtocol(_internalFramingProtocol),
-    helper(_ownEid, _destEid, _remoteEngineId, &m_interface)
+    helper(_ownEid, _destEid, _remoteEngineId, _internalFramingProtocol)
 { }
 
-// TODO Assumes that `setup()` is called prior to this to ensure `framer` is set
 void DtnFraming::start()
 {
+    // TODO replace pthread with OS::Task
     pthread_t t;
     int status = pthread_create(&t, NULL, FramerHelper::ltpFrameWrapper, static_cast<void *>(&helper));
     if (status != 0)
@@ -40,19 +36,7 @@ void DtnFraming::start()
 
 void DtnFraming::frame(const U8* const data, const U32 size, Fw::ComPacket::ComPacketType packetType)
 {
-    internalFramingProtocol.frame(data, size, packetType); // This calls `send()`
-}
-
-Fw::Buffer DtnFraming::allocate(const U32 size)
-{
-    return m_interface->allocate(size);
-}
-
-void DtnFraming::send(Fw::Buffer& outgoing)
-{
-    char *buffer = (char *)outgoing.getData();
-    size_t n = outgoing.getSize();
-    helper.sendBundle(buffer, n); // TODO have `sendBundle()` report a status
+    helper.sendBundle((char *)data, (size_t)size);
 }
 
 //

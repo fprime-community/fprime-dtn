@@ -5,6 +5,7 @@
 //!
 
 #include <cstdio>
+#include <Fw/Com/ComPacket.hpp>
 #include "ltpP.h"
 #include "FramerHelper.hpp"
 
@@ -16,12 +17,12 @@ FramerHelper::FramerHelper
     char *_ownEid,
     char *_destEid,
     U64 _remoteEngineId,
-    Svc::FramingProtocolInterface **_framer
+    Svc::FramingProtocol& _internalFramingProtocol
 ) :
     ownEid(_ownEid),
     destEid(_destEid),
     remoteEngineId(_remoteEngineId),
-    framer(_framer)
+    internalFramingProtocol(_internalFramingProtocol)
 {
     if (bp_attach() < 0)
     {
@@ -95,7 +96,6 @@ void FramerHelper::ltpFrame()
     sdr_exit_xn(sdr); // "Exit" is okay here as we don't want to persist any changes to SDR DB
     pthread_mutex_unlock(&sdrmutex);
 
-    char *segment = (char *)dtnBuffer.getData();
     for (;;)
     {
         if (sm_SemEnded(vspan->segSemaphore))
@@ -104,25 +104,27 @@ void FramerHelper::ltpFrame()
             return; // TODO how should this error be handled?
         }
 
+        char *segment;
         int segmentLen = ltpDequeueOutboundSegment(vspan, &segment);
-        if (segmentLen < 0)
+        if (segmentLen <= 0)
         {
             printf("[FramerHelper] LTP: Bad segment length: %d\n", segmentLen);
-            return;
+            return; // TODO how should this error be handled?
         }
         printf("[FramerHelper] LTP: Dequeued %d bytes\n", segmentLen);
 
-        //printf("[FramerHelper] LTP: Hex dump start\n");
-        //for (int i = 0; i < segmentLen; i++)
-        //{
-        //    printf("%02x ", (unsigned char)segment[i]);
-        //}
-        //printf("\n");
-        //printf("[FramerHelper] LTP: Hex dump end\n");
+        printf("[FramerHelper] LTP: Hex dump start\n");
+        for (int i = 0; i < segmentLen; i++)
+        {
+            printf("%02x ", (unsigned char)segment[i]);
+        }
+        printf("\n");
+        printf("[FramerHelper] LTP: Hex dump end\n");
 
-        // TODO crashing here
-        dtnBuffer.setSize(segmentLen);
-        (*framer)->send(dtnBuffer);
+        internalFramingProtocol.frame(
+            (U8 *)segment,
+            (U32)segmentLen,
+            Fw::ComPacket::ComPacketType::FW_PACKET_FILE);
 
         sm_TaskYield();
     }
@@ -171,7 +173,6 @@ void FramerHelper::sendBundle(char *bundleBuffer, size_t size)
     pthread_mutex_unlock(&sdrmutex);
 
     /* Send the bundle payload. */
-    printf("[FramerHelper] BP: Calling bp_send()\n");
     if (bp_send(sap, destEid, NULL, 86400, BP_STD_PRIORITY,
             custodySwitch, 0, 0, NULL, bundleZco,
             &newBundle) <= 0)
@@ -179,7 +180,7 @@ void FramerHelper::sendBundle(char *bundleBuffer, size_t size)
         putErrmsg("bpchat can't send bundle.", NULL);
         return;
     }
-    printf("[FramerHelper] BP: sent \"%s\"\n", bundleBuffer);
+    printf("[FramerHelper] BP: Sent %d bytes\n", size);
 }
 
 } // end namespace Dtn

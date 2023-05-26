@@ -8,7 +8,7 @@
 namespace Dtn
 {
 
-    class DtnFraming : public Svc::FramingProtocol, public Svc::FramingProtocolInterface
+    class DtnFraming : public Svc::FramingProtocol
     {
         private:
 
@@ -37,17 +37,9 @@ namespace Dtn
                 const U32 size,                         //!< The data size in bytes
                 Fw::ComPacket::ComPacketType packetType //!< The packet type
             ) override;
-
-            //
-            // FramingProtocolInterface
-            //
-
-            Fw::Buffer allocate(const U32 size) override;
-            void send(Fw::Buffer& outgoing) override;
-
     };
 
-    class DtnDeframing : public Svc::DeframingProtocol // TODO , Svc::DeframingProtocolInterface
+    class DtnDeframing : public Svc::DeframingProtocol // TODO also: public Svc::DeframingProtocolInterface
     {
         private:
 
