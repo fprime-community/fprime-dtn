@@ -134,7 +134,7 @@ void DeframerHelper::receiveLtp(char *ltpBuffer, int size)
 {
     // TODO the ION API accepts only a `char` here, not an `unsigned char`.
     // This should be O.K. as long as it's assumed that the target platform treats `char` as `unsigned char`
-    if (ltpHandleInboundSegment(ltpBuffer, size) <= 0)
+    if (ltpHandleInboundSegment(ltpBuffer, size) < 0) // TODO what is this return value?
     {
         printf("[DeframerHelper] Unable to ingest inbound LTP segment\n");
     }
