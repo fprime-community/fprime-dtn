@@ -27,6 +27,7 @@ module Ref {
     instance cmdDisp
     instance cmdSeq
     instance comDriver
+    instance dtnFramer
     instance comQueue
     instance radio
     instance framer
@@ -76,11 +77,19 @@ module Ref {
     # ----------------------------------------------------------------------
 
     connections Downlink {
-      chanTlm.PktSend -> comQueue.comQueueIn[0]
-      eventLogger.PktSend -> comQueue.comQueueIn[1]
+      chanTlm.PktSend -> dtnFramer.comIn[0]
+      eventLogger.PktSend -> dtnFramer.comIn[1]
 
-      fileDownlink.bufferSendOut -> comQueue.buffQueueIn[0]
+      fileDownlink.bufferSendOut -> dtnFramer.bufferIn[0]
+      # TODO this is likely going to be hit too frequently and mess with actual file downlink
       framer.bufferDeallocate -> fileDownlink.bufferReturn
+
+      # Only Fw::Buffer types are sent, Fw::Com sizing is too restrictive for DTN data
+      dtnFramer.bufferOut -> comQueue.buffQueueIn[0]
+
+      # TODO where does deallocation of Fw::Com happen?
+      dtnFramer.bufferDeallocate -> comBufferManager.bufferSendIn
+      dtnFramer.bufferAllocate -> comBufferManager.bufferGetCallee
 
       comQueue.comQueueSend -> framer.comIn
       comQueue.buffQueueSend -> framer.bufferIn

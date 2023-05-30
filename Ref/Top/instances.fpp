@@ -83,6 +83,21 @@ module Ref {
     stack size Default.stackSize \
     priority 101
 
+  # Each command/tlm/event is tagged with an ID so we're using 0x0520 + 0x20 here
+  instance dtnFramer: Dtn.Framer base id 0x0520 \
+    queue size Default.queueSize \
+    stack size Default.stackSize \
+    priority 100 \
+  {
+    phase Fpp.ToCpp.Phases.configComponents """
+    dtnFramer.configure(ConfigObjects::deframer::sdrMutex);
+    """
+
+    phase Fpp.ToCpp.Phases.startTasks """
+    dtnFramer.start();
+    """
+  }
+
   instance comQueue: Svc.ComQueue base id 0x0600 \
       queue size 200 \
       stack size Default.stackSize \
@@ -371,21 +386,11 @@ module Ref {
 
   instance framer: Svc.Framer base id 0x4200 {
     phase Fpp.ToCpp.Phases.configObjects """
-    Svc::FprimeFraming fpFraming;
-
-    char ownEid[]      = "ipn:2.1";
-    char destEid[]     = "ipn:3.1";
-    U64 remoteEngineId = 3;
-    Dtn::DtnFraming dtnFraming(ownEid, destEid, remoteEngineId, fpFraming);
+    Svc::FprimeFraming framing;
     """
 
     phase Fpp.ToCpp.Phases.configComponents """
-    ConfigObjects::framer::fpFraming.setup(framer);
-    framer.setup(ConfigObjects::framer::dtnFraming);
-    """
-
-    phase Fpp.ToCpp.Phases.startTasks """
-    ConfigObjects::framer::dtnFraming.start();
+    framer.setup(ConfigObjects::framer::framing);
     """
   }
 
@@ -461,7 +466,8 @@ module Ref {
     Svc::FprimeDeframing fpDeframing;
 
     char ownEid[] = "ipn:2.1";
-    Dtn::DtnDeframing dtnDeframing(ownEid, fpDeframing);
+    pthread_mutex_t sdrMutex = PTHREAD_MUTEX_INITIALIZER;
+    Dtn::DtnDeframing dtnDeframing(ownEid, sdrMutex, fpDeframing);
     """
 
     phase Fpp.ToCpp.Phases.configComponents """

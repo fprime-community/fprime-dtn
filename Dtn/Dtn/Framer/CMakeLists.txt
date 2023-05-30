@@ -15,8 +15,9 @@ set(MOD_DEPS
 #
 
 set(SOURCE_FILES
-    "${CMAKE_CURRENT_LIST_DIR}/DtnProtocol.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/DeframerHelper.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/Framer.fpp"
+    "${CMAKE_CURRENT_LIST_DIR}/Framer.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/FramerHelper.cpp"
 )
 
 register_fprime_module()

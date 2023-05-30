@@ -23,6 +23,7 @@ class DeframerHelper
     private:
 
         char *ownEid;
+        pthread_mutex_t& sdrMutex;
         Svc::DeframingProtocol& internalDeframingProtocol;
         Svc::DeframingProtocolInterface **deframer;
 
@@ -35,6 +36,7 @@ class DeframerHelper
         DeframerHelper
         (
             char *_ownEid,
+            pthread_mutex_t& sdrMutex,
             Svc::DeframingProtocol& _internalDeframingProtocol,
             Svc::DeframingProtocolInterface **_deframer
         );
