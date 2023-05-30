@@ -12,6 +12,7 @@
 #include <sys/time.h> // TODO needed because some ION preprocessor logic is broken
 #include "bp.h"
 #include "ltpP.h"
+#include <Fw/Types/BasicTypes.hpp>
 #include "ThreadHelper.hpp" // For `sdrMutex`
 #include "DeframerHelper.hpp"
 
@@ -70,8 +71,9 @@ void DeframerHelper::bundleDeframe()
     int bundleLenRemaining;
     int rc;
     int bytesToRead;
+
     Fw::Buffer bundleBuffer = (*deframer)->allocate(1024);
-    // TODO FW_ASSERT(bundleBuffer.getSize() >= 1024, bundleBuffer.getSize());
+    FW_ASSERT(bundleBuffer.getSize() >= 1024, bundleBuffer.getSize());
     char *buffer = (char *)bundleBuffer.getData();
 
     for (int running = 1; running;)
