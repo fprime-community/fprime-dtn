@@ -32,15 +32,9 @@ Framer::Framer(const char* const compName)
         std::bind(&Framer::bufferOut_out, this, std::placeholders::_1, std::placeholders::_2))
 { }
 
-void Framer::init(const NATIVE_INT_TYPE queueDepth, const NATIVE_INT_TYPE instance)
-{
-    FramerComponentBase::init(queueDepth, instance);
-}
-
 void Framer::configure(pthread_mutex_t& sdrMutex)
 {
     helper.configure(sdrMutex);
-    printf("[Dtn.Framer] end of `configure` HIT\n");
 }
 
 void Framer::start()
@@ -53,7 +47,6 @@ void Framer::start()
         printf("[Dtn.Framer] Error creating thread\n");
     }
     pthread_detach(t);
-    printf("[Dtn.Framer] end of `start` HIT\n");
 }
 
 Framer::~Framer() {}
@@ -64,7 +57,6 @@ Framer::~Framer() {}
 
 void Framer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
 {
-    printf("[Dtn.Framer] bufferIn_handler HIT\n");
     helper.sendBundle((char *)fwBuffer.getData(), (size_t)fwBuffer.getSize());
 
     // Data is now ingested into ION, free the original buffer
@@ -73,9 +65,8 @@ void Framer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffe
 
 void Framer::comIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer& data, U32 context)
 {
-    printf("[Dtn.Framer] comIn_handler HIT\n"); // TODO never hit
-    // Note that `Fw::ComBuffer` is 128 bytes
-    helper.sendBundle((char *)data.getBuffAddr(), (size_t)data.getBuffCapacity());
+    // Note that `Fw::ComBuffer` size <= 128 bytes
+    helper.sendBundle((char *)data.getBuffAddr(), (size_t)data.getBuffLength());
 }
 
 }  // end namespace Dtn

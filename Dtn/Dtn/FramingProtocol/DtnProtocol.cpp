@@ -42,15 +42,16 @@ Fw::Buffer DtnDeframing::allocate(const U32 size)
 
 void DtnDeframing::route(Fw::Buffer& data)
 {
-    printf("[DeframerHelper] LTP: Hex dump start\n");
     size_t segmentLen = (size_t)data.getSize();
     char *segment = (char *)data.getData();
-    for (int i = 0; i < segmentLen; i++)
-    {
-        printf("%02x ", (unsigned char)segment[i]);
-    }
-    printf("\n");
-    printf("[DeframerHelper] LTP: Hex dump end\n");
+
+    //printf("[DeframerHelper] LTP: Hex dump start\n");
+    //for (int i = 0; i < segmentLen; i++)
+    //{
+    //    printf("%02x", (unsigned char)segment[i]);
+    //}
+    //printf("\n");
+    //printf("[DeframerHelper] LTP: Hex dump end\n");
 
     helper.receiveLtp(segment, (int)segmentLen);
 }

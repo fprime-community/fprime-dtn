@@ -84,11 +84,7 @@ module Ref {
     priority 101
 
   # Each command/tlm/event is tagged with an ID so we're using 0x0520 + 0x20 here
-  instance dtnFramer: Dtn.Framer base id 0x0520 \
-    queue size Default.queueSize \
-    stack size Default.stackSize \
-    priority 100 \
-  {
+  instance dtnFramer: Dtn.Framer base id 0x0520 {
     phase Fpp.ToCpp.Phases.configComponents """
     dtnFramer.configure(ConfigObjects::deframer::sdrMutex);
     """

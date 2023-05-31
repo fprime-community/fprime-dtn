@@ -1,17 +1,17 @@
 module Dtn {
 
     @ A component for framing input for transmission to the ground
-    active component Framer {
+    passive component Framer {
 
         #
         # RECEIVING DATA TO FRAME
         #
 
         @ Port for receiving data packets of any type stored in statically-sized Fw::Com buffers
-        async input port comIn: [2] Fw.Com drop # TODO use ComQueueBufferPorts
+        guarded input port comIn: Fw.Com
 
         @ Port for receiving file packets stored in dynamically-sized Fw::Buffer objects
-        async input port bufferIn: [ComQueueBufferPorts] Fw.BufferSend drop
+        guarded input port bufferIn: Fw.BufferSend
 
         #
         # SENDING FRAMED DATA
