@@ -1,12 +1,12 @@
 #include <cstdio>
 #include <pthread.h>
 #include <FpConfig.hpp>
-#include "DtnProtocol.hpp"
+#include "DeframingProtocol.hpp"
 
 namespace Dtn
 {
 
-DtnDeframing::DtnDeframing
+DeframingProtocol::DeframingProtocol
 (
     char *_ownEid,
     pthread_mutex_t& sdrMutex,
@@ -18,29 +18,29 @@ DtnDeframing::DtnDeframing
     helper(_ownEid, sdrMutex, _internalDeframingProtocol, &m_interface)
 { }
 
-void DtnDeframing::start()
+void DeframingProtocol::start()
 {
     // TODO replace pthread with OS::Task
     pthread_t t;
     int status = pthread_create(&t, NULL, DeframerHelper::bundleDeframeWrapper, static_cast<void *>(&helper));
     if (status != 0)
     {
-        printf("[DtnDeframing] Error creating thread\n");
+        printf("[DeframingProtocol] Error creating thread\n");
     }
     pthread_detach(t);
 }
 
-Svc::DeframingProtocol::DeframingStatus DtnDeframing::deframe(Types::CircularBuffer& ring, U32& needed)
+Svc::DeframingProtocol::DeframingStatus DeframingProtocol::deframe(Types::CircularBuffer& ring, U32& needed)
 {
     return internalDeframingProtocol.deframe(ring, needed); // This calls `route()`
 }
 
-Fw::Buffer DtnDeframing::allocate(const U32 size)
+Fw::Buffer DeframingProtocol::allocate(const U32 size)
 {
     return m_interface->allocate(size);
 }
 
-void DtnDeframing::route(Fw::Buffer& data)
+void DeframingProtocol::route(Fw::Buffer& data)
 {
     size_t segmentLen = (size_t)data.getSize();
     char *segment = (char *)data.getData();

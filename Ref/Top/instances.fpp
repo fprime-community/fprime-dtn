@@ -463,7 +463,7 @@ module Ref {
 
     char ownEid[] = "ipn:2.1";
     pthread_mutex_t sdrMutex = PTHREAD_MUTEX_INITIALIZER;
-    Dtn::DtnDeframing dtnDeframing(ownEid, sdrMutex, fpDeframing);
+    Dtn::DeframingProtocol dtnDeframing(ownEid, sdrMutex, fpDeframing);
     """
 
     phase Fpp.ToCpp.Phases.configComponents """

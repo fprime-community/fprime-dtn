@@ -1,5 +1,5 @@
-#ifndef Dtn_DtnProtocol_HPP
-#define Dtn_DtnProtocol_HPP
+#ifndef Dtn_DeframingProtocol_HPP
+#define Dtn_DeframingProtocol_HPP
 
 #include <Svc/FramingProtocol/DeframingProtocol.hpp>
 #include <Svc/FramingProtocol/DeframingProtocolInterface.hpp>
@@ -15,7 +15,7 @@ namespace Ref
 namespace Dtn
 {
 
-    class DtnDeframing : public Svc::DeframingProtocol, public Svc::DeframingProtocolInterface
+    class DeframingProtocol : public Svc::DeframingProtocol, public Svc::DeframingProtocolInterface
     {
         private:
 
@@ -24,7 +24,7 @@ namespace Dtn
 
         public:
 
-            DtnDeframing
+            DeframingProtocol
             (
                 char *_ownEid,
                 pthread_mutex_t& sdrMutex,
@@ -53,4 +53,4 @@ namespace Dtn
 
 }
 
-#endif // Dtn_DtnProtocol_HPP
+#endif // Dtn_DeframingProtocol_HPP

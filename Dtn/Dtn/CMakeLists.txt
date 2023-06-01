@@ -21,4 +21,4 @@ endforeach()
 #
 
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Framer")
-add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/FramingProtocol")
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/DeframingProtocol")

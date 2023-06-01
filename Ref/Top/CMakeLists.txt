@@ -17,7 +17,7 @@ set(MOD_DEPS
   # Communication Implementations
   Drv/Udp
   Drv/TcpClient
-  Dtn/FramingProtocol
+  Dtn/DeframingProtocol
 )
 
 register_fprime_module()
