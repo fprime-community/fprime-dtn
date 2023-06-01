@@ -54,6 +54,7 @@ void DtnDeframing::route(Fw::Buffer& data)
     //printf("[DeframerHelper] LTP: Hex dump end\n");
 
     helper.receiveLtp(segment, (int)segmentLen);
+    Ref::deframer.bufferDeallocate_out(0, data);
 }
 
 };

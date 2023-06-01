@@ -22,6 +22,7 @@
 cmake_minimum_required(VERSION 3.13)
 cmake_policy(SET CMP0048 NEW)
 project(Ref VERSION 0.0.1 LANGUAGES C CXX)
+add_compile_options(-DPROTECTED=public) # TODO remove deframer hack
 
 ##
 # Section 2: F prime Core

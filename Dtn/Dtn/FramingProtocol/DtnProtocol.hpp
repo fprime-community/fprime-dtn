@@ -4,6 +4,13 @@
 #include <Svc/FramingProtocol/DeframingProtocol.hpp>
 #include <Svc/FramingProtocol/DeframingProtocolInterface.hpp>
 #include "DeframerHelper.hpp"
+#include <Svc/Deframer/Deframer.hpp>
+
+// TODO remove deframer hack
+namespace Ref
+{
+    extern Svc::Deframer deframer;
+}
 
 namespace Dtn
 {
