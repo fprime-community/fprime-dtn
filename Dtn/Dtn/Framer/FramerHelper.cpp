@@ -128,6 +128,7 @@ void FramerHelper::ltpFrame()
         //printf("\n");
         //printf("[FramerHelper] LTP: Hex dump end\n");
 
+        // Buffer assumed to be deallocated by framer
         Fw::Buffer segmentBuffer = bufferAllocate(0, (U32)segmentLen); // Port assumed to be 0
         FW_ASSERT(segmentBuffer.getSize() >= segmentLen, segmentBuffer.getSize());
         segmentBuffer.getSerializeRepr().serialize(reinterpret_cast<U8 *>(segment), segmentLen, true);
@@ -139,13 +140,13 @@ void FramerHelper::ltpFrame()
 
 void FramerHelper::sendBundle(char *bundleBuffer, size_t size)
 {
-    printf("[FramerHelper] BP: Hex dump start\n");
-    for (int i = 0; i < size; i++)
-    {
-        printf("%02x", (unsigned char)bundleBuffer[i]);
-    }
-    printf("\n");
-    printf("[FramerHelper] BP: Hex dump end\n");
+    //printf("[FramerHelper] BP: Hex dump start\n");
+    //for (int i = 0; i < size; i++)
+    //{
+    //    printf("%02x", (unsigned char)bundleBuffer[i]);
+    //}
+    //printf("\n");
+    //printf("[FramerHelper] BP: Hex dump end\n");
 
     // TODO these can be defined outside of this method instead
     // of instantiated each time this method is called.
