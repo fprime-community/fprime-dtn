@@ -118,7 +118,7 @@ void FramerHelper::ltpFrame()
             printf("[FramerHelper] LTP: Bad segment length: %d\n", segmentLen);
             return; // TODO how should this error be handled?
         }
-        printf("[FramerHelper] LTP: Dequeued %d bytes\n", segmentLen);
+        //printf("[FramerHelper] LTP: Dequeued %d bytes\n", segmentLen);
 
         //printf("[FramerHelper] LTP: Hex dump start\n");
         //for (int i = 0; i < segmentLen; i++)
@@ -196,7 +196,7 @@ void FramerHelper::sendBundle(char *bundleBuffer, size_t size)
         putErrmsg("bpchat can't send bundle.", NULL);
         return;
     }
-    printf("[FramerHelper] BP: Sent %d bytes\n", size);
+    //printf("[FramerHelper] BP: Sent %d bytes\n", size);
 }
 
 } // end namespace Dtn
