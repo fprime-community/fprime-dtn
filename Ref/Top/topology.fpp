@@ -27,6 +27,7 @@ module Ref {
     instance cmdDisp
     instance cmdSeq
     instance comDriver
+    instance dtnFramer
     instance comQueue
     instance radio
     instance framer
@@ -76,24 +77,29 @@ module Ref {
     # ----------------------------------------------------------------------
 
     connections Downlink {
-      chanTlm.PktSend -> comQueue.comQueueIn[0]
-      eventLogger.PktSend -> comQueue.comQueueIn[1]
+      chanTlm.PktSend -> dtnFramer.comIn
+      eventLogger.PktSend -> dtnFramer.comIn
+      fileDownlink.bufferSendOut -> dtnFramer.bufferIn
 
-      fileDownlink.bufferSendOut -> comQueue.buffQueueIn[0]
-      framer.bufferDeallocate -> fileDownlink.bufferReturn
+      # Only Fw::Buffer types are sent, Fw::Com sizing is too restrictive for DTN data
+      dtnFramer.bufferOut -> comQueue.buffQueueIn[0]
+
+      # TODO where does deallocation of Fw::Com happen?
+      dtnFramer.bufferDeallocate -> fileDownlink.bufferReturn
+      dtnFramer.bufferAllocate -> comBufferManager.bufferGetCallee
 
       comQueue.comQueueSend -> framer.comIn
       comQueue.buffQueueSend -> framer.bufferIn
 
-      framer.framedAllocate -> comBufferManager.bufferGetCallee
       framer.framedOut -> radio.comDataIn
+      framer.framedAllocate -> comBufferManager.bufferGetCallee
+      framer.bufferDeallocate -> comBufferManager.bufferSendIn
       comDriver.deallocate -> comBufferManager.bufferSendIn
 
       radio.drvDataOut -> comDriver.send
       comDriver.ready -> radio.drvConnected
-      radio.comStatus -> comQueue.comStatusIn
-      #radio.comStatus -> framer.comStatusIn
-      #framer.comStatusOut -> comQueue.comStatusIn
+      radio.comStatus -> framer.comStatusIn
+      framer.comStatusOut -> comQueue.comStatusIn
     }
 
     connections FaultProtection {

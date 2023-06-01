@@ -1,45 +1,19 @@
 #ifndef Dtn_DtnProtocol_HPP
 #define Dtn_DtnProtocol_HPP
 
-#include <Svc/FramingProtocol/FramingProtocol.hpp>
 #include <Svc/FramingProtocol/DeframingProtocol.hpp>
 #include <Svc/FramingProtocol/DeframingProtocolInterface.hpp>
-#include "FramerHelper.hpp"
 #include "DeframerHelper.hpp"
+#include <Svc/Deframer/Deframer.hpp>
+
+// TODO remove deframer hack
+namespace Ref
+{
+    extern Svc::Deframer deframer;
+}
 
 namespace Dtn
 {
-
-    class DtnFraming : public Svc::FramingProtocol
-    {
-        private:
-
-            Svc::FramingProtocol& internalFramingProtocol;
-            FramerHelper helper;
-
-        public:
-
-            DtnFraming
-            (
-                char *_ownEid,
-                char *_destEid,
-                U64 _remoteEngineId,
-                Svc::FramingProtocol& _internalFramingProtocol
-            );
-
-            void start();
-
-            //
-            // FramingProtocol
-            //
-
-            void frame
-            (
-                const U8* const data,                   //!< The data
-                const U32 size,                         //!< The data size in bytes
-                Fw::ComPacket::ComPacketType packetType //!< The packet type
-            ) override;
-    };
 
     class DtnDeframing : public Svc::DeframingProtocol, public Svc::DeframingProtocolInterface
     {
@@ -50,7 +24,12 @@ namespace Dtn
 
         public:
 
-            DtnDeframing(char *_ownEid, Svc::DeframingProtocol& _internalDeframingProtocol);
+            DtnDeframing
+            (
+                char *_ownEid,
+                pthread_mutex_t& sdrMutex,
+                Svc::DeframingProtocol& _internalDeframingProtocol
+            );
 
             void start();
 

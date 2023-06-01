@@ -1,20 +1,21 @@
 // ======================================================================
-// \title  Deframer.hpp
+// \title  Framer.hpp
 // \author root
-// \brief  hpp file for Deframer component implementation class
+// \brief  hpp file for DTN Framer component implementation class
 // ======================================================================
 
-#ifndef Dtn_Deframer_HPP
-#define Dtn_Deframer_HPP
+#ifndef Dtn_Framer_HPP
+#define Dtn_Framer_HPP
 
-#include "Dtn/Deframer/DeframerComponentAc.hpp"
-#include "DeframerHelper.hpp"
+#include "Dtn/Framer/FramerComponentAc.hpp"
+#include "FramerHelper.hpp"
+#include <pthread.h>
 
 namespace Dtn
 {
 
-  class Deframer :
-    public DeframerComponentBase
+  class Framer :
+    public FramerComponentBase
   {
 
     public:
@@ -23,28 +24,23 @@ namespace Dtn
       // Construction, initialization, and destruction
       // ----------------------------------------------------------------------
 
-      //! Construct object Deframer
+      //! Construct object Framer
       //!
-      Deframer(
+      Framer(
           const char *const compName /*!< The component name*/
       );
 
-      //! Initialize object Deframer
-      //!
-      void init(
-          const NATIVE_INT_TYPE queueDepth, /*!< The queue depth*/
-          const NATIVE_INT_TYPE instance = 0 /*!< The instance number*/
-      );
+      void configure(pthread_mutex_t& sdrMutex);
 
-      //! Destroy object Deframer
+      void start();
+
+      //! Destroy object Framer
       //!
-      ~Deframer();
+      ~Framer();
 
     PRIVATE:
 
-      U8 m_data[1024]; // 1 KiB
-      Fw::Buffer dtnBuffer;
-      DeframerHelper helper;
+      FramerHelper helper;
 
       // ----------------------------------------------------------------------
       // Handler implementations for user-defined typed input ports
@@ -57,23 +53,21 @@ namespace Dtn
           Fw::Buffer &fwBuffer 
       );
 
-      //! Handler implementation for cmdResponseIn
+      //! Handler implementation for comIn
       //!
-      void cmdResponseIn_handler(
+      void comIn_handler(
           const NATIVE_INT_TYPE portNum, /*!< The port number*/
-          FwOpcodeType opCode, /*!< 
-      Command Op Code
+          Fw::ComBuffer &data, /*!< 
+      Buffer containing packet data
       */
-          U32 cmdSeq, /*!< 
-      Command Sequence
-      */
-          const Fw::CmdResponse &response /*!< 
-      The command response argument
+          U32 context /*!< 
+      Call context value; meaning chosen by user
       */
       );
+
 
     };
 
 } // end namespace Dtn
 
-#endif // Dtn_Deframer_HPP
+#endif // Dtn_Framer_HPP

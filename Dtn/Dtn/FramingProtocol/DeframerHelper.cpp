@@ -5,14 +5,17 @@
 //!
 
 #include <cstdio>
+
 // Taken from `ion-core/Makefile`
 #define DSPACE_ORDER 3
 #define BP_EXTENDED
+
 #include <pthread.h>  // TODO needed because some ION preprocessor logic is broken
 #include <sys/time.h> // TODO needed because some ION preprocessor logic is broken
 #include "bp.h"
-#include "ltpP.h"
-#include "ThreadHelper.hpp" // For `sdrMutex`
+#include "ltpP.h" // TODO the above preprocessor steps are redundant, see `DeframerHelper.hpp`
+
+#include <Fw/Types/BasicTypes.hpp>
 #include "DeframerHelper.hpp"
 
 namespace Dtn
@@ -21,10 +24,12 @@ namespace Dtn
 DeframerHelper::DeframerHelper
 (
     char *_ownEid,
+    pthread_mutex_t& _sdrMutex,
     Svc::DeframingProtocol& _internalDeframingProtocol,
     Svc::DeframingProtocolInterface **_deframer
 ) :
     ownEid(_ownEid),
+    sdrMutex(_sdrMutex),
     internalDeframingProtocol(_internalDeframingProtocol),
     deframer(_deframer)
 {
@@ -70,9 +75,6 @@ void DeframerHelper::bundleDeframe()
     int bundleLenRemaining;
     int rc;
     int bytesToRead;
-    Fw::Buffer bundleBuffer = (*deframer)->allocate(1024);
-    // TODO FW_ASSERT(bundleBuffer.getSize() >= 1024, bundleBuffer.getSize());
-    char *buffer = (char *)bundleBuffer.getData();
 
     for (int running = 1; running;)
     {
@@ -101,20 +103,20 @@ void DeframerHelper::bundleDeframe()
         }
 
         oK(sdr_begin_xn(sdr));
-        int bundleSize = zco_source_data_length(sdr, dlv.adu);
+
+        // Get content data size
+        int zcoSize = zco_source_data_length(sdr, dlv.adu);
+
+        // Perform dynamic allocation
+        Fw::Buffer bundleBuffer = (*deframer)->allocate(zcoSize);
+        FW_ASSERT(bundleBuffer.getSize() >= zcoSize, bundleBuffer.getSize());
+        char *payload = (char *)bundleBuffer.getData();
+
+        // Initialize reader
         zco_start_receiving(dlv.adu, &reader);
-        int bundleLenRemaining = bundleSize;
-        while (bundleLenRemaining > 0)
-        {
-            bytesToRead = MIN(bundleLenRemaining, sizeof(buffer)-1);
-            rc = zco_receive_source(sdr, &reader, bytesToRead, buffer);
-            if (rc < 0)
-            {
-                break;
-            }
-            bundleLenRemaining -= rc;
-        }
-        bundleSize -= bundleLenRemaining;
+
+        // Get bundle data
+        int bundleSize = zco_receive_source(sdr, &reader, zcoSize, payload);
 
         bundleBuffer.setSize(bundleSize);
         (*deframer)->route(bundleBuffer);
@@ -134,7 +136,7 @@ void DeframerHelper::receiveLtp(char *ltpBuffer, int size)
 {
     // TODO the ION API accepts only a `char` here, not an `unsigned char`.
     // This should be O.K. as long as it's assumed that the target platform treats `char` as `unsigned char`
-    if (ltpHandleInboundSegment(ltpBuffer, size) <= 0)
+    if (ltpHandleInboundSegment(ltpBuffer, size) < 0) // TODO what is this return value?
     {
         printf("[DeframerHelper] Unable to ingest inbound LTP segment\n");
     }
