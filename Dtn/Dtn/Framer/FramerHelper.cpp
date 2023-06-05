@@ -189,6 +189,7 @@ void FramerHelper::sendBundle(char *bundleBuffer, size_t size)
     pthread_mutex_unlock(&(*sdrMutex));
 
     /* Send the bundle payload. */
+    // TODO TTL should be parameter
     if (bp_send(sap, destEid, NULL, 86400, BP_STD_PRIORITY,
             custodySwitch, 0, 0, NULL, bundleZco,
             &newBundle) <= 0)

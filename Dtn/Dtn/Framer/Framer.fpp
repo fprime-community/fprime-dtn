@@ -18,8 +18,8 @@ module Dtn {
         #
 
         @ DTN buffer send out, serialized as LTP segments.
-        @ Events, telemetry, and files are all be fed through this buffer.
-        @ Deframing on the ground is assumed to check buffer metadata to determine type.
+        @ Events, telemetry, and files are all fed through this buffer.
+        @ Deframing on the ground is assumed to check buffer metadata to determine type
         output port bufferOut: Fw.BufferSend
 
         #
