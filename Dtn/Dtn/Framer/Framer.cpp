@@ -57,6 +57,11 @@ Framer::~Framer() {}
 
 void Framer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
 {
+    // TODO add FW_PACKET_FILE type to start of these bytes here,
+    // Com data comes with this packet type prepended, we need this here
+    // for GDS deframing to properly detect that this data is a file.
+    // Must allocate and deallocate a buffer since we'll need to increase size
+    // to support the file packet type.
     helper.sendBundle((char *)fwBuffer.getData(), (size_t)fwBuffer.getSize());
 
     // Data is now ingested into ION, free the original buffer
