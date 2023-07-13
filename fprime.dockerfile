@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:11
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -33,8 +33,7 @@ WORKDIR /home/ptl/lib/ion
 RUN autoreconf
 RUN ./configure
 RUN make
-# Installing for pyion
-RUN make install
+RUN make install # Installing for pyion
 
 COPY lib/ion-core /home/ptl/lib/ion-core
 
