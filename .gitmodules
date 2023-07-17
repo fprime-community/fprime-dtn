@@ -16,3 +16,6 @@
 	path = lib/pyion
 	url = https://github.com/pcrosemurgy/pyion.git
 	branch = v4.1.2
+[submodule "lib/ion"]
+	path = lib/ion
+	url = https://git.code.sf.net/p/ion-dtn/code
