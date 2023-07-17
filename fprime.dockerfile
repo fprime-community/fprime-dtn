@@ -9,9 +9,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     automake \
     curl \
     git \
+    man \
     net-tools \
     netcat \
-    man \
     python3-dev \
     silversearcher-ag \
     ssh \
@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     tree \
     tshark \
     vim \
+    libtool \
     build-essential g++ gdb cmake python3 python3-venv python3-pip \
     gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
@@ -30,7 +31,7 @@ COPY lib/ion /home/ptl/lib/ion
 
 # TODO remove once ion-core outputs .a libraries
 WORKDIR /home/ptl/lib/ion
-RUN autoreconf
+RUN autoreconf -fi
 RUN ./configure
 RUN make
 RUN make install # Installing for pyion
