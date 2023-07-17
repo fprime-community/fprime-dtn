@@ -26,11 +26,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 RUN mkdir -p /home/ptl/lib
 
-RUN curl -L 'https://sourceforge.net/projects/ion-dtn/files/ion-open-source-4.1.1.tar.gz/download' | \
-    tar -xz -C /home/ptl/lib --no-same-owner
+COPY lib/ion /home/ptl/lib/ion
 
 # TODO remove once ion-core outputs .a libraries
-WORKDIR /home/ptl/lib/ion-open-source-4.1.1
+WORKDIR /home/ptl/lib/ion
 RUN autoreconf
 RUN ./configure
 RUN make
@@ -40,7 +39,7 @@ RUN make install
 COPY lib/ion-core /home/ptl/lib/ion-core
 
 WORKDIR /home/ptl/lib/ion-core
-RUN scripts/extract.sh /home/ptl/lib/ion-open*
+RUN scripts/extract.sh /home/ptl/lib/ion
 RUN make linux
 RUN make install
 
@@ -50,10 +49,10 @@ COPY lib/pyion /home/ptl/lib/pyion
 
 # TODO pyion is on `v4.1.2` branch but the underlying ION used here is 4.1.1.
 # Once ion-core is at 4.1.2 this won't be a potential issue
-ENV ION_HOME /home/ptl/lib/ion-open-source-4.1.1
+ENV ION_HOME /home/ptl/lib/ion
 ENV PYION_HOME /home/ptl/lib/pyion
 ENV PYION_BP_VERSION BPv7
-ENV LD_LIBRARY_PATH /home/ptl/lib/ion-open-source-4.1.1/.libs
+ENV LD_LIBRARY_PATH /home/ptl/lib/ion/.libs
 RUN pip install --user /home/ptl/lib/pyion
 RUN pip install --user numpy
 

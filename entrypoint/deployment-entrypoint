@@ -10,7 +10,7 @@ cd /home/ptl/lib/ion-core
 scripts/ionstart -I host2.rc
 cd -
 
-cd /home/ptl/lib/ion-open-source-4.1.1
+cd /home/ptl/lib/ion
 mkdir -p /home/ptl/Dtn/Dtn/lib/ion
 cp .libs/lib{bp,ici,ltp}.a /home/ptl/Dtn/Dtn/lib/ion
 
