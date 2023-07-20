@@ -25,7 +25,7 @@ rm -rf build-fprime-*
 run-release()
 {
     fprime-util generate #aarch64-linux
-    fprime-util build #aarch64-linux
+    fprime-util build -j4 #aarch64-linux
 
     build-artifacts/Linux/Ref/bin/Ref \
         -a 10.0.0.3 \

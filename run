@@ -7,6 +7,8 @@ readonly NETWORK='dtn-network'
 readonly FSW_CONTAINER='fprime-dtn'
 readonly GDS_CONTAINER='fprime-gds'
 
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
 if [[ $# -gt 0 ]]; then
     readonly DOCKER_MODE_ARG="$1"
 else
