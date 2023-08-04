@@ -31,17 +31,17 @@ COPY lib/ion /home/ptl/lib/ion
 
 # TODO remove once ion-core outputs .a libraries
 WORKDIR /home/ptl/lib/ion
-RUN autoreconf -fi
-RUN ./configure
-RUN make
-RUN make install # Installing for pyion
+RUN autoreconf -fi && \
+    ./configure && \
+    make && \
+    make install # Installing for pyion
 
 COPY lib/ion-core /home/ptl/lib/ion-core
 
 WORKDIR /home/ptl/lib/ion-core
-RUN scripts/extract.sh /home/ptl/lib/ion
-RUN make linux
-RUN make install
+RUN scripts/extract.sh /home/ptl/lib/ion && \
+    make linux && \
+    make install
 
 # PYION
 
@@ -53,8 +53,8 @@ ENV ION_HOME /home/ptl/lib/ion
 ENV PYION_HOME /home/ptl/lib/pyion
 ENV PYION_BP_VERSION BPv7
 ENV LD_LIBRARY_PATH /home/ptl/lib/ion/.libs
-RUN pip install --user /home/ptl/lib/pyion
-RUN pip install --user numpy
+RUN pip install --user /home/ptl/lib/pyion && \
+    pip install --user numpy
 
 # F PRIME
 
