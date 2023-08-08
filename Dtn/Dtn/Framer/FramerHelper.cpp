@@ -6,6 +6,7 @@
 
 #include <cstdio>
 #include <Fw/Types/BasicTypes.hpp>
+#include <Fw/Types/Serializable.hpp>
 #include "ltpP.h"
 #include "FramerHelper.hpp"
 
@@ -131,7 +132,14 @@ void FramerHelper::ltpFrame()
         // Buffer assumed to be deallocated by framer
         Fw::Buffer segmentBuffer = bufferAllocate(0, (U32)segmentLen); // Port assumed to be 0
         FW_ASSERT(segmentBuffer.getSize() >= segmentLen, segmentBuffer.getSize());
-        segmentBuffer.getSerializeRepr().serialize(reinterpret_cast<U8 *>(segment), segmentLen, true);
+
+        Fw::SerializeStatus status;
+        status = segmentBuffer.getSerializeRepr().serialize(
+            reinterpret_cast<U8 *>(segment),
+            segmentLen,
+            true);
+        FW_ASSERT(status == Fw::FW_SERIALIZE_OK, status);
+
         bufferOut(0, segmentBuffer); // Port assumed to be 0
 
         sm_TaskYield();
@@ -178,7 +186,7 @@ void FramerHelper::sendBundle(char *bundleBuffer, size_t size)
 
     bundleZco = ionCreateZco(ZcoSdrSource, bundlePayload, 0,
         size, BP_STD_PRIORITY, 0, ZcoOutbound, NULL);
-    if (bundleZco == 0 || bundleZco == (Object) ERROR)
+    if (bundleZco == 0 || bundleZco == (Object)ERROR)
     {
         pthread_mutex_unlock(&(*sdrMutex));
         bp_close(sap);

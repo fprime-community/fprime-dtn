@@ -6,6 +6,8 @@
 
 #include <cstring>
 #include <pthread.h>
+#include <Fw/Com/ComPacket.hpp>
+#include <Fw/Types/Serializable.hpp>
 #include <Dtn/Framer/Framer.hpp>
 #include <FpConfig.hpp>
 
@@ -57,15 +59,37 @@ Framer::~Framer() {}
 
 void Framer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffer)
 {
-    // TODO add FW_PACKET_FILE type to start of these bytes here,
-    // Com data comes with this packet type prepended, we need this here
-    // for GDS deframing to properly detect that this data is a file.
+    // Prepend FW_PACKET_FILE to start of data framed file data.
+    // We need this here for GDS deframing to properly detect that this data is a file,
+    // com data (`Fw::ComBuffer`) comes with this packet type prepended.
     // Must allocate and deallocate a buffer since we'll need to increase size
     // to support the file packet type.
-    helper.sendBundle((char *)fwBuffer.getData(), (size_t)fwBuffer.getSize());
 
-    // Data is now ingested into ION, free the original buffer
+    // Allocate file buffer
+    FW_ASSERT(sizeof(Fw::ComPacket::ComPacketType) == 4);
+    size_t fileBufferSize = sizeof(Fw::ComPacket::ComPacketType) + fwBuffer.getSize();
+    Fw::Buffer fileBuffer = bufferAllocate_out(portNum, fileBufferSize);
+    FW_ASSERT(fileBuffer.getSize() >= fileBufferSize, fileBuffer.getSize());
+
+    // Insert file packet type bytes
+    Fw::SerializeStatus status;
+    status = fileBuffer.getSerializeRepr().serialize(Fw::ComPacket::ComPacketType::FW_PACKET_FILE);
+    FW_ASSERT(status == Fw::FW_SERIALIZE_OK, status);
+
+    // Copy data into file buffer
+    status = fileBuffer.getSerializeRepr().serialize(
+        reinterpret_cast<U8 *>(fwBuffer.getData()),
+        fwBuffer.getSize(),
+        true);
+    FW_ASSERT(status == Fw::FW_SERIALIZE_OK, status);
+
+    // Data is now copied to `fileBuffer`, free the original buffer
     bufferDeallocate_out(portNum, fwBuffer);
+
+    helper.sendBundle((char *)fileBuffer.getData(), (size_t)fileBuffer.getSize());
+
+    // Data is now ingested into ION, free the file buffer
+    bufferDeallocate_out(portNum, fileBuffer);
 }
 
 void Framer::comIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer& data, U32 context)
