@@ -26,12 +26,15 @@ module Dtn {
         # BUFFER ALLOCATION & DEALLOCATION
         #
 
-        @ Port for deallocating buffers received on bufferIn, after
-        @ copying packet data to the frame buffer
-        output port bufferDeallocate: Fw.BufferSend
-
         @ Port for allocating buffers to hold framed data
         output port bufferAllocate: Fw.BufferGet
 
+        @ Port for deallocating buffers intended to be created and destroyed
+        @ only within this component
+        output port bufferDeallocate: Fw.BufferSend
+
+        @ Port for deallocating buffers received on bufferIn, after
+        @ copying packet data to the frame buffer
+        output port fileBufferDeallocate: Fw.BufferSend
     }
 }

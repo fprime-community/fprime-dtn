@@ -83,8 +83,9 @@ module Ref {
 
       # Only Fw::Buffer types are sent, Fw::Com sizing is too restrictive for DTN data
       dtnFramer.bufferOut -> comQueue.buffQueueIn[0]
-      dtnFramer.bufferDeallocate -> fileDownlink.bufferReturn
       dtnFramer.bufferAllocate -> comBufferManager.bufferGetCallee
+      dtnFramer.bufferDeallocate -> comBufferManager.bufferSendIn
+      dtnFramer.fileBufferDeallocate -> fileDownlink.bufferReturn
 
       comQueue.comQueueSend -> framer.comIn
       comQueue.buffQueueSend -> framer.bufferIn

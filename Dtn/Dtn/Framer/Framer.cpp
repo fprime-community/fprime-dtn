@@ -68,28 +68,28 @@ void Framer::bufferIn_handler(const NATIVE_INT_TYPE portNum, Fw::Buffer& fwBuffe
     // Allocate file buffer
     FW_ASSERT(sizeof(Fw::ComPacket::ComPacketType) == 4);
     size_t fileBufferSize = sizeof(Fw::ComPacket::ComPacketType) + fwBuffer.getSize();
-    Fw::Buffer fileBuffer = bufferAllocate_out(portNum, fileBufferSize);
-    FW_ASSERT(fileBuffer.getSize() >= fileBufferSize, fileBuffer.getSize());
+    Fw::Buffer annotatedBuffer = bufferAllocate_out(portNum, fileBufferSize);
+    FW_ASSERT(annotatedBuffer.getSize() >= fileBufferSize, annotatedBuffer.getSize());
 
     // Insert file packet type bytes
     Fw::SerializeStatus status;
-    status = fileBuffer.getSerializeRepr().serialize(Fw::ComPacket::ComPacketType::FW_PACKET_FILE);
+    status = annotatedBuffer.getSerializeRepr().serialize(Fw::ComPacket::ComPacketType::FW_PACKET_FILE);
     FW_ASSERT(status == Fw::FW_SERIALIZE_OK, status);
 
     // Copy data into file buffer
-    status = fileBuffer.getSerializeRepr().serialize(
+    status = annotatedBuffer.getSerializeRepr().serialize(
         reinterpret_cast<U8 *>(fwBuffer.getData()),
         fwBuffer.getSize(),
         true);
     FW_ASSERT(status == Fw::FW_SERIALIZE_OK, status);
 
-    // Data is now copied to `fileBuffer`, free the original buffer
-    bufferDeallocate_out(portNum, fwBuffer);
+    // Data is now copied to `annotatedBuffer`, free the original buffer
+    fileBufferDeallocate_out(portNum, fwBuffer);
 
-    helper.sendBundle((char *)fileBuffer.getData(), (size_t)fileBuffer.getSize());
+    helper.sendBundle((char *)annotatedBuffer.getData(), (size_t)annotatedBuffer.getSize());
 
     // Data is now ingested into ION, free the file buffer
-    bufferDeallocate_out(portNum, fileBuffer);
+    bufferDeallocate_out(portNum, annotatedBuffer);
 }
 
 void Framer::comIn_handler(const NATIVE_INT_TYPE portNum, Fw::ComBuffer& data, U32 context)
