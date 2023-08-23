@@ -148,7 +148,7 @@ void DeframerHelper::receiveLtp(char *ltpBuffer, int size)
     {
         printf("[DeframerHelper] Unable to ingest inbound LTP segment\n");
     }
-    printf("[DeframerHelper] Enqueued %d bytes\n", size);
+    //printf("[DeframerHelper] Enqueued %d bytes\n", size);
 }
 
 } // end namespace Dtn

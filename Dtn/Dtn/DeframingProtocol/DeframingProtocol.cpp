@@ -45,13 +45,13 @@ void DeframingProtocol::route(Fw::Buffer& data)
     size_t segmentLen = (size_t)data.getSize();
     char *segment = (char *)data.getData();
 
-    printf("[DeframingProtocol] LTP: Hex dump start\n");
-    for (int i = 0; i < segmentLen; i++)
-    {
-        printf("%02x", (unsigned char)segment[i]);
-    }
-    printf("\n");
-    printf("[DeframingProtocol] LTP: Hex dump end\n");
+    //printf("[DeframingProtocol] LTP: Hex dump start\n");
+    //for (int i = 0; i < segmentLen; i++)
+    //{
+    //    printf("%02x", (unsigned char)segment[i]);
+    //}
+    //printf("\n");
+    //printf("[DeframingProtocol] LTP: Hex dump end\n");
 
     helper.receiveLtp(segment, (int)segmentLen);
     Ref::deframer.bufferDeallocate_out(0, data);

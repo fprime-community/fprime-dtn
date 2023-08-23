@@ -18,8 +18,8 @@ m consumption 1000000
 
 ## begin ltpadmin
 1 32
-a span 2 32 32 512 10000 1 'echo ION lso' 300
-a span 3 32 32 512 10000 1 'echo ION lso' 300
+a span 2 32 32 1000 100000 1 'echo ION lso' 300
+a span 3 32 32 1000 100000 1 'echo ION lso' 300
 s 'echo ION lsi'
 ## end ltpadmin
 
@@ -29,7 +29,7 @@ a scheme ipn 'ipnfw' 'ipnadminep'
 a endpoint ipn:2.0 q
 a endpoint ipn:2.1 q
 a endpoint ipn:2.2 q
-a protocol ltp 512 100
+a protocol ltp 1000 100
 a induct ltp 2 ltpcli
 a outduct ltp 2 ltpclo
 a outduct ltp 3 ltpclo
