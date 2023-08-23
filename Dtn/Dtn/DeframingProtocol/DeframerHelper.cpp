@@ -112,6 +112,14 @@ void DeframerHelper::bundleDeframe()
         FW_ASSERT(bundleBuffer.getSize() >= zcoSize, bundleBuffer.getSize());
         char *payload = (char *)bundleBuffer.getData();
 
+        //printf("[DeframerHelper] BP: Hex dump start\n");
+        //for (int i = 0; i < segmentLen; i++)
+        //{
+        //    printf("%02x", (unsigned char)segment[i]);
+        //}
+        //printf("\n");
+        //printf("[DeframerHelper] LTP: Hex dump end\n");
+
         // Initialize reader
         zco_start_receiving(dlv.adu, &reader);
 
@@ -140,7 +148,7 @@ void DeframerHelper::receiveLtp(char *ltpBuffer, int size)
     {
         printf("[DeframerHelper] Unable to ingest inbound LTP segment\n");
     }
-    //printf("[DeframerHelper] Enqueued %d bytes\n", size);
+    printf("[DeframerHelper] Enqueued %d bytes\n", size);
 }
 
 } // end namespace Dtn
