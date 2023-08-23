@@ -19,4 +19,4 @@
 [submodule "lib/ion"]
 	path = lib/ion
 	url = https://git.code.sf.net/p/ion-dtn/code
-	#branch = v4.1.1-stable
+    update = none # Manually set to `v4.1.1-stable` tag
