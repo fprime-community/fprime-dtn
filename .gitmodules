@@ -9,9 +9,6 @@
 	path = lib/fprime-gds-dtn
 	url = https://github.com/pcrosemurgy/fprime-gds-dtn.git
 	branch = devel
-[submodule "lib/ion-core"]
-	path = lib/ion-core
-	url = https://github.jpl.nasa.gov/PTL/ION-Core.git
 [submodule "lib/pyion"]
 	path = lib/pyion
 	url = https://github.com/pcrosemurgy/pyion.git
@@ -19,4 +16,7 @@
 [submodule "lib/ion"]
 	path = lib/ion
 	url = https://git.code.sf.net/p/ion-dtn/code
-    update = none # Manually set to `v4.1.1-stable` tag
+	update = none # Manually set to `v4.1.1-stable` tag
+[submodule "lib/ion-core"]
+	path = lib/ion-core
+	url = git@github.com:nasa-jpl/ion-core.git # TODO use https://github.com/nasa-jpl/ion-core.git once public
