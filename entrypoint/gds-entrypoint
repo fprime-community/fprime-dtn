@@ -5,7 +5,7 @@ set -eu
 readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 cd /home/ptl/lib/ion-core
-scripts/ionstart -I host3.rc
+ionstart -I host3.rc
 cd -
 
 set -x

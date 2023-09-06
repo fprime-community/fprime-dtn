@@ -16,7 +16,7 @@
 [submodule "lib/ion"]
 	path = lib/ion
 	url = https://git.code.sf.net/p/ion-dtn/code
-	update = none # Manually set to `v4.1.1-stable` tag
+	update = none # Manually set to `v4.1.2-stable` tag
 [submodule "lib/ion-core"]
 	path = lib/ion-core
 	url = git@github.com:nasa-jpl/ion-core.git # TODO use https://github.com/nasa-jpl/ion-core.git once public

@@ -40,15 +40,13 @@ COPY lib/ion-core /home/ptl/lib/ion-core
 
 WORKDIR /home/ptl/lib/ion-core
 RUN scripts/extract.sh /home/ptl/lib/ion && \
-    make linux && \
+    make && \
     make install
 
 # PYION
 
 COPY lib/pyion /home/ptl/lib/pyion
 
-# TODO pyion is on `v4.1.2` branch but the underlying ION used here is 4.1.1.
-# Once ion-core is at 4.1.2 this won't be a potential issue
 ENV ION_HOME /home/ptl/lib/ion
 ENV PYION_HOME /home/ptl/lib/pyion
 ENV PYION_BP_VERSION BPv7
