@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Run F' DTN integration test container
+
+set -eu
+
+readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+"$DIR"/run \
+    --fsw-entrypoint 'entrypoint/it-deployment-entrypoint 10.0.0.2 10.0.0.3' \
+    --gds-entrypoint 'entrypoint/it-gds-entrypoint 10.0.0.3 10.0.0.2' \
+    --gds-attached

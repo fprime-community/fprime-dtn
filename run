@@ -3,17 +3,46 @@
 set -eu
 
 readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+readonly BASENAME="$(basename "${BASH_SOURCE[0]}")"
 readonly NETWORK='dtn-network'
 readonly FSW_CONTAINER='fprime-dtn'
 readonly GDS_CONTAINER='fprime-gds'
+readonly DEFAULT_FSW_ENTRYPOINT='entrypoint/deployment-entrypoint 10.0.0.2 10.0.0.3 ; bash'
+readonly DEFAULT_GDS_ENTRYPOINT='entrypoint/gds-entrypoint 10.0.0.3 10.0.0.2 ; bash'
 
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
-if [[ $# -gt 0 ]]; then
-    readonly DOCKER_MODE_ARG="$1"
-else
-    readonly DOCKER_MODE_ARG='-it'
-fi
+readonly args="$(python3 <(cat <<EOF
+'Run F\' DTN integration container.'
+import sys, argparse
+sys.argv[0] = '$BASENAME'
+parser = argparse.ArgumentParser(
+    description=__doc__,
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument(
+    '--fsw-entrypoint',
+    default='$DEFAULT_FSW_ENTRYPOINT',
+    help=' ')
+parser.add_argument(
+    '--gds-entrypoint',
+    default='$DEFAULT_GDS_ENTRYPOINT',
+    help=' ')
+parser.add_argument(
+    '--gds-attached',
+    action='store_true',
+    default=False,
+    help=' ')
+args = parser.parse_args()
+args.gds_attached = 1 if args.gds_attached else 0
+print('\n'.join(['__args__', *map(str, vars(args).values())]))
+EOF
+) "$@")"
+
+grep -q '__args__' <(echo "$args") || (echo "$args"; exit 1)
+IFS=$'\n' read -d '' -ra args_arr <<< "$args" || true
+readonly fsw_entrypoint="${args_arr[1]}"
+readonly gds_entrypoint="${args_arr[2]}"
+readonly gds_attached="${args_arr[3]}"
 
 build()
 {
@@ -54,15 +83,38 @@ build "$GDS_CONTAINER"
 docker network rm "$NETWORK" 2>/dev/null || true
 docker network create "$NETWORK" --subnet 10.0.0.0/8
 
-# To attach to GDS: `docker attach fprime-gds`
-# Using 127.0.0.1 to only publish port mapping for local interface
-run "$GDS_CONTAINER" \
-    'entrypoint/gds-entrypoint 10.0.0.3 10.0.0.2 ; bash' \
-    '10.0.0.3' \
-    -dit \
-    --publish 127.0.0.1:5555:5000
+if [[ "$gds_attached" = '1' ]]; then
+    readonly fsw_docker_mode='-dit'
+    readonly gds_docker_mode='-it'
+else
+    readonly fsw_docker_mode='-it'
+    readonly gds_docker_mode='-dit'
+fi
 
-run "$FSW_CONTAINER" \
-    'entrypoint/deployment-entrypoint 10.0.0.2 10.0.0.3 ; bash' \
-    '10.0.0.2' \
-    $DOCKER_MODE_ARG
+run-gds()
+{
+    # To attach to GDS: `docker attach fprime-gds`
+    # Using 127.0.0.1 to only publish port mapping for local interface
+    run "$GDS_CONTAINER" \
+        "$gds_entrypoint" \
+        '10.0.0.3' \
+        $gds_docker_mode \
+        --publish 127.0.0.1:5555:5000
+}
+
+run-fsw()
+{
+    run "$FSW_CONTAINER" \
+        "$fsw_entrypoint" \
+        '10.0.0.2' \
+        $fsw_docker_mode
+}
+
+# Must run attached container last since it blocks
+if [[ "$gds_attached" = '1' ]]; then
+    run-fsw
+    run-gds
+else
+    run-gds
+    run-fsw
+fi

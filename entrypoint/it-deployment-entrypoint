@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -eu
+
+readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+readonly ION_LOG_PATH=/home/ptl/lib/ion-core/ion.log
+
+"$DIR"/deployment-entrypoint "$@"

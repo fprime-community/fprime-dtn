@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -eu
+
+readonly DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+readonly ION_LOG_PATH=/home/ptl/lib/ion-core/ion.log
+readonly FSW_DEPLOY_DELAY=150 # 2.5 min
+readonly N_COMMANDS=42
+readonly MIN_N_BUNDLES_RX_EXPECTED=310
+
+readonly _RESET='\033[00m'
+readonly _RED='\033[00;31m'
+readonly _GREEN='\033[00;32m'
+
+"$DIR"/gds-entrypoint "$@" &
+
+get-stats()
+{
+    # Generate BP statistics in `ion.log`
+    bpstats
+    local bp_stats="$(tail -n 8 "$ION_LOG_PATH")"
+    local n_bundles_tx="$(echo "$bp_stats" | perl -ane 'print $F[11] if /xmt from/')"
+    local n_bundles_rx="$(echo "$bp_stats" | perl -ane 'print $F[11] if /rcv from/')"
+    echo "xmt $n_bundles_tx"
+    echo "rcv $n_bundles_rx"
+}
+
+sleep "$FSW_DEPLOY_DELAY"
+
+cd /home/ptl/Ref
+
+for i in $(seq "$N_COMMANDS"); do
+    fprime-cli command-send cmdDisp.CMD_NO_OP
+    sleep 1
+done
+
+readonly stats="$(get-stats)"
+echo "$stats"
+echo "$stats" | grep -q "xmt $N_COMMANDS" || \
+    (echo -e "${_RED}FAILED${_RESET} xmt test" >&2 ; exit 1)
+
+readonly n_bundles_rx="$(echo "$stats" | perl -ane 'print $F[1] if /rcv/')"
+[[ "$n_bundles_rx" -gt "$MIN_N_BUNDLES_RX_EXPECTED" ]] || \
+    (echo -e "${_RED}FAILED${_RESET} rcv test, number bundles found: $n_bundles_rx" >&2 ; exit 1)
+
+echo -e "${_GREEN}PASSED${_RESET}"
