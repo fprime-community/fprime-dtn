@@ -8,6 +8,8 @@ With support from the 9x Interplanetary Network Directorate this development aim
 - Integrate ION into the F´ GDS.
 - Demonstrate DTN in a multi-node environment using F´ and F´ GDS end-to-end.
 
+For detailed documentation see [`docs/`](docs).
+
 ## Getting Started
 
 ### Dependencies
@@ -37,3 +39,4 @@ git submodule update --remote
 - [FPP User's Guide](https://fprime-community.github.io/fpp/fpp-users-guide.html)
 - [ION](https://www.nasa.gov/directorates/heo/scan/engineering/technology/disruption_tolerant_networking_software_options_ion)
 - [ION-Core](https://github.com/nasa-jpl/ion-core.git)
+- [`pyion`](https://pyion.readthedocs.io/en/latest/index.html)
