@@ -34,6 +34,7 @@ git submodule update --remote
 
 ## Resources
 
+- [DTN Overview](https://www.nasa.gov/sites/default/files/atoms/files/dtn_tutorial_v3.2_0.pdf)
 - [F´](https://github.com/nasa/fprime)
 - [F´ Course](https://github.com/fprime-community/fprime-system-reference/blob/main/docs/course/introduction.md)
 - [FPP User's Guide](https://fprime-community.github.io/fpp/fpp-users-guide.html)
