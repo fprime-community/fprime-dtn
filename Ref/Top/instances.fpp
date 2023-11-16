@@ -435,9 +435,7 @@ module Ref {
 
   }
 
-  instance linuxTime: Svc.Time base id 0x4600 \
-    type "Svc::LinuxTime" \
-    at "../../Svc/LinuxTime/LinuxTime.hpp"
+  instance posixTime: Svc.PosixTime base id 0x4600
 
   instance rateGroupDriverComp: Svc.RateGroupDriver base id 0x4700 {
     phase Fpp.ToCpp.Phases.configObjects """
