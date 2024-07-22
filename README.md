@@ -8,7 +8,7 @@ With support from the 9x Interplanetary Network Directorate this development aim
 - Integrate ION into the F´ GDS.
 - Demonstrate DTN in a multi-node environment using F´ and F´ GDS end-to-end.
 
-For detailed documentation see [`docs/`](docs).
+For detailed documentation see [`docs/`](docs) or the [IEEE Aerospace 2024 paper](https://ieeexplore.ieee.org/document/10520953).
 
 ## Getting Started
 
