@@ -11,12 +11,12 @@
 	branch = devel
 [submodule "lib/pyion"]
 	path = lib/pyion
-	url = https://github.com/pcrosemurgy/pyion.git
-	branch = v4.1.2
+	url = https://github.com/nasa-jpl/pyion.git
+	branch = v4.2.0-b
 [submodule "lib/ion"]
 	path = lib/ion
-	url = https://git.code.sf.net/p/ion-dtn/code
-	update = none # Manually set to `v4.1.2-stable` tag
+	url = https://github.com/nasa-jpl/ion-dtn.git
+	update = none # Manually set to `ion-open-source-4.2.0-b` tag
 [submodule "lib/ion-core"]
 	path = lib/ion-core
-	url = git@github.com:nasa-jpl/ion-core.git # TODO use https://github.com/nasa-jpl/ion-core.git once public
+	url = https://github.com/nasa-jpl/ion-core.git # tag 4.2.0-b; carries ION at external/ION-DTN

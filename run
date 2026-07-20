@@ -60,11 +60,19 @@ run()
     local PUBLISH_ARG="$@"
 
     # `/dev/shm` is sized to support ION shared memory needs
+    #
+    # `fprime-gds-dtn` is mounted at the package directory rather than the
+    # project root: `pip install -e` records the distribution metadata in
+    # `src/fprime_gds.egg-info` inside the image, and mounting the project root
+    # buries it under the host tree (which has no such directory, as it is a
+    # build artifact and is gitignored). `fprime-gds` then dies at startup with
+    # `PackageNotFoundError: fprime-gds`. Mounting only the package keeps host
+    # edits live while leaving the metadata visible.
     docker run \
         --shm-size=1gb \
         -v "$DIR"/Dtn:/home/ptl/Dtn \
         -v "$DIR"/Ref:/home/ptl/Ref \
-        -v "$DIR"/lib/fprime-gds-dtn:/home/ptl/lib/fprime-gds-dtn \
+        -v "$DIR"/lib/fprime-gds-dtn/src/fprime_gds:/home/ptl/lib/fprime-gds-dtn/src/fprime_gds \
         -v "$DIR"/entrypoint:/home/ptl/entrypoint \
         $MODE_ARG \
         --network "$NETWORK" \
